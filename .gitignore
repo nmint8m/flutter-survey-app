@@ -11,10 +11,11 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
+./bin
 
 # Used by dotenv library to load environment variables.
-.env
-.env.staging
+# .env
+# .env.staging
 
 ## Documentation cache and generated files:
 /.yardoc/
