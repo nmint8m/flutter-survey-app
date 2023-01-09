@@ -10,7 +10,7 @@ jobs:
     environment: staging
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2.3.2
+        uses: actions/checkout@v3.3.0
 
       - name: Set up Flutter with its version
         uses: subosito/flutter-action@v1
