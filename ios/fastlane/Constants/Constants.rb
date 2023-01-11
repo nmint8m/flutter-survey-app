@@ -87,7 +87,7 @@ class Constants
 
   # App Store Connect API Key ID
   def self.APP_STORE_KEY_ID
-    '3Q76PWRQN6'
+    'TKJCMGPSYH'
   end
 
   # App Store Connect API Issuer ID
