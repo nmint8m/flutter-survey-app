@@ -84,4 +84,18 @@ class Constants
   def self.MAIN_TARGET_NAME
     'Runner'
   end
+
+  # App Store Connect API Key ID
+  def self.APP_STORE_KEY_ID
+    '3Q76PWRQN6'
+  end
+
+  # App Store Connect API Issuer ID
+  def self.APP_STORE_ISSUER_ID
+    '69a6de82-b7cb-47e3-e053-5b8c7c11a4d1'
+  end
+
+  def self.DEV_PORTAL_TEAM_ID
+    '4TWS7E2EPE'
+  end
 end
