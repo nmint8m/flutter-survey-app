@@ -29,5 +29,5 @@ jobs:
       - name: Statically analyze the Dart code.
         run: flutter analyze
 
-      - name: Run widget tests, unit tests.
+      - name: Run unit tests.
         run: flutter test
