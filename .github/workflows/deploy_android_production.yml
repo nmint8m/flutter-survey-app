@@ -1,4 +1,4 @@
-name: Deploy Android staging build with APK file
+name: Deploy Android production build with APK file
 
 on:
   push:
