@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - chore/4-setup-cd # TODO: Remove this later
 
 jobs:
   build_and_upload_to_app_store:
