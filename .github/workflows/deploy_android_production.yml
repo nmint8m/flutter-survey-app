@@ -1,0 +1,42 @@
+name: Deploy Android production build with APK file
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy_android:
+    name: Build and deploy Android production APK
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3.3.0
+
+    - name: Setup Java environment
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+
+    - name: Set up Flutter version
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '3.3.8'
+
+    - name: Get Flutter dependencies
+      run: flutter pub get
+
+    - name: Run code generator script
+      run: flutter packages pub run build_runner build --delete-conflicting-outputs
+
+    - name: Build Android APK
+      run: flutter build apk --flavor production --release --build-number $GITHUB_RUN_NUMBER
+
+    - name: Upload Android Production to GitHub Actions
+      uses: actions/upload-artifact@v3
+      with:
+        name: Android-Production-Build
+        path: build/app/outputs/flutter-apk/app-production-release.apk
+
+    # TODO: Add Firebase later

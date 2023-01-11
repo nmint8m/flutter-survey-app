@@ -17,12 +17,12 @@ class Constants
 
   # bundle ID for Staging app
   def self.BUNDLE_ID_STAGING
-    'co.nimblehq.flutter.template.staging'
+    'com.flutteric.kayla.staging'
   end
 
   # bundle ID for Production app
   def self.BUNDLE_ID_PRODUCTION
-    'co.nimblehq.flutter.template'
+    'com.flutteric.kayla'
   end
 
   #################
@@ -67,21 +67,35 @@ class Constants
 
   # an staging product name
   def self.PRODUCT_NAME_STAGING
-    'Flutter Template Staging'
+    'Flutter Survey Staging'
   end
 
   # a staging TestFlight product name
   def self.PRODUCT_NAME_STAGING_TEST_FLIGHT
-    'Flutter Template Staging'
+    'Flutter Survey Staging'
   end
 
   # a Production product name
   def self.PRODUCT_NAME_PRODUCTION
-    'Flutter Template'
+    'Flutter Survey'
   end
 
   # a main target name
   def self.MAIN_TARGET_NAME
-    'Flutter Template'
+    'Runner'
+  end
+
+  # App Store Connect API Key ID
+  def self.APP_STORE_KEY_ID
+    'TKJCMGPSYH'
+  end
+
+  # App Store Connect API Issuer ID
+  def self.APP_STORE_ISSUER_ID
+    '69a6de82-b7cb-47e3-e053-5b8c7c11a4d1'
+  end
+
+  def self.DEV_PORTAL_TEAM_ID
+    '4TWS7E2EPE'
   end
 end

@@ -10,14 +10,14 @@ jobs:
     environment: staging
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2.3.2
+        uses: actions/checkout@v3.3.0
 
-      - name: Set up Flutter with its version
+      - name: Set up Flutter version
         uses: subosito/flutter-action@v1
         with:
           flutter-version: '3.3.8'
 
-      - name: Get flutter dependencies for the project
+      - name: Get Flutter dependencies
         run: flutter pub get
 
       - name: Run code generator script
@@ -29,5 +29,6 @@ jobs:
       - name: Statically analyze the Dart code.
         run: flutter analyze
 
-      - name: Run unit tests.
+      - name: Run unit tests
         run: flutter test
+
