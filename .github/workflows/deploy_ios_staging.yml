@@ -15,7 +15,7 @@ on:
 jobs:
   build_and_upload_to_testflight:
     name: Build and upload iOS app to TestFlight
-    runs-on: macOS-latest
+    runs-on: macOS-12
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
