@@ -5,6 +5,7 @@ import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/themes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: routePathRootScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
+            const LoginView(),
         routes: [
           GoRoute(
             path: routePathSecondScreen,
