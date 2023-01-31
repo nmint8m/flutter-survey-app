@@ -79,31 +79,31 @@ class Themes {
         bodyLarge: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.normal,
-          fontSize: 15,
+          fontSize: 18,
           color: Colors.white,
         ),
         bodyMedium: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.normal,
-          fontSize: 14,
+          fontSize: 17,
           color: Colors.white,
         ),
         bodySmall: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.normal,
-          fontSize: 13,
+          fontSize: 16,
           color: Colors.white,
         ),
         labelLarge: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.normal,
-          fontSize: 12,
+          fontSize: 15,
           color: Colors.white,
         ),
         labelMedium: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.normal,
-          fontSize: 11,
+          fontSize: 14,
           color: Colors.white,
         ),
       );
@@ -129,8 +129,15 @@ class Themes {
 
   static TextButtonThemeData get textButtonThemeData => TextButtonThemeData(
         style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(textTheme.bodyLarge),
-          foregroundColor: MaterialStateProperty.all(Colors.white),
+          textStyle: MaterialStateProperty.all(textTheme.labelLarge),
+          foregroundColor: MaterialStateProperty.all(Colors.white54),
         ),
+      );
+
+  static InputDecorationTheme get inputDecorationTheme => InputDecorationTheme(
+        labelStyle: textTheme.bodyMedium?.copyWith(color: Colors.white30),
+        floatingLabelStyle:
+            textTheme.bodyMedium?.copyWith(color: Colors.white30),
+        floatingLabelBehavior: FloatingLabelBehavior.never,
       );
 }

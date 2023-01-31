@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         buttonTheme: Themes.buttonTheme,
         elevatedButtonTheme: Themes.elevatedButtonThemeData,
         textButtonTheme: Themes.textButtonThemeData,
+        inputDecorationTheme: Themes.inputDecorationTheme,
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
