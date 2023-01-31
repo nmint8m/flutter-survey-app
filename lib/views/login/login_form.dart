@@ -4,8 +4,6 @@ class LoginForm extends StatelessWidget {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
-  LoginForm({super.key});
-
   TextField get _emailTextField => TextField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(labelText: 'Email'),
