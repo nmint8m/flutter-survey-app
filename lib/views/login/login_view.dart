@@ -4,8 +4,6 @@ import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
   @override
   State<LoginView> createState() => _LoginViewState();
 }
