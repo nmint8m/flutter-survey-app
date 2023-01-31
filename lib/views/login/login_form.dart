@@ -23,7 +23,6 @@ class LoginForm extends StatelessWidget {
         child: const Text('Forgot?'),
         onPressed: () {
           // TODO: - Integration task
-          print('Forgot?');
         },
       );
 
@@ -32,7 +31,6 @@ class LoginForm extends StatelessWidget {
         child: const Text('Log in'),
         onPressed: () {
           // TODO: - Integration task
-          print('Log in');
         },
       );
 
@@ -43,7 +41,7 @@ class LoginForm extends StatelessWidget {
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(12.0),
       ),
-      fillColor: Colors.white.withAlpha(18),
+      fillColor: Colors.white24,
       filled: true,
     );
   }
