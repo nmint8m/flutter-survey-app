@@ -5,8 +5,6 @@ import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
   @override
   State<LoginView> createState() => _LoginViewState();
 }
@@ -68,7 +66,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
       );
 
   AnimatedPositioned get _animatedLogo => AnimatedPositioned(
-        duration: Durations.oneSecond,
+        duration: const Duration(seconds: 1),
         curve: Curves.linear,
         top: _isLogoAnimated ? -450 : 0.0,
         bottom: 0.0,
@@ -95,10 +93,53 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    // Logo animation
+    _logoAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.oneSecond,
+    )..forward();
+    _logoAnimation = CurvedAnimation(
+      parent: _logoAnimationController,
+      curve: Curves.easeIn,
+    )..addStatusListener(
+        (status) {
+          if (status != AnimationStatus.completed) {
+            return;
+          }
+          setState(() {
+            _isLogoAnimated = true;
+          });
+          _backgroundAnimationController.forward();
+        },
+      );
+
+    // Background animation
+    _backgroundAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.oneSecond,
+    );
+    _backgroundAnimation = CurvedAnimation(
+      parent: _backgroundAnimationController,
+      curve: Curves.easeIn,
+    )..addStatusListener((status) {
+        if (status != AnimationStatus.completed) {
+          return;
+        }
+        setState(() {
+          _formAnimationController.forward();
+        });
+      });
+
+    // Form animation
+    _formAnimationController = AnimationController(
+      vsync: this,
+      duration: Durations.oneSecond,
+    );
+    _formAnimation = CurvedAnimation(
+      parent: _formAnimationController,
+      curve: Curves.easeIn,
+    );
     super.initState();
-    _setupLogoAnimation();
-    _setupBackgroundAnimation();
-    _setupFormAnimation();
   }
 
   @override
@@ -120,63 +161,13 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
           body: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
-            child: Container(
+            child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
               child: _animatedLoginForm,
             ),
           ),
         ),
       ],
-    );
-  }
-
-  void _setupLogoAnimation() {
-    _logoAnimationController = AnimationController(
-      vsync: this,
-      duration: Durations.oneSecond,
-    )..forward();
-    _logoAnimation = CurvedAnimation(
-      parent: _logoAnimationController,
-      curve: Curves.easeIn,
-    )..addStatusListener(
-        (status) {
-          if (status != AnimationStatus.completed) {
-            return;
-          }
-          setState(() {
-            _isLogoAnimated = true;
-          });
-          _backgroundAnimationController.forward();
-        },
-      );
-  }
-
-  void _setupBackgroundAnimation() {
-    _backgroundAnimationController = AnimationController(
-      vsync: this,
-      duration: Durations.oneSecond,
-    );
-    _backgroundAnimation = CurvedAnimation(
-      parent: _backgroundAnimationController,
-      curve: Curves.easeIn,
-    )..addStatusListener((status) {
-        if (status != AnimationStatus.completed) {
-          return;
-        }
-        setState(() {
-          _formAnimationController.forward();
-        });
-      });
-  }
-
-  void _setupFormAnimation() {
-    _formAnimationController = AnimationController(
-      vsync: this,
-      duration: Durations.oneSecond,
-    );
-    _formAnimation = CurvedAnimation(
-      parent: _formAnimationController,
-      curve: Curves.easeIn,
     );
   }
 }
