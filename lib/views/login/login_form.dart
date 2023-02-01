@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 
 class LoginForm extends StatelessWidget {
   final _email = TextEditingController();
@@ -12,17 +13,32 @@ class LoginForm extends StatelessWidget {
 
   TextField get _passwordTextField => TextField(
         keyboardType: TextInputType.text,
-        decoration: _inputDecoration(labelText: 'Password'),
+        decoration: _inputDecoration(
+          labelText: 'Password',
+          rightPadding: 77,
+        ),
         controller: _password,
         obscureText: true,
       );
 
-  TextButton get _forgetPasswordButton => TextButton(
-        child: const Text('Forgot?'),
-        onPressed: () {
-          // TODO: - Integration task
-        },
-      );
+  TextButton _forgetPasswordButton(BuildContext context) {
+    return TextButton(
+      child: SizedBox(
+        width: 77,
+        height: 40,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            'Forgot?',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ),
+      ),
+      onPressed: () {
+        // TODO: - Integration task
+      },
+    );
+  }
 
   ElevatedButton get _loginButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
@@ -32,15 +48,24 @@ class LoginForm extends StatelessWidget {
         },
       );
 
-  InputDecoration _inputDecoration({required String labelText}) {
+  InputDecoration _inputDecoration({
+    required String labelText,
+    double rightPadding = 12.0,
+  }) {
     return InputDecoration(
       labelText: labelText,
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadiuses.circular12,
       ),
       fillColor: Colors.white24,
       filled: true,
+      contentPadding: EdgeInsets.only(
+        top: 18.0,
+        bottom: 18.0,
+        left: 12.0,
+        right: rightPadding,
+      ),
     );
   }
 
@@ -56,7 +81,7 @@ class LoginForm extends StatelessWidget {
           alignment: AlignmentDirectional.centerEnd,
           children: [
             _passwordTextField,
-            _forgetPasswordButton,
+            _forgetPasswordButton(context),
           ],
         ),
         const SizedBox(height: 20),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 
 class LoginView extends StatefulWidget {
@@ -95,7 +96,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
     // Logo animation
     _logoAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: Durations.oneSecond,
     )..forward();
     _logoAnimation = CurvedAnimation(
       parent: _logoAnimationController,
@@ -107,15 +108,15 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
           }
           setState(() {
             _isLogoAnimated = true;
-            _backgroundAnimationController.forward();
           });
+          _backgroundAnimationController.forward();
         },
       );
 
     // Background animation
     _backgroundAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: Durations.oneSecond,
     );
     _backgroundAnimation = CurvedAnimation(
       parent: _backgroundAnimationController,
@@ -132,7 +133,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
     // Form animation
     _formAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: Durations.oneSecond,
     );
     _formAnimation = CurvedAnimation(
       parent: _formAnimationController,

@@ -23,8 +23,7 @@ class MyApp extends StatelessWidget {
     routes: <GoRoute>[
       GoRoute(
         path: routePathRootScreen,
-        builder: (BuildContext context, GoRouterState state) =>
-            const LoginView(),
+        builder: (BuildContext context, GoRouterState state) => LoginView(),
         routes: [
           GoRoute(
             path: routePathSecondScreen,
