@@ -3,7 +3,9 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kayla_flutter_ic/utils/themes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: routePathRootScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const HomeScreen(),
+            const LoginView(),
         routes: [
           GoRoute(
             path: routePathSecondScreen,
@@ -41,6 +43,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         brightness: Brightness.light,
         fontFamily: Assets.fonts.neuzeit,
+        appBarTheme: Themes.appBarTheme,
+        textTheme: Themes.textTheme,
+        buttonTheme: Themes.buttonTheme,
+        elevatedButtonTheme: Themes.elevatedButtonThemeData,
+        textButtonTheme: Themes.textButtonThemeData,
+        inputDecorationTheme: Themes.inputDecorationTheme,
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
