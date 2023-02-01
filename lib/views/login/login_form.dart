@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 
 class LoginForm extends StatelessWidget {
+  LoginForm({super.key});
+
   final _email = TextEditingController();
   final _password = TextEditingController();
 
