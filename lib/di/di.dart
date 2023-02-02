@@ -8,4 +8,4 @@ import 'di.config.dart';
 final GetIt getIt = GetIt.instance;
 
 @injectableInit
-void configureDependencies() => getIt.init();
+Future<void> configureDependencies() async => $initGetIt(getIt);

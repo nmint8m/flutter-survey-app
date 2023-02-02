@@ -12,7 +12,7 @@ import 'package:kayla_flutter_ic/views/login/login_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
-  configureDependencies();
+  await configureDependencies();
   runApp(MyApp());
 }
 
