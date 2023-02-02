@@ -13,7 +13,7 @@ abstract class OAuthRepository {
 
 @Singleton(as: OAuthRepository)
 class OAuthRepositoryImpl extends OAuthRepository {
-  final BaseOAuthService _oauthService;
+  final OAuthService _oauthService;
 
   OAuthRepositoryImpl(this._oauthService);
 

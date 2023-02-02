@@ -6,14 +6,8 @@ import 'package:kayla_flutter_ic/api/response/oauth_login_response.dart';
 
 part 'oauth_service.g.dart';
 
-abstract class BaseOAuthService {
-  Future<OAuthLoginResponse> login(
-    @Body() OAuthLoginRequest body,
-  );
-}
-
 @RestApi()
-abstract class OAuthService extends BaseOAuthService {
+abstract class OAuthService {
   factory OAuthService(Dio dio, {String baseUrl}) = _OAuthService;
 
   @POST('/api/v1/oauth/token')
