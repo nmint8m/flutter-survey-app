@@ -1,17 +1,27 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
+import 'package:kayla_flutter_ic/views/login/login_state.dart';
+import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
 
-class LoginView extends StatefulWidget {
+final loginViewModelProvider =
+    StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
+        (_) => LoginViewModel(getIt.get<LoginUseCase>()));
+
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  _LoginViewState createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
+class _LoginViewState extends ConsumerState<LoginView>
+    with TickerProviderStateMixin {
   late AnimationController _logoAnimationController;
   late Animation<double> _logoAnimation;
   bool _isLogoAnimated = false;
@@ -111,6 +121,22 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<LoginState>(loginViewModelProvider, (_, loginState) {
+      loginState.maybeWhen(
+        error: (error) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('Please try again.')));
+        },
+        success: () async {
+          // TODO: - Navigate to other screen
+        },
+        orElse: () {},
+      );
+    });
+    return _defaultLoginView();
+  }
+
+  Widget _defaultLoginView() {
     return Stack(
       children: [
         _background,
@@ -126,6 +152,13 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
             ),
           ),
         ),
+        // Consumer(builder: (context, ref, child) {
+        //   final viewModel = ref.watch(loginViewModelProvider);
+        //   return viewModel.maybeWhen(
+        //     loading: () => const Text('Loading'),
+        //     orElse: () => const SizedBox(),
+        //   );
+        // })
       ],
     );
   }
