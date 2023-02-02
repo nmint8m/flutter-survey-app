@@ -20,4 +20,9 @@ class Failed<T> extends Result<T> {
   final UseCaseException exception;
 
   Failed(this.exception) : super._();
+
+  String get errorMessage => _errorMessage ?? 'Unexpected error happens.';
+
+  String? get _errorMessage =>
+      NetworkExceptions.getErrorMessage(exception.actualException);
 }
