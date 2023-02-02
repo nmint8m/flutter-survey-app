@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
 import 'package:kayla_flutter_ic/api/oauth_service.dart';
 import 'package:kayla_flutter_ic/api/request/oauth_login_request.dart';
+import 'package:kayla_flutter_ic/env.dart';
 import 'package:kayla_flutter_ic/model/oauth_login.dart';
 
 abstract class OAuthRepository {
@@ -25,8 +26,8 @@ class OAuthRepositoryImpl extends OAuthRepository {
         OAuthLoginRequest(
           email: email,
           password: password,
-          clientId: 'clientId',
-          clientSecret: 'clientSecret',
+          clientId: Env.clientId,
+          clientSecret: Env.clientSecret,
           grantType: OAuthLoginRequest.passwordGrantType,
         ),
       );

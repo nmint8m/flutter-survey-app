@@ -124,8 +124,8 @@ class _LoginViewState extends ConsumerState<LoginView>
     ref.listen<LoginState>(loginViewModelProvider, (_, loginState) {
       loginState.maybeWhen(
         error: (error) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Please try again.')));
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please try again. $error.')));
         },
         success: () async {
           // TODO: - Navigate to other screen
@@ -152,13 +152,14 @@ class _LoginViewState extends ConsumerState<LoginView>
             ),
           ),
         ),
-        // Consumer(builder: (context, ref, child) {
-        //   final viewModel = ref.watch(loginViewModelProvider);
-        //   return viewModel.maybeWhen(
-        //     loading: () => const Text('Loading'),
-        //     orElse: () => const SizedBox(),
-        //   );
-        // })
+        Consumer(builder: (context, ref, child) {
+          final viewModel = ref.watch(loginViewModelProvider);
+          return viewModel.maybeWhen(
+            // TODO: Loading indicator
+            loading: () => const Text('Loading'),
+            orElse: () => const SizedBox(),
+          );
+        })
       ],
     );
   }
