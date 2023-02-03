@@ -8,10 +8,10 @@ class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  _LoginFormState createState() => _LoginFormState();
+  LoginFormState createState() => LoginFormState();
 }
 
-class _LoginFormState extends ConsumerState<LoginForm> {
+class LoginFormState extends ConsumerState<LoginForm> {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
@@ -99,7 +99,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   }
 
   Future<void> _login() async {
-    Keyboard.hideKeyboard(this.context);
+    Keyboard.hideKeyboard(context);
     ref.read(loginViewModelProvider.notifier).login(
           email: _email.text,
           password: _password.text,

@@ -17,10 +17,10 @@ class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  LoginViewState createState() => LoginViewState();
 }
 
-class _LoginViewState extends ConsumerState<LoginView>
+class LoginViewState extends ConsumerState<LoginView>
     with TickerProviderStateMixin {
   late AnimationController _logoAnimationController;
   late Animation<double> _logoAnimation;
@@ -100,7 +100,7 @@ class _LoginViewState extends ConsumerState<LoginView>
 
   FadeTransition get _animatedLoginForm => FadeTransition(
         opacity: _formAnimation,
-        child: LoginForm(),
+        child: const LoginForm(),
       );
 
   @override
