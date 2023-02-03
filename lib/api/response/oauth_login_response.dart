@@ -6,13 +6,8 @@ part 'oauth_login_response.g.dart';
 
 @JsonSerializable()
 class OAuthLoginResponse {
-  @JsonKey(name: 'id')
   final String id;
-
-  @JsonKey(name: 'type')
   final String type;
-
-  @JsonKey(name: 'attributes')
   final OAuthLoginResponseAttributes attributes;
 
   OAuthLoginResponse({

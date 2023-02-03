@@ -5,15 +5,10 @@ part 'oauth_login_response_attributes.g.dart';
 
 @JsonSerializable()
 class OAuthLoginResponseAttributes {
-  @JsonKey(name: 'access_token')
   final String accessToken;
-  @JsonKey(name: 'token_type')
   final String tokenType;
-  @JsonKey(name: 'expires_in')
   final double expiresIn;
-  @JsonKey(name: 'refresh_token')
   final String refreshToken;
-  @JsonKey(name: 'created_at')
   final double createdAt;
 
   OAuthLoginResponseAttributes({
@@ -25,5 +20,5 @@ class OAuthLoginResponseAttributes {
   });
 
   factory OAuthLoginResponseAttributes.fromJson(Map<String, dynamic> json) =>
-      _$OAuthLoginResponseAttributesFromJson(fromJsonApi(json));
+      _$OAuthLoginResponseAttributesFromJson(json);
 }

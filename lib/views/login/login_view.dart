@@ -129,6 +129,8 @@ class _LoginViewState extends ConsumerState<LoginView>
         },
         success: () async {
           // TODO: - Navigate to other screen
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
         },
         orElse: () {},
       );
