@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kayla_flutter_ic/api/storage/secure_storage.dart';
 import 'package:kayla_flutter_ic/di/interceptor/app_interceptor.dart';
 
 const String headerContentType = 'Content-Type';
@@ -10,6 +11,11 @@ const String defaultContentType = 'application/json; charset=utf-8';
 class DioProvider {
   Dio? _nonAuthenticatedDio;
   Dio? _authenticatedDio;
+  final SecureStorage _secureStorage;
+
+  DioProvider(
+    this._secureStorage,
+  );
 
   Dio getNonAuthenticatedDio() {
     _nonAuthenticatedDio ??= _createDio();
@@ -26,6 +32,7 @@ class DioProvider {
     final appInterceptor = AppInterceptor(
       requireAuthenticate,
       dio,
+      _secureStorage,
     );
     final interceptors = <Interceptor>[];
     interceptors.add(appInterceptor);

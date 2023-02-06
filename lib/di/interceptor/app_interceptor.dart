@@ -1,23 +1,29 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:kayla_flutter_ic/api/storage/secure_storage.dart';
+
+const _headerAuthorization = 'Authorization';
 
 class AppInterceptor extends Interceptor {
   final bool _requireAuthenticate;
   final Dio _dio;
+  final SecureStorage _secureStorage;
 
   AppInterceptor(
     this._requireAuthenticate,
     this._dio,
+    this._secureStorage,
   );
 
   @override
   Future onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     if (_requireAuthenticate) {
-      // TODO header authorization here
-      // options.headers
-      //     .putIfAbsent(HEADER_AUTHORIZATION, () => "");
+      String tokens = await _tokens;
+      options.headers.putIfAbsent(_headerAuthorization, () => tokens);
     }
     return super.onRequest(options, handler);
   }
@@ -65,5 +71,12 @@ class AppInterceptor extends Interceptor {
         handler.next(err);
       }
     }
+  }
+
+  Future<String> get _tokens async {
+    final tokenType = await _secureStorage.tokenType;
+    final accessToken = await _secureStorage.accessToken;
+    if (tokenType == null || accessToken == null) return '';
+    return '$tokenType $accessToken';
   }
 }
