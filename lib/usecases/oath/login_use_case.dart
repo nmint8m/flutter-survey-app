@@ -38,22 +38,6 @@ class LoginUseCase extends UseCase<OAuthLogin, LoginParams> {
       await _secureStorage.storeAccessToken(oauthLogin.accessToken);
       await _secureStorage.storeExpiresIn('${oauthLogin.expiresIn}');
       await _secureStorage.storeRefreshToken(oauthLogin.refreshToken);
-
-      _secureStorage.id.then((value) {
-        print(value);
-      });
-      _secureStorage.tokenType.then((value) {
-        print(value);
-      });
-      _secureStorage.accessToken.then((value) {
-        print(value);
-      });
-      _secureStorage.expiresIn.then((value) {
-        print(value);
-      });
-      _secureStorage.refreshToken.then((value) {
-        print(value);
-      });
       return Success(null);
     } catch (exception) {
       return Failed(UseCaseException(exception));
