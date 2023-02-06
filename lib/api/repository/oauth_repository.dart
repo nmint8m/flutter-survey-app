@@ -35,6 +35,7 @@ class OAuthRepositoryImpl extends OAuthRepository {
       );
       return OAuthLogin(
         id: response.id,
+        tokenType: response.tokenType,
         accessToken: response.accessToken,
         expiresIn: response.expiresIn,
         refreshToken: response.refreshToken,
