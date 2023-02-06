@@ -154,7 +154,7 @@ class LoginViewState extends ConsumerState<LoginView>
             ),
           ),
         ),
-        Consumer(builder: (context, ref, child) {
+        Consumer(builder: (_, ref, __) {
           final viewModel = ref.watch(loginViewModelProvider);
           return viewModel.maybeWhen(
             // TODO: Loading indicator

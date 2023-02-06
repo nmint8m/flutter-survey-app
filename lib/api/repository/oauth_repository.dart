@@ -19,8 +19,10 @@ class OAuthRepositoryImpl extends OAuthRepository {
   OAuthRepositoryImpl(this._oauthService);
 
   @override
-  Future<OAuthLogin> login(
-      {required String email, required String password}) async {
+  Future<OAuthLogin> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       final response = await _oauthService.login(
         OAuthLoginRequest(
