@@ -1,27 +1,17 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
-import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
-import 'package:kayla_flutter_ic/views/login/login_state.dart';
-import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
 
-final loginViewModelProvider =
-    StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
-        (_) => LoginViewModel(getIt.get<LoginUseCase>()));
-
-class LoginView extends ConsumerStatefulWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
   @override
-  LoginViewState createState() => LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class LoginViewState extends ConsumerState<LoginView>
-    with TickerProviderStateMixin {
+class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
   late AnimationController _logoAnimationController;
   late Animation<double> _logoAnimation;
   bool _isLogoAnimated = false;
@@ -100,7 +90,7 @@ class LoginViewState extends ConsumerState<LoginView>
 
   FadeTransition get _animatedLoginForm => FadeTransition(
         opacity: _formAnimation,
-        child: const LoginForm(),
+        child: LoginForm(),
       );
 
   @override
@@ -121,24 +111,6 @@ class LoginViewState extends ConsumerState<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<LoginState>(loginViewModelProvider, (_, loginState) {
-      loginState.maybeWhen(
-        error: (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please try again. $error.')));
-        },
-        success: () async {
-          // TODO: - Navigate to other screen
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
-        },
-        orElse: () {},
-      );
-    });
-    return _defaultLoginView();
-  }
-
-  Widget _defaultLoginView() {
     return Stack(
       children: [
         _background,
@@ -154,14 +126,6 @@ class LoginViewState extends ConsumerState<LoginView>
             ),
           ),
         ),
-        Consumer(builder: (_, ref, __) {
-          final viewModel = ref.watch(loginViewModelProvider);
-          return viewModel.maybeWhen(
-            // TODO: Loading indicator
-            loading: () => const Text('Loading'),
-            orElse: () => const SizedBox(),
-          );
-        })
       ],
     );
   }

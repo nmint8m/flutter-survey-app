@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
-import 'package:kayla_flutter_ic/utils/keyboard.dart';
-import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
-class LoginForm extends ConsumerStatefulWidget {
-  const LoginForm({super.key});
+class LoginForm extends StatelessWidget {
+  LoginForm({super.key});
 
-  @override
-  LoginFormState createState() => LoginFormState();
-}
-
-class LoginFormState extends ConsumerState<LoginForm> {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
@@ -53,7 +45,9 @@ class LoginFormState extends ConsumerState<LoginForm> {
   ElevatedButton get _loginButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
         child: const Text('Log in'),
-        onPressed: () => _login(),
+        onPressed: () {
+          // TODO: - Integration task
+        },
       );
 
   InputDecoration _inputDecoration({
@@ -96,13 +90,5 @@ class LoginFormState extends ConsumerState<LoginForm> {
         _loginButton,
       ],
     );
-  }
-
-  Future<void> _login() async {
-    Keyboard.hideKeyboard(context);
-    ref.read(loginViewModelProvider.notifier).login(
-          email: _email.text,
-          password: _password.text,
-        );
   }
 }
