@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/themes.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
-  await configureDependencies();
   runApp(MyApp());
 }
 
@@ -27,7 +24,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: routePathRootScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const ProviderScope(child: LoginView()),
+            const LoginView(),
         routes: [
           GoRoute(
             path: routePathSecondScreen,
