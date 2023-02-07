@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
@@ -12,16 +13,20 @@ class LoginForm extends ConsumerStatefulWidget {
 }
 
 class LoginFormState extends ConsumerState<LoginForm> {
+  final _loginFormKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  static const _passwordRequiredLength = 8;
+  bool _isStatedValidation = false;
 
-  TextField get _emailTextField => TextField(
+  TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(labelText: 'Email'),
         controller: _email,
+        validator: _validateEmailMessage,
       );
 
-  TextField get _passwordTextField => TextField(
+  TextFormField get _passwordTextField => TextFormField(
         keyboardType: TextInputType.text,
         decoration: _inputDecoration(
           labelText: 'Password',
@@ -29,6 +34,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         ),
         controller: _password,
         obscureText: true,
+        validator: _validatePasswordMessage,
       );
 
   TextButton _forgetPasswordButton(BuildContext context) {
@@ -78,31 +84,69 @@ class LoginFormState extends ConsumerState<LoginForm> {
   }
 
   @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _emailTextField,
-        const SizedBox(height: 20),
-        Stack(
-          alignment: AlignmentDirectional.centerEnd,
-          children: [
-            _passwordTextField,
-            _forgetPasswordButton(context),
-          ],
-        ),
-        const SizedBox(height: 20),
-        _loginButton,
-      ],
+    // return Form(child: child);
+    return Form(
+      key: _loginFormKey,
+      autovalidateMode: _isStatedValidation
+          ? AutovalidateMode.onUserInteraction
+          : AutovalidateMode.disabled,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _emailTextField,
+          const SizedBox(height: 20),
+          Stack(
+            alignment: AlignmentDirectional.centerEnd,
+            children: [
+              _passwordTextField,
+              _forgetPasswordButton(context),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _loginButton,
+        ],
+      ),
     );
   }
 
   Future<void> _login() async {
+    setState(() {
+      _isStatedValidation = true;
+    });
+    if (!_loginFormKey.currentState!.validate()) {
+      return;
+    }
     Keyboard.hideKeyboard(context);
     ref.read(loginViewModelProvider.notifier).login(
           email: _email.text,
           password: _password.text,
         );
+  }
+
+  String? _validateEmailMessage(String? email) {
+    if (email == null) {
+      return 'Please enter your email!';
+    } else if (!EmailValidator.validate(email)) {
+      return 'Wrong email format.';
+    }
+    return null;
+  }
+
+  String? _validatePasswordMessage(String? password) {
+    if (password == null) {
+      return 'Please enter your password!';
+    } else if (password.length < _passwordRequiredLength) {
+      return 'The password should longer 8 characters.';
+    }
+    return null;
   }
 }

@@ -9,11 +9,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
 
   LoginViewModel(this._loginUseCase) : super(const LoginState.init());
 
-  void validateLoginData({
-    required String email,
-    required String password,
-  }) {}
-
   void login({
     required String email,
     required String password,

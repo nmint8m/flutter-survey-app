@@ -154,14 +154,6 @@ class LoginViewState extends ConsumerState<LoginView>
             ),
           ),
         ),
-        Consumer(builder: (_, ref, __) {
-          final viewModel = ref.watch(loginViewModelProvider);
-          return viewModel.maybeWhen(
-            // TODO: Loading indicator
-            loading: () => const Text('Loading'),
-            orElse: () => const SizedBox(),
-          );
-        })
       ],
     );
   }
