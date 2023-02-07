@@ -133,7 +133,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   }
 
   String? _validateEmailMessage(String? email) {
-    if (email == null) {
+    if (email == null || email.isEmpty) {
       return 'Please enter your email!';
     } else if (!EmailValidator.validate(email)) {
       return 'Wrong email format.';
@@ -142,7 +142,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   }
 
   String? _validatePasswordMessage(String? password) {
-    if (password == null) {
+    if (password == null || password.isEmpty) {
       return 'Please enter your password!';
     } else if (password.length < _passwordRequiredLength) {
       return 'The password should longer 8 characters.';
