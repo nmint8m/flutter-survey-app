@@ -2,6 +2,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:kayla_flutter_ic/api/storage/secure_storage.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
+import 'package:kayla_flutter_ic/model/oauth_refresh_token.dart';
+import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/oath/refresh_token_use_case.dart';
 
 const _headerAuthorization = 'Authorization';
 
@@ -45,25 +49,21 @@ class AppInterceptor extends Interceptor {
     ErrorInterceptorHandler handler,
   ) async {
     try {
-      // TODO Request new token
-
-      // if (result is Success) {
-      // TODO Update new token header
-      // err.requestOptions.headers[_headerAuthorization] = newToken;
-
-      // Create request with new access token
-      final options = Options(
-          method: err.requestOptions.method,
-          headers: err.requestOptions.headers);
-      final newRequest = await _dio.request(
-          "${err.requestOptions.baseUrl}${err.requestOptions.path}",
-          options: options,
-          data: err.requestOptions.data,
-          queryParameters: err.requestOptions.queryParameters);
-      handler.resolve(newRequest);
-      //  } else {
-      //    handler.next(err);
-      //  }
+      final result = await _requestNewTokens();
+      if (result is Success<OAuthRefreshToken>) {
+        err.requestOptions.headers[_headerAuthorization] = _tokens;
+        final options = Options(
+            method: err.requestOptions.method,
+            headers: err.requestOptions.headers);
+        final newRequest = await _dio.request(
+            "${err.requestOptions.baseUrl}${err.requestOptions.path}",
+            options: options,
+            data: err.requestOptions.data,
+            queryParameters: err.requestOptions.queryParameters);
+        handler.resolve(newRequest);
+      } else {
+        handler.next(err);
+      }
     } catch (exception) {
       if (exception is DioError) {
         handler.next(exception);
@@ -78,5 +78,10 @@ class AppInterceptor extends Interceptor {
     final accessToken = await _secureStorage.accessToken;
     if (tokenType == null || accessToken == null) return '';
     return '$tokenType $accessToken';
+  }
+
+  Future<Result<OAuthRefreshToken>> _requestNewTokens() {
+    final refreshTokenUseCase = getIt<RefreshTokenUseCase>();
+    return refreshTokenUseCase.call();
   }
 }
