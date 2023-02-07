@@ -69,7 +69,7 @@ class SecureStorageImpl extends SecureStorage {
 
   @override
   Future<void> storeExpiresIn(String expiresIn) {
-    return _storage.write(key: _keyExpiresIn, value: '$expiresIn');
+    return _storage.write(key: _keyExpiresIn, value: expiresIn);
   }
 
   @override
