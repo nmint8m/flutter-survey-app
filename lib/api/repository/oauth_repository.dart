@@ -5,6 +5,7 @@ import 'package:kayla_flutter_ic/api/request/oauth_login_request.dart';
 import 'package:kayla_flutter_ic/api/request/oauth_refresh_token_request.dart';
 import 'package:kayla_flutter_ic/env.dart';
 import 'package:kayla_flutter_ic/model/oauth_login.dart';
+import 'package:kayla_flutter_ic/model/oauth_refresh_token.dart';
 
 abstract class OAuthRepository {
   Future<OAuthLogin> login({
@@ -12,7 +13,7 @@ abstract class OAuthRepository {
     required String password,
   });
 
-  Future<OAuthLogin> refreshToken({
+  Future<OAuthRefreshToken> refreshToken({
     required String refreshToken,
   });
 }
@@ -51,7 +52,7 @@ class OAuthRepositoryImpl extends OAuthRepository {
   }
 
   @override
-  Future<OAuthLogin> refreshToken({
+  Future<OAuthRefreshToken> refreshToken({
     required String refreshToken,
   }) async {
     try {
@@ -62,7 +63,7 @@ class OAuthRepositoryImpl extends OAuthRepository {
         clientSecret: Env.clientSecret,
         grantType: OAuthRefreshTokenRequest.refreshTokenGrantType,
       ));
-      return OAuthLogin(
+      return OAuthRefreshToken(
         id: response.id,
         tokenType: response.tokenType,
         accessToken: response.accessToken,
