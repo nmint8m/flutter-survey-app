@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
+
+final _emailWarningMessageProvider = StreamProvider.autoDispose<String?>(
+  (ref) => ref.watch(loginViewModelProvider.notifier).emailWarningMessageStream,
+);
+
+final _passwordWarningMessageProvider = StreamProvider.autoDispose<String?>(
+  (ref) =>
+      ref.watch(loginViewModelProvider.notifier).passwordWarningMessageStream,
+);
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -16,8 +24,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   final _loginFormKey = GlobalKey<FormState>();
   final _email = TextEditingController();
   final _password = TextEditingController();
-  static const _passwordRequiredLength = 8;
-  bool _isStatedValidation = false;
+  bool _isStartedValidation = false;
 
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
@@ -84,6 +91,17 @@ class LoginFormState extends ConsumerState<LoginForm> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _email.addListener(() =>
+        ref.read(loginViewModelProvider.notifier).validateEmail(_email.text));
+    _password.addListener(() => ref
+        .read(loginViewModelProvider.notifier)
+        .validatePassword(_password.text));
+    _validateInputs();
+  }
+
+  @override
   void dispose() {
     _email.dispose();
     _password.dispose();
@@ -94,7 +112,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _loginFormKey,
-      autovalidateMode: _isStatedValidation
+      autovalidateMode: _isStartedValidation
           ? AutovalidateMode.onUserInteraction
           : AutovalidateMode.disabled,
       child: Column(
@@ -119,7 +137,10 @@ class LoginFormState extends ConsumerState<LoginForm> {
 
   Future<void> _login() async {
     setState(() {
-      _isStatedValidation = true;
+      if (!_isStartedValidation) {
+        _validateInputs();
+        _isStartedValidation = true;
+      }
     });
     if (!_loginFormKey.currentState!.validate()) {
       return;
@@ -131,21 +152,16 @@ class LoginFormState extends ConsumerState<LoginForm> {
         );
   }
 
+  void _validateInputs() {
+    ref.read(loginViewModelProvider.notifier).validateEmail(_email.text);
+    ref.read(loginViewModelProvider.notifier).validatePassword(_password.text);
+  }
+
   String? _validateEmailMessage(String? email) {
-    if (email == null || email.isEmpty) {
-      return 'Please enter your email!';
-    } else if (!EmailValidator.validate(email)) {
-      return 'Wrong email format.';
-    }
-    return null;
+    return ref.watch(_emailWarningMessageProvider).value;
   }
 
   String? _validatePasswordMessage(String? password) {
-    if (password == null || password.isEmpty) {
-      return 'Please enter your password!';
-    } else if (password.length < _passwordRequiredLength) {
-      return 'The password should longer 8 characters.';
-    }
-    return null;
+    return ref.watch(_passwordWarningMessageProvider).value;
   }
 }

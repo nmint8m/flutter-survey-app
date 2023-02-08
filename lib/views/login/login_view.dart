@@ -11,7 +11,8 @@ import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
 
 final loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
-        (_) => LoginViewModel(getIt.get<LoginUseCase>()));
+  (_) => LoginViewModel(getIt.get<LoginUseCase>()),
+);
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -121,20 +122,7 @@ class LoginViewState extends ConsumerState<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<LoginState>(loginViewModelProvider, (_, loginState) {
-      loginState.maybeWhen(
-        error: (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please try again. $error.')));
-        },
-        success: () async {
-          // TODO: - Navigate to other screen
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
-        },
-        orElse: () {},
-      );
-    });
+    _setupStateHandler();
     return _defaultLoginView();
   }
 
@@ -206,5 +194,28 @@ class LoginViewState extends ConsumerState<LoginView>
       parent: _formAnimationController,
       curve: Curves.easeIn,
     );
+  }
+
+  void _setupStateHandler() {
+    ref.listen<LoginState>(loginViewModelProvider, (_, state) {
+      /*
+      showOrHideLoadingIndicator(
+        context: context,
+        shouldShow: state == const LoginState.loading(),
+      );
+      */
+      state.maybeWhen(
+        error: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please try again. $error.')));
+        },
+        success: () async {
+          // TODO: - Navigate to other screen
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
+        },
+        orElse: () {},
+      );
+    });
   }
 }
