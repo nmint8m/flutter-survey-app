@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class OAuthLogin extends Equatable {
+class OAuthRefreshToken extends Equatable {
   final String id;
   final String tokenType;
   final String accessToken;
   final double expiresIn;
   final String refreshToken;
 
-  const OAuthLogin({
+  const OAuthRefreshToken({
     required this.id,
     required this.tokenType,
     required this.accessToken,

@@ -14,7 +14,7 @@ class Themes {
                 fontWeight: FontWeight.bold,
               ),
             )
-            .bodyText2,
+            .bodyMedium,
         titleTextStyle: ThemeData.light()
             .textTheme
             .copyWith(
@@ -24,7 +24,7 @@ class Themes {
                 fontWeight: FontWeight.bold,
               ),
             )
-            .headline6,
+            .titleLarge,
       );
 
   static TextTheme get textTheme => TextTheme(
