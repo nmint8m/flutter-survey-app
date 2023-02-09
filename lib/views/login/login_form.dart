@@ -13,14 +13,14 @@ class LoginForm extends ConsumerStatefulWidget {
 
 class LoginFormState extends ConsumerState<LoginForm> {
   final _loginFormKey = GlobalKey<FormState>();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool _isStartedValidation = false;
 
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(labelText: 'Email'),
-        controller: _email,
+        controller: _emailController,
         validator: _validateEmailMessage,
       );
 
@@ -30,7 +30,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
           labelText: 'Password',
           rightPadding: 77,
         ),
-        controller: _password,
+        controller: _passwordController,
         obscureText: true,
         validator: _validatePasswordMessage,
       );
@@ -81,20 +81,29 @@ class LoginFormState extends ConsumerState<LoginForm> {
     );
   }
 
+  Stack get _passwordRegion => Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          _passwordTextField,
+          _forgetPasswordButton(context),
+        ],
+      );
+
   @override
   void initState() {
     super.initState();
-    _email.addListener(() =>
-        ref.read(loginViewModelProvider.notifier).validateEmail(_email.text));
-    _password.addListener(() => ref
+    _emailController.addListener(() => ref
         .read(loginViewModelProvider.notifier)
-        .validatePassword(_password.text));
+        .validateEmail(_emailController.text));
+    _passwordController.addListener(() => ref
+        .read(loginViewModelProvider.notifier)
+        .validatePassword(_passwordController.text));
   }
 
   @override
   void dispose() {
-    _email.dispose();
-    _password.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -111,13 +120,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         children: [
           _emailTextField,
           const SizedBox(height: 20),
-          Stack(
-            alignment: AlignmentDirectional.centerEnd,
-            children: [
-              _passwordTextField,
-              _forgetPasswordButton(context),
-            ],
-          ),
+          _passwordRegion,
           const SizedBox(height: 20),
           _loginButton,
         ],
@@ -136,8 +139,8 @@ class LoginFormState extends ConsumerState<LoginForm> {
     }
     Keyboard.hideKeyboard(context);
     ref.read(loginViewModelProvider.notifier).login(
-          email: _email.text,
-          password: _password.text,
+          email: _emailController.text,
+          password: _passwordController.text,
         );
   }
 

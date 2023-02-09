@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator_view.dart';
+import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator_dialog.dart';
 
-void showOrHideLoadingIndicator({
-  required BuildContext context,
-  required bool shouldShow,
-}) {
-  if (shouldShow) {
-    showDialog(
-      context: context,
-      barrierColor: Colors.black.withOpacity(0.2),
-      barrierDismissible: false,
-      builder: (_) => const LoadingIndicatorView(),
-    );
-  } else {
-    Navigator.of(context, rootNavigator: true).pop();
+extension BuildContextExtension on BuildContext {
+  void showOrHideLoadingIndicator({
+    required bool shouldShow,
+  }) {
+    if (shouldShow) {
+      showDialog(
+        context: this,
+        barrierColor: Colors.black.withOpacity(0.2),
+        barrierDismissible: false,
+        builder: (_) => const LoadingIndicatorDialog(),
+      );
+    } else {
+      Navigator.of(this, rootNavigator: true).pop();
+    }
   }
 }

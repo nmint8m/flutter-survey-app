@@ -123,7 +123,7 @@ class LoginViewState extends ConsumerState<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    _setupStateHandler();
+    _setupStateListener();
     return _defaultLoginView();
   }
 
@@ -197,10 +197,9 @@ class LoginViewState extends ConsumerState<LoginView>
     );
   }
 
-  void _setupStateHandler() {
+  void _setupStateListener() {
     ref.listen<LoginState>(loginViewModelProvider, (_, state) {
-      showOrHideLoadingIndicator(
-        context: context,
+      context.showOrHideLoadingIndicator(
         shouldShow: state == const LoginState.loading(),
       );
       state.maybeWhen(
