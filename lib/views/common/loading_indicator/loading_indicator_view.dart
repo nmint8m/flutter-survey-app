@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kayla_flutter_ic/views/loading_indicator/loading_indicator.dart';
+import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator.dart';
 
 class LoadingIndicatorView extends StatelessWidget {
   const LoadingIndicatorView({super.key});
