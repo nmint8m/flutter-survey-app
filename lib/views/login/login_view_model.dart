@@ -8,7 +8,7 @@ import 'package:kayla_flutter_ic/views/login/login_state.dart';
 class LoginViewModel extends StateNotifier<LoginState> {
   String? get emailWarningMessage => _emailWarningMessage;
   String? get passwordWarningMessage => _passwordWarningMessage;
-  
+
   static const _passwordRequiredLength = 8;
 
   final LoginUseCase _loginUseCase;
