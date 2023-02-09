@@ -4,15 +4,6 @@ import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
-final _emailWarningMessageProvider = StreamProvider.autoDispose<String?>(
-  (ref) => ref.watch(loginViewModelProvider.notifier).emailWarningMessageStream,
-);
-
-final _passwordWarningMessageProvider = StreamProvider.autoDispose<String?>(
-  (ref) =>
-      ref.watch(loginViewModelProvider.notifier).passwordWarningMessageStream,
-);
-
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
@@ -98,7 +89,6 @@ class LoginFormState extends ConsumerState<LoginForm> {
     _password.addListener(() => ref
         .read(loginViewModelProvider.notifier)
         .validatePassword(_password.text));
-    _validateInputs();
   }
 
   @override
@@ -138,7 +128,6 @@ class LoginFormState extends ConsumerState<LoginForm> {
   Future<void> _login() async {
     setState(() {
       if (!_isStartedValidation) {
-        _validateInputs();
         _isStartedValidation = true;
       }
     });
@@ -152,16 +141,13 @@ class LoginFormState extends ConsumerState<LoginForm> {
         );
   }
 
-  void _validateInputs() {
-    ref.read(loginViewModelProvider.notifier).validateEmail(_email.text);
-    ref.read(loginViewModelProvider.notifier).validatePassword(_password.text);
-  }
-
   String? _validateEmailMessage(String? email) {
-    return ref.watch(_emailWarningMessageProvider).value;
+    ref.read(loginViewModelProvider.notifier).validateEmail(email);
+    return ref.read(loginViewModelProvider.notifier).emailWarningMessage;
   }
 
   String? _validatePasswordMessage(String? password) {
-    return ref.watch(_passwordWarningMessageProvider).value;
+    ref.read(loginViewModelProvider.notifier).validatePassword(password);
+    return ref.read(loginViewModelProvider.notifier).passwordWarningMessage;
   }
 }

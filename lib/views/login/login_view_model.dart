@@ -4,42 +4,36 @@ import 'package:kayla_flutter_ic/model/oauth_login.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
-import 'package:rxdart/rxdart.dart';
 
 class LoginViewModel extends StateNotifier<LoginState> {
-  Stream<String?> get emailWarningMessageStream =>
-      _emailWarningMessageSubject.stream;
-  Stream<String?> get passwordWarningMessageStream =>
-      _passwordWarningMessageSubject.stream;
-
+  String? get emailWarningMessage => _emailWarningMessage;
+  String? get passwordWarningMessage => _passwordWarningMessage;
+  
   static const _passwordRequiredLength = 8;
 
   final LoginUseCase _loginUseCase;
-  final BehaviorSubject<String?> _emailWarningMessageSubject =
-      BehaviorSubject();
-  final BehaviorSubject<String?> _passwordWarningMessageSubject =
-      BehaviorSubject();
+  String? _emailWarningMessage;
+  String? _passwordWarningMessage;
 
   LoginViewModel(this._loginUseCase) : super(const LoginState.init());
 
   void validateEmail(String? email) {
     if (email == null || email.isEmpty) {
-      _emailWarningMessageSubject.add('Please enter your email!');
+      _emailWarningMessage = 'Please enter your email!';
     } else if (!EmailValidator.validate(email)) {
-      _emailWarningMessageSubject.add('Wrong email format.');
+      _emailWarningMessage = 'Wrong email format.';
     } else {
-      _emailWarningMessageSubject.add(null);
+      _emailWarningMessage = null;
     }
   }
 
   void validatePassword(String? password) {
     if (password == null || password.isEmpty) {
-      _passwordWarningMessageSubject.add('Please enter your password!');
+      _passwordWarningMessage = 'Please enter your password!';
     } else if (password.length < _passwordRequiredLength) {
-      _passwordWarningMessageSubject
-          .add('The password should longer 8 characters.');
+      _passwordWarningMessage = 'The password should be longer 8 characters.';
     } else {
-      _passwordWarningMessageSubject.add(null);
+      _passwordWarningMessage = null;
     }
   }
 
