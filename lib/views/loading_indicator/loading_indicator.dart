@@ -8,8 +8,10 @@ class LoadingIndicator extends StatelessWidget {
     return const SizedBox(
       width: 80,
       height: 80,
-      child: CircularProgressIndicator(
-        strokeWidth: 5,
+      child: FittedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 5,
+        ),
       ),
     );
   }

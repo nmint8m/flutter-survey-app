@@ -5,6 +5,7 @@ import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/views/loading_indicator/loading_indicator_utils.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
@@ -198,12 +199,10 @@ class LoginViewState extends ConsumerState<LoginView>
 
   void _setupStateHandler() {
     ref.listen<LoginState>(loginViewModelProvider, (_, state) {
-      /*
       showOrHideLoadingIndicator(
         context: context,
         shouldShow: state == const LoginState.loading(),
       );
-      */
       state.maybeWhen(
         error: (error) {
           ScaffoldMessenger.of(context).showSnackBar(
