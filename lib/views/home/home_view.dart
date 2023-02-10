@@ -11,6 +11,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class HomeViewState extends ConsumerState<HomeView> {
+  // TODO: - Network image
   Image get _backgroundImage => Image(
         image: Assets.images.nimbleBackground.image().image,
         fit: BoxFit.cover,
