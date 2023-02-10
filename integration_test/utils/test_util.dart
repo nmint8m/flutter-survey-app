@@ -25,13 +25,11 @@ class TestUtil {
 
   static void _initDependencies() {
     PackageInfo.setMockInitialValues(
-      appName: 'Flutter templates testing',
-      packageName: '',
-      version: '',
-      buildNumber: '',
-      buildSignature: '',
-      installerStore: '',
-    );
+        appName: 'Flutter templates testing',
+        packageName: '',
+        version: '',
+        buildNumber: '',
+        buildSignature: '');
     FlutterConfig.loadValueForTesting({'SECRET': 'This is only for testing'});
   }
 }
