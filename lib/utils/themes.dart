@@ -31,13 +31,13 @@ class Themes {
         displayLarge: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.bold,
-          fontSize: 24,
+          fontSize: 34,
           color: Colors.white,
         ),
         displayMedium: TextStyle(
           fontFamily: _neuzeit,
           fontWeight: FontWeight.bold,
-          fontSize: 22,
+          fontSize: 24,
           color: Colors.white,
         ),
         displaySmall: TextStyle(
