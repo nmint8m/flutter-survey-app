@@ -13,7 +13,11 @@ class LoadingIndicatorDialog extends StatelessWidget {
         child: Column(
           children: const [
             SizedBox(height: 20),
-            LoadingIndicator(),
+            SizedBox(
+              width: 80,
+              height: 80,
+              child: LoadingIndicator(),
+            ),
             SizedBox(height: 20),
           ],
         ),

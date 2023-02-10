@@ -5,7 +5,7 @@ import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
-import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator_utils.dart';
+import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
