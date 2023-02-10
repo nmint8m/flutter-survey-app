@@ -5,13 +5,15 @@ import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
 
 final loginViewModelProvider =
     StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
-        (_) => LoginViewModel(getIt.get<LoginUseCase>()));
+  (_) => LoginViewModel(getIt.get<LoginUseCase>()),
+);
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -121,20 +123,7 @@ class LoginViewState extends ConsumerState<LoginView>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<LoginState>(loginViewModelProvider, (_, loginState) {
-      loginState.maybeWhen(
-        error: (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please try again. $error.')));
-        },
-        success: () async {
-          // TODO: - Navigate to other screen
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
-        },
-        orElse: () {},
-      );
-    });
+    _setupStateListener();
     return _defaultLoginView();
   }
 
@@ -154,14 +143,6 @@ class LoginViewState extends ConsumerState<LoginView>
             ),
           ),
         ),
-        Consumer(builder: (_, ref, __) {
-          final viewModel = ref.watch(loginViewModelProvider);
-          return viewModel.maybeWhen(
-            // TODO: Loading indicator
-            loading: () => const Text('Loading'),
-            orElse: () => const SizedBox(),
-          );
-        })
       ],
     );
   }
@@ -214,5 +195,25 @@ class LoginViewState extends ConsumerState<LoginView>
       parent: _formAnimationController,
       curve: Curves.easeIn,
     );
+  }
+
+  void _setupStateListener() {
+    ref.listen<LoginState>(loginViewModelProvider, (_, state) {
+      context.showOrHideLoadingIndicator(
+        shouldShow: state == const LoginState.loading(),
+      );
+      state.maybeWhen(
+        error: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please try again. $error.')));
+        },
+        success: () async {
+          // TODO: - Navigate to other screen
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
+        },
+        orElse: () {},
+      );
+    });
   }
 }

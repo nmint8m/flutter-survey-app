@@ -12,23 +12,27 @@ class LoginForm extends ConsumerStatefulWidget {
 }
 
 class LoginFormState extends ConsumerState<LoginForm> {
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final _loginFormKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isStartedValidation = false;
 
-  TextField get _emailTextField => TextField(
+  TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(labelText: 'Email'),
-        controller: _email,
+        controller: _emailController,
+        validator: _validateEmailMessage,
       );
 
-  TextField get _passwordTextField => TextField(
+  TextFormField get _passwordTextField => TextFormField(
         keyboardType: TextInputType.text,
         decoration: _inputDecoration(
           labelText: 'Password',
           rightPadding: 77,
         ),
-        controller: _password,
+        controller: _passwordController,
         obscureText: true,
+        validator: _validatePasswordMessage,
       );
 
   TextButton _forgetPasswordButton(BuildContext context) {
@@ -77,32 +81,76 @@ class LoginFormState extends ConsumerState<LoginForm> {
     );
   }
 
+  Stack get _passwordRegion => Stack(
+        alignment: AlignmentDirectional.centerEnd,
+        children: [
+          _passwordTextField,
+          _forgetPasswordButton(context),
+        ],
+      );
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() => ref
+        .read(loginViewModelProvider.notifier)
+        .validateEmail(_emailController.text));
+    _passwordController.addListener(() => ref
+        .read(loginViewModelProvider.notifier)
+        .validatePassword(_passwordController.text));
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _emailTextField,
-        const SizedBox(height: 20),
-        Stack(
-          alignment: AlignmentDirectional.centerEnd,
-          children: [
-            _passwordTextField,
-            _forgetPasswordButton(context),
-          ],
-        ),
-        const SizedBox(height: 20),
-        _loginButton,
-      ],
+    return Form(
+      key: _loginFormKey,
+      autovalidateMode: _isStartedValidation
+          ? AutovalidateMode.onUserInteraction
+          : AutovalidateMode.disabled,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _emailTextField,
+          const SizedBox(height: 20),
+          _passwordRegion,
+          const SizedBox(height: 20),
+          _loginButton,
+        ],
+      ),
     );
   }
 
   Future<void> _login() async {
+    setState(() {
+      if (!_isStartedValidation) {
+        _isStartedValidation = true;
+      }
+    });
+    if (!_loginFormKey.currentState!.validate()) {
+      return;
+    }
     Keyboard.hideKeyboard(context);
     ref.read(loginViewModelProvider.notifier).login(
-          email: _email.text,
-          password: _password.text,
+          email: _emailController.text,
+          password: _passwordController.text,
         );
+  }
+
+  String? _validateEmailMessage(String? email) {
+    ref.read(loginViewModelProvider.notifier).validateEmail(email);
+    return ref.read(loginViewModelProvider.notifier).emailWarningMessage;
+  }
+
+  String? _validatePasswordMessage(String? password) {
+    ref.read(loginViewModelProvider.notifier).validatePassword(password);
+    return ref.read(loginViewModelProvider.notifier).passwordWarningMessage;
   }
 }
