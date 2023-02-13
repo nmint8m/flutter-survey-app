@@ -1,17 +1,29 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
+import 'package:kayla_flutter_ic/views/login/login_state.dart';
+import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
 
-class LoginView extends StatefulWidget {
+final loginViewModelProvider =
+    StateNotifierProvider.autoDispose<LoginViewModel, LoginState>(
+  (_) => LoginViewModel(getIt.get<LoginUseCase>()),
+);
+
+class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  LoginViewState createState() => LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
+class LoginViewState extends ConsumerState<LoginView>
+    with TickerProviderStateMixin {
   late AnimationController _logoAnimationController;
   late Animation<double> _logoAnimation;
   bool _isLogoAnimated = false;
@@ -90,7 +102,7 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
 
   FadeTransition get _animatedLoginForm => FadeTransition(
         opacity: _formAnimation,
-        child: LoginForm(),
+        child: const LoginForm(),
       );
 
   @override
@@ -111,6 +123,11 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    _setupStateListener();
+    return _defaultLoginView();
+  }
+
+  Widget _defaultLoginView() {
     return Stack(
       children: [
         _background,
@@ -178,5 +195,25 @@ class _LoginViewState extends State<LoginView> with TickerProviderStateMixin {
       parent: _formAnimationController,
       curve: Curves.easeIn,
     );
+  }
+
+  void _setupStateListener() {
+    ref.listen<LoginState>(loginViewModelProvider, (_, state) {
+      context.showOrHideLoadingIndicator(
+        shouldShow: state == const LoginState.loading(),
+      );
+      state.maybeWhen(
+        error: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Please try again. $error.')));
+        },
+        success: () async {
+          // TODO: - Navigate to other screen
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
+        },
+        orElse: () {},
+      );
+    });
   }
 }
