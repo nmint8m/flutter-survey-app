@@ -89,7 +89,9 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
       return;
     }
     Keyboard.hideKeyboard(context);
-    // TODO: - Call API
+    ref.read(forgetPasswordViewModelProvider.notifier).forgetPassword(
+          email: _emailController.text,
+        );
   }
 
   String? _validateEmailMessage(String? email) {
