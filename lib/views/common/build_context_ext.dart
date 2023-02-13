@@ -28,7 +28,7 @@ extension BuildContextExtension on BuildContext {
     late OverlayEntry newOverlayState;
     newOverlayState =
         OverlayEntry(builder: (_) => AnimatedTopSnackBar(child: child));
-    currentOverlayState.insert(newOverlayState);
+    currentOverlayState.insert(newOverlayState, below: null, above: null);
     if (_previousEntry != null && _previousEntry!.mounted) {
       _previousEntry?.remove();
     }
