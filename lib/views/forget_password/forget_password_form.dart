@@ -99,6 +99,8 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
 
   String? _validateEmailMessage(String? email) {
     ref.read(forgetPasswordViewModelProvider.notifier).validateEmail(email);
-    return ref.read(forgetPasswordViewModelProvider.notifier).emailWarningMessage;
+    return ref
+        .read(forgetPasswordViewModelProvider.notifier)
+        .emailWarningMessage;
   }
 }
