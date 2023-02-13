@@ -5,6 +5,7 @@ import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/forget_password_use_case.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
+import 'package:kayla_flutter_ic/views/common/top_snack_bar/top_snack_bar.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_form.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_state.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_view_model.dart';
@@ -122,8 +123,14 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
           context.showSnackBar(message: 'Please try again. $error.');
         },
         success: () async {
-          // TODO: - Show the notification widget
-          context.showSnackBar(message: 'Check your email.');
+          String message = ref
+                  .read(forgetPasswordViewModelProvider.notifier)
+                  .successMessage ??
+              '';
+          context.showTopSnackBar(TopSnackbar(
+            title: 'Check your email.',
+            message: message,
+          ));
         },
         orElse: () {},
       );
