@@ -6,7 +6,7 @@ import 'package:kayla_flutter_ic/di/di.dart';
 final navigationController = getIt.get<NavigationController>();
 
 @singleton
-class NavigationController with ChangeNotifier {
+class NavigationController {
   void push(BuildContext context, Widget widget) {
     Route route =
         MaterialPageRoute(builder: (context) => ProviderScope(child: widget));
