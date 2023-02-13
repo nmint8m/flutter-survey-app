@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
+import 'package:kayla_flutter_ic/utils/navigation_controller.dart';
+import 'package:kayla_flutter_ic/views/forget_password/forget_password_view.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -49,7 +51,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         ),
       ),
       onPressed: () {
-        // TODO: - Integration task
+        navigationController.push(context, const ForgetPasswordView());
       },
     );
   }

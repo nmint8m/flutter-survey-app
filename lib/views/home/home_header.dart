@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/utils/navigation_controller.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -27,8 +28,11 @@ class HomeHeader extends StatelessWidget {
         alignment: Alignment.center,
       );
 
-  Widget get _profilePictureWidget => GestureDetector(
-        onTap: () {},
+  Widget _profilePictureWidget(BuildContext context) => GestureDetector(
+        onTap: () {
+          // TODO: - Show the side bar to log out
+          navigationController.pop(context);
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: CircleAvatar(
@@ -54,7 +58,7 @@ class HomeHeader extends StatelessWidget {
               _todayWidget(context),
             ],
           ),
-          _profilePictureWidget,
+          _profilePictureWidget(context),
         ],
       ),
     );

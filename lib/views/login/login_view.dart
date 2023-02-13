@@ -4,8 +4,10 @@ import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/utils/navigation_controller.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
+import 'package:kayla_flutter_ic/views/home/home_view.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
@@ -192,8 +194,7 @@ class LoginViewState extends ConsumerState<LoginView>
           context.showSnackBar(message: 'Please try again. $error.');
         },
         success: () async {
-          // TODO: - Navigate to other screen
-          context.showSnackBar(message: 'Login sucess!');
+          navigationController.push(context, const HomeView());
         },
         orElse: () {},
       );
