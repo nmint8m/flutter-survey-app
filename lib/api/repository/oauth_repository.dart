@@ -1,6 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
 import 'package:kayla_flutter_ic/api/oauth_service.dart';
+import 'package:kayla_flutter_ic/api/request/forget_password_request.dart';
+import 'package:kayla_flutter_ic/api/request/forget_password_user_request.dart';
 import 'package:kayla_flutter_ic/api/request/oauth_login_request.dart';
 import 'package:kayla_flutter_ic/api/request/oauth_refresh_token_request.dart';
 import 'package:kayla_flutter_ic/env.dart';
@@ -15,6 +17,10 @@ abstract class OAuthRepository {
 
   Future<OAuthRefreshToken> refreshToken({
     required String refreshToken,
+  });
+
+  Future<String> forgetPassword({
+    required String email,
   });
 }
 
@@ -70,6 +76,20 @@ class OAuthRepositoryImpl extends OAuthRepository {
         expiresIn: response.expiresIn,
         refreshToken: response.refreshToken,
       );
+    } catch (exception) {
+      throw NetworkExceptions.fromDioException(exception);
+    }
+  }
+
+  @override
+  Future<String> forgetPassword({required String email}) async {
+    try {
+      final response = await _oauthService.forgetPassword(ForgetPasswordRequest(
+        user: ForgetPasswordUserRequest(email: email),
+        clientId: Env.clientId,
+        clientSecret: Env.clientSecret,
+      ));
+      return response.meta.message;
     } catch (exception) {
       throw NetworkExceptions.fromDioException(exception);
     }
