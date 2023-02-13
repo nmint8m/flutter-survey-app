@@ -32,7 +32,6 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
 
   InputDecoration _inputDecoration({
     required String labelText,
-    double rightPadding = 12.0,
   }) {
     return InputDecoration(
       labelText: labelText,
@@ -42,12 +41,8 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
       ),
       fillColor: Colors.white24,
       filled: true,
-      contentPadding: EdgeInsets.only(
-        top: 18.0,
-        bottom: 18.0,
-        left: 12.0,
-        right: rightPadding,
-      ),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 18.0, horizontal: 12.0),
     );
   }
 
@@ -98,9 +93,8 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   }
 
   String? _validateEmailMessage(String? email) {
-    ref.read(forgetPasswordViewModelProvider.notifier).validateEmail(email);
-    return ref
-        .read(forgetPasswordViewModelProvider.notifier)
-        .emailWarningMessage;
+    final viewModel = ref.read(forgetPasswordViewModelProvider.notifier);
+    viewModel.validateEmail(email);
+    return viewModel.emailWarningMessage;
   }
 }
