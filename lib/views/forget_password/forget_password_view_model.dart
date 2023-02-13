@@ -7,10 +7,11 @@ import 'package:kayla_flutter_ic/views/forget_password/forget_password_state.dar
 class ForgetPasswordViewModel extends StateNotifier<ForgetPasswordState> {
   String? get emailWarningMessage => _emailWarningMessage;
 
-final ForgetPasswordUseCase _forgetPasswordUseCase;
+  final ForgetPasswordUseCase _forgetPasswordUseCase;
   String? _emailWarningMessage;
 
-  ForgetPasswordViewModel(this._forgetPasswordUseCase) : super(const ForgetPasswordState.init());
+  ForgetPasswordViewModel(this._forgetPasswordUseCase)
+      : super(const ForgetPasswordState.init());
 
   void validateEmail(String? email) {
     if (email == null || email.isEmpty) {
