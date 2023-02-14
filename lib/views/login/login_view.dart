@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
@@ -6,6 +5,7 @@ import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
+import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
@@ -56,33 +56,19 @@ class LoginViewState extends ConsumerState<LoginView>
         child: _linearGradientBlurBackground,
       );
 
-  Stack get _linearGradientBlurBackground => Stack(
-        children: [
-          _backgroundImage,
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: ShaderMask(
-              shaderCallback: (rectangle) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.2),
-                    Colors.black.withOpacity(1),
-                  ],
-                ).createShader(rectangle);
-              },
-              blendMode: BlendMode.overlay,
-              child: _backgroundImage,
-            ),
-          ),
-        ],
-      );
+  Widget get _linearGradientBlurBackground => LinearGradientBlurBackground(
+          image: _backgroundImage,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black.withOpacity(0.2),
+            Colors.black.withOpacity(1),
+          ]);
 
   AnimatedPositioned get _animatedLogo => AnimatedPositioned(
         duration: Durations.oneSecond,
         curve: Curves.linear,
-        top: _isLogoAnimated ? -450 : 0.0,
+        top: _isLogoAnimated ? -450 : 0,
         bottom: 0.0,
         left: 0.0,
         right: 0.0,
@@ -134,10 +120,9 @@ class LoginViewState extends ConsumerState<LoginView>
         _animatedLogo,
         Scaffold(
           backgroundColor: Colors.transparent,
-          body: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          body: Center(
             child: Container(
+              width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
               child: _animatedLoginForm,
             ),
@@ -204,13 +189,11 @@ class LoginViewState extends ConsumerState<LoginView>
       );
       state.maybeWhen(
         error: (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please try again. $error.')));
+          context.showSnackBar(message: 'Please try again. $error.');
         },
         success: () async {
           // TODO: - Navigate to other screen
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Login sucess!')));
+          context.showSnackBar(message: 'Login sucess!');
         },
         orElse: () {},
       );
