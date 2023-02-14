@@ -6,11 +6,9 @@ import 'package:kayla_flutter_ic/views/forget_password/forget_password_state.dar
 
 class ForgetPasswordViewModel extends StateNotifier<ForgetPasswordState> {
   String? get emailWarningMessage => _emailWarningMessage;
-  String? get successMessage => _successMessage;
 
   final ForgetPasswordUseCase _forgetPasswordUseCase;
   String? _emailWarningMessage;
-  String? _successMessage;
 
   ForgetPasswordViewModel(this._forgetPasswordUseCase)
       : super(const ForgetPasswordState.init());
@@ -31,10 +29,8 @@ class ForgetPasswordViewModel extends StateNotifier<ForgetPasswordState> {
     state = const ForgetPasswordState.loading();
     final result = await _forgetPasswordUseCase.call(email);
     if (result is Success<String>) {
-      _successMessage = result.value;
-      state = const ForgetPasswordState.success();
+      state = ForgetPasswordState.success(result.value);
     } else {
-      _successMessage = '';
       _handleError(result as Failed);
     }
   }

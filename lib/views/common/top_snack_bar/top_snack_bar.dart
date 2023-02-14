@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 
-class TopSnackbar extends StatelessWidget {
+class TopSnackBar extends StatelessWidget {
   final String title;
   final String message;
 
-  const TopSnackbar({
+  const TopSnackBar({
     super.key,
     required this.title,
     required this.message,

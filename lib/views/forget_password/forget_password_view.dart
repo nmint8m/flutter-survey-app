@@ -122,12 +122,8 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
         error: (error) {
           context.showSnackBar(message: 'Please try again. $error.');
         },
-        success: () async {
-          String message = ref
-                  .read(forgetPasswordViewModelProvider.notifier)
-                  .successMessage ??
-              '';
-          context.showTopSnackBar(TopSnackbar(
+        success: (message) async {
+          context.showTopSnackBar(TopSnackBar(
             title: 'Check your email.',
             message: message,
           ));
