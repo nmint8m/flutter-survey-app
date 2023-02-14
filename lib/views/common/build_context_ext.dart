@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator_dialog.dart';
 
 extension BuildContextExtension on BuildContext {
+  void showSnackBar({required String message}) =>
+      ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+
   void showOrHideLoadingIndicator({
     required bool shouldShow,
   }) {
