@@ -27,7 +27,7 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   ElevatedButton get _resetButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
         child: const Text('Reset'),
-        onPressed: () => _reset(),
+        onPressed: () => _forgetPassword(),
       );
 
   InputDecoration _inputDecoration({
@@ -79,7 +79,7 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
     );
   }
 
-  Future<void> _reset() async {
+  Future<void> _forgetPassword() async {
     setState(() {
       if (!_isStartedValidation) {
         _isStartedValidation = true;

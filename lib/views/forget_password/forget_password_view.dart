@@ -1,8 +1,8 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
+import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_form.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_state.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_view_model.dart';
@@ -44,28 +44,14 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
         alignment: Alignment.center,
       );
 
-  Widget get _linearGradientBlurBackground => Stack(
-        children: [
-          _backgroundImage,
-          ImageFiltered(
-            imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: ShaderMask(
-              shaderCallback: (rectangle) {
-                return LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.2),
-                    Colors.black.withOpacity(1),
-                  ],
-                ).createShader(rectangle);
-              },
-              blendMode: BlendMode.overlay,
-              child: _backgroundImage,
-            ),
-          ),
-        ],
-      );
+  Widget get _linearGradientBlurBackground => LinearGradientBlurBackground(
+          image: _backgroundImage,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Colors.black.withOpacity(0.2),
+            Colors.black.withOpacity(1),
+          ]);
 
   Widget get _logo => SizedBox(
         width: 166,
@@ -79,7 +65,7 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
         ),
       );
 
-  Widget _intruction(BuildContext context) => Text(
+  Widget _instruction(BuildContext context) => Text(
         'Enter your email to receive instructions for resetting your password.',
         style: Theme.of(context)
             .textTheme
@@ -111,7 +97,7 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
                   const SizedBox(height: 60),
                   _logo,
                   const SizedBox(height: 20),
-                  _intruction(context),
+                  _instruction(context),
                   const SizedBox(height: 100),
                   _form,
                 ],
@@ -131,13 +117,11 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
       );
       state.maybeWhen(
         error: (error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Please try again. $error.')));
+          context.showSnackBar(message: 'Please try again. $error.');
         },
         success: () async {
           // TODO: - Show the notification widget
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text('Check your email')));
+          context.showSnackBar(message: 'Check your email.');
         },
         orElse: () {},
       );
