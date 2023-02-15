@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/usecases/oath/forget_password_use_case.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_form.dart';
@@ -9,7 +11,7 @@ import 'package:kayla_flutter_ic/views/forget_password/forget_password_view_mode
 
 final forgetPasswordViewModelProvider = StateNotifierProvider.autoDispose<
     ForgetPasswordViewModel, ForgetPasswordState>(
-  (_) => ForgetPasswordViewModel(),
+  (_) => ForgetPasswordViewModel(getIt.get<ForgetPasswordUseCase>()),
 );
 
 class ForgetPasswordView extends ConsumerStatefulWidget {
