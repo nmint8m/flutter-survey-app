@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
-import 'package:kayla_flutter_ic/utils/navigation_controller.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
-import 'package:kayla_flutter_ic/views/home/home_view.dart';
 import 'package:kayla_flutter_ic/views/login/login_form.dart';
 import 'package:kayla_flutter_ic/views/login/login_state.dart';
 import 'package:kayla_flutter_ic/views/login/login_view_model.dart';
@@ -194,7 +194,7 @@ class LoginViewState extends ConsumerState<LoginView>
           context.showSnackBar(message: 'Please try again. $error.');
         },
         success: () async {
-          navigationController.push(context, const HomeView());
+          context.pushReplacement(RoutePath.home.screen);
         },
         orElse: () {},
       );

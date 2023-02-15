@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
-import 'package:kayla_flutter_ic/utils/navigation_controller.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -31,7 +31,8 @@ class HomeHeader extends StatelessWidget {
   Widget _profilePictureWidget(BuildContext context) => GestureDetector(
         onTap: () {
           // TODO: - Show the side bar to log out
-          navigationController.pop(context);
+          // cannot pop as root is Home screen
+          context.pop();
         },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),

@@ -4,40 +4,49 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/utils/themes.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:kayla_flutter_ic/views/forget_password/forget_password_view.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
+import 'package:kayla_flutter_ic/views/home/home_view.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
   await configureDependencies();
-  runApp(ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-const routePathRootScreen = '/';
-const routePathSecondScreen = 'second';
-
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
-  final GoRouter _router = GoRouter(
-    routes: <GoRoute>[
-      GoRoute(
-        path: routePathRootScreen,
+  GoRouter get _router => GoRouter(
+        routes: <GoRoute>[
+          _loginGoRoute,
+          _homeGoRoute,
+        ],
+      );
+
+  GoRoute get _loginGoRoute => GoRoute(
+        path: RoutePath.login.path,
         builder: (BuildContext context, GoRouterState state) =>
             const LoginView(),
         routes: [
           GoRoute(
-            path: routePathSecondScreen,
+            path: RoutePath.forgetPassword.path,
             builder: (BuildContext context, GoRouterState state) =>
-                const SecondScreen(),
+                const ForgetPasswordView(),
           ),
         ],
-      ),
-    ],
-  );
+      );
+
+  GoRoute get _homeGoRoute => GoRoute(
+        path: RoutePath.home.path,
+        builder: (BuildContext context, GoRouterState state) =>
+            const HomeView(),
+        routes: const [],
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -58,65 +67,6 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: _router.routeInformationProvider,
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: FutureBuilder<PackageInfo>(
-            future: PackageInfo.fromPlatform(),
-            builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? Text(snapshot.data?.appName ?? "")
-                  : const SizedBox.shrink();
-            }),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 24),
-            FractionallySizedBox(
-              widthFactor: 0.5,
-              child: Image.asset(
-                Assets.images.nimbleLogo.path,
-                fit: BoxFit.fitWidth,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Text(AppLocalizations.of(context)!.hello),
-            Text(
-              FlutterConfig.get('SECRET'),
-              style: const TextStyle(color: Colors.black, fontSize: 24),
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => context.go('/$routePathSecondScreen'),
-              child: const Text("Navigate to Second Screen"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Second Screen"),
-      ),
     );
   }
 }
