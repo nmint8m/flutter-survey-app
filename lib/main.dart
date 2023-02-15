@@ -13,7 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterConfig.loadEnvVariables();
   await configureDependencies();
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 const routePathRootScreen = '/';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: routePathRootScreen,
         builder: (BuildContext context, GoRouterState state) =>
-            const ProviderScope(child: LoginView()),
+            const LoginView(),
         routes: [
           GoRoute(
             path: routePathSecondScreen,
