@@ -29,7 +29,7 @@ class ForgetPasswordViewModel extends StateNotifier<ForgetPasswordState> {
     state = const ForgetPasswordState.loading();
     final result = await _forgetPasswordUseCase.call(email);
     if (result is Success<String>) {
-      state = const ForgetPasswordState.success();
+      state = ForgetPasswordState.success(result.value);
     } else {
       _handleError(result as Failed);
     }

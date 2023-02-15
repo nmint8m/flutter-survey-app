@@ -10,5 +10,5 @@ class ForgetPasswordState with _$ForgetPasswordState {
 
   const factory ForgetPasswordState.error(String? error) = _Error;
 
-  const factory ForgetPasswordState.success() = _Success;
+  const factory ForgetPasswordState.success(String message) = _Success;
 }
