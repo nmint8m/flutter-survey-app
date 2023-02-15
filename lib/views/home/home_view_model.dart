@@ -7,10 +7,14 @@ import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view.dart';
 
 final profileImageUrlStream = StreamProvider.autoDispose<String>((ref) =>
-    ref.watch(homeViewModelProvider.notifier).profileImageUrlStream.stream);
+    ref.watch(homeViewModelProvider.notifier)._profileImageUrlStream.stream);
+
+final surveyListStream = StreamProvider.autoDispose<List<String>>((ref) =>
+    ref.watch(homeViewModelProvider.notifier)._surveyListStream.stream);
 
 class HomeViewModel extends StateNotifier<HomeState> {
-  final StreamController<String> profileImageUrlStream = StreamController();
+  final StreamController<String> _profileImageUrlStream = StreamController();
+  final StreamController<List<String>> _surveyListStream = StreamController();
 
   final ProfileUseCase _profileUseCase;
 
@@ -19,7 +23,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   Future<void> fetchProfile() async {
     final result = await _profileUseCase.call();
     if (result is Success<Profile>) {
-      profileImageUrlStream.add(result.value.avatarUrl);
+      _profileImageUrlStream.add(result.value.avatarUrl);
     } else {
       _handleError(result as Failed);
     }
@@ -27,5 +31,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   void _handleError(Failed failure) {
     state = HomeState.error(failure.errorMessage);
+  }
+
+  Future<void> fetchSurvey() async {
+    // TODO: - Fetch survey
+    _surveyListStream.add(['ABC']);
   }
 }
