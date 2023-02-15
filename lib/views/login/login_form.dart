@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -49,7 +51,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         ),
       ),
       onPressed: () {
-        // TODO: - Integration task
+        context.push(RoutePath.forgetPassword.screen);
       },
     );
   }

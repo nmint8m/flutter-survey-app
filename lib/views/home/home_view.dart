@@ -20,16 +20,19 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: _backgroundImage.image,
-            fit: BoxFit.cover,
+    return WillPopScope(
+      child: Scaffold(
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: _backgroundImage.image,
+              fit: BoxFit.cover,
+            ),
           ),
+          child: const SafeArea(child: HomeHeader()),
         ),
-        child: const SafeArea(child: HomeHeader()),
       ),
+      onWillPop: () async => false,
     );
   }
 }

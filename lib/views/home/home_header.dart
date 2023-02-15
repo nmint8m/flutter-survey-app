@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 
@@ -27,8 +28,12 @@ class HomeHeader extends StatelessWidget {
         alignment: Alignment.center,
       );
 
-  Widget get _profilePictureWidget => GestureDetector(
-        onTap: () {},
+  Widget _profilePictureWidget(BuildContext context) => GestureDetector(
+        onTap: () {
+          // TODO: - Show the side bar to log out
+          // cannot pop as root is Home screen
+          context.pop();
+        },
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: CircleAvatar(
@@ -54,7 +59,7 @@ class HomeHeader extends StatelessWidget {
               _todayWidget(context),
             ],
           ),
-          _profilePictureWidget,
+          _profilePictureWidget(context),
         ],
       ),
     );
