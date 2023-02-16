@@ -6,14 +6,13 @@ part 'survey_list_response.g.dart';
 
 @JsonSerializable()
 class SurveyListResponse {
-  @JsonKey(name: 'data')
-  final List<SurveyResponse> surveys;
+  final List<SurveyResponse> data;
 
   const SurveyListResponse({
-    required this.surveys,
+    required this.data,
   });
 
   factory SurveyListResponse.fromJson(Map<String, dynamic> json) {
-    return _$SurveyListResponseFromJson(fromJsonApi(json));
+    return _$SurveyListResponseFromJson(fromRootJsonApi(json));
   }
 }
