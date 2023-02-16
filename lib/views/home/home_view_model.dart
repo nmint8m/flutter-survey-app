@@ -42,8 +42,8 @@ class HomeViewModel extends StateNotifier<HomeState> {
       pageSize: 10,
     ));
     if (result is Success<List<Survey>>) {
+      // TODO: - Stream the survey list instead
       _surveyListStream.add(result.value.map((e) => e.title).toList());
-      print(result.value.map((e) => e.title).toList());
     } else {
       _handleError(result as Failed);
     }
