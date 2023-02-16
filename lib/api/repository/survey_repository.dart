@@ -26,7 +26,7 @@ class SurveyRepositoryImpl extends SurveyRepository {
         pageNumber,
         pageSize,
       );
-      final surveys = result.surveys.map((e) => e.toSurvey()).toList();
+      final surveys = result.data.map((e) => e.toSurvey()).toList();
       return surveys;
     } catch (exception) {
       throw NetworkExceptions.fromDioException(exception);
