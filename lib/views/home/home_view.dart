@@ -40,6 +40,13 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
+  Widget get takeSurveyButton => FloatingActionButton(
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        child: const Icon(Icons.navigate_next),
+        onPressed: () => _takeSurvey(),
+      );
+
   Widget get _body => Consumer(
         builder: (_, ref, __) {
           final surveys = ref.watch(surveysStream).value ?? [];
@@ -70,6 +77,8 @@ class HomeViewState extends ConsumerState<HomeView> {
           ),
           child: _body,
         ),
+        floatingActionButton: takeSurveyButton,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       ),
       onWillPop: () async => false,
     );
@@ -95,5 +104,9 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   void _fetchSurvey() {
     ref.read(homeViewModelProvider.notifier).fetchSurveys();
+  }
+
+  void _takeSurvey() {
+    // TODO: - Take survey
   }
 }
