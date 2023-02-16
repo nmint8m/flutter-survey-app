@@ -28,9 +28,6 @@ jobs:
     - name: Get Flutter dependencies
       run: flutter pub get
 
-    - name: Upgrade Flutter packages
-      run: flutter packages upgrade
-
     - name: Run code generator
       run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
