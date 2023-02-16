@@ -1,0 +1,28 @@
+import 'dart:async';
+import 'package:injectable/injectable.dart';
+import 'package:kayla_flutter_ic/api/repository/survey_repository.dart';
+import 'package:kayla_flutter_ic/model/survey.dart';
+import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/survey_list_params.dart';
+
+@Injectable()
+class SurveyListUseCase extends UseCase<List<Survey>, SurveyListParams> {
+  final SurveyRepository _repository;
+
+  const SurveyListUseCase(
+    this._repository,
+  );
+
+  @override
+  Future<Result<List<Survey>>> call(SurveyListParams params) async {
+    try {
+      final result = await _repository.surveyList(
+        params.pageNumber,
+        params.pageSize,
+      );
+      return Success(result);
+    } catch (exception) {
+      return Failed(UseCaseException(exception));
+    }
+  }
+}
