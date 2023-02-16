@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
-import 'package:kayla_flutter_ic/views/common/build_context_ext.dart';
+import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
