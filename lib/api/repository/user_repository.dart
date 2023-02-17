@@ -4,7 +4,7 @@ import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
 import 'package:kayla_flutter_ic/api/response/me_response.dart';
 
 abstract class UserRepository {
-  Future<MeResponse> me();
+  Future<MeResponse> getMe();
 }
 
 @Singleton(as: UserRepository)
@@ -14,9 +14,9 @@ class UserRepositoryImpl extends UserRepository {
   UserRepositoryImpl(this._apiService);
 
   @override
-  Future<MeResponse> me() async {
+  Future<MeResponse> getMe() async {
     try {
-      return await _apiService.me();
+      return await _apiService.getMe();
     } catch (exception) {
       throw NetworkExceptions.fromDioException(exception);
     }
