@@ -12,12 +12,12 @@ import 'package:kayla_flutter_ic/views/home/home_view.dart';
 final profileImageUrlStream = StreamProvider.autoDispose<String>((ref) =>
     ref.watch(homeViewModelProvider.notifier)._profileImageUrlStream.stream);
 
-final surveyListStream = StreamProvider.autoDispose<List<String>>((ref) =>
+final surveyListStream = StreamProvider.autoDispose<List<Survey>>((ref) =>
     ref.watch(homeViewModelProvider.notifier)._surveyListStream.stream);
 
 class HomeViewModel extends StateNotifier<HomeState> {
   final StreamController<String> _profileImageUrlStream = StreamController();
-  final StreamController<List<String>> _surveyListStream = StreamController();
+  final StreamController<List<Survey>> _surveyListStream = StreamController();
 
   final GetProfileUseCase _getProfileUseCase;
   final GetSurveyListUseCase _getSurveyListUseCase;
