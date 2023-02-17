@@ -7,15 +7,15 @@ part 'survey_response.g.dart';
 @JsonSerializable()
 class SurveyResponse {
   final String id;
-  String? title;
-  String? description;
-  String? coverImageUrl;
+  final String title;
+  final String description;
+  final String coverImageUrl;
 
   SurveyResponse({
     required this.id,
-    this.title,
-    this.description,
-    this.coverImageUrl,
+    required this.title,
+    required this.description,
+    required this.coverImageUrl,
   });
 
   factory SurveyResponse.fromJson(Map<String, dynamic> json) =>
@@ -23,8 +23,8 @@ class SurveyResponse {
 
   Survey toSurvey() => Survey(
         id: id,
-        title: title ?? '',
-        description: description ?? '',
-        coverImageUrl: coverImageUrl ?? '',
+        title: title,
+        description: description,
+        coverImageUrl: coverImageUrl,
       );
 }
