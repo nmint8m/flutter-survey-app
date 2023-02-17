@@ -9,6 +9,8 @@ import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
 import 'package:kayla_flutter_ic/views/home/skeleton_loading/home_skeleton_loading.dart';
+import 'package:kayla_flutter_ic/views/home/survey_section/survey_list.dart';
+import 'package:kayla_flutter_ic/views/home/survey_section/survey_page_indicator.dart';
 
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
@@ -26,6 +28,9 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class HomeViewState extends ConsumerState<HomeView> {
+  final _surveyItemController = PageController();
+  final _surveyIndex = ValueNotifier<int>(0);
+
   // TODO: - Network image
   Image get _backgroundImage => Image(
         image: Assets.images.nimbleBackground.image().image,
@@ -40,6 +45,39 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
+  Widget get _surveySection => Consumer(builder: (_, ref, __) {
+        final surveyList = ref.watch(surveyListStream).value ?? [];
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SurveyPageIndicator(
+              controller: _surveyItemController,
+              count: surveyList.length,
+            ),
+            SingleChildScrollView(
+              child: SizedBox(
+                height: 160,
+                child: SurveyList(
+                  surveyList: surveyList,
+                  itemController: _surveyItemController,
+                  onItemChange: _surveyIndex,
+                ),
+              ),
+            ),
+          ],
+        );
+      });
+
+  Widget get _mainBody => Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _homeHeader,
+          _surveySection,
+        ],
+      );
+
   Widget get takeSurveyButton => FloatingActionButton(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -51,7 +89,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         builder: (_, ref, __) {
           final surveys = ref.watch(surveysStream).value ?? [];
           return surveys.isNotEmpty
-              ? SafeArea(child: _homeHeader)
+              ? SafeArea(child: _mainBody)
               : const SafeArea(child: HomeSkeletonLoading());
         },
       );
@@ -61,6 +99,12 @@ class HomeViewState extends ConsumerState<HomeView> {
     super.initState();
     _fetchProfile();
     _fetchSurvey();
+  }
+
+  @override
+  void dispose() {
+    _surveyIndex.dispose();
+    super.dispose();
   }
 
   @override
