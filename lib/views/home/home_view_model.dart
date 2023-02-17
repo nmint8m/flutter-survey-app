@@ -16,9 +16,13 @@ final profileImageUrlStream = StreamProvider.autoDispose<String>((ref) =>
 final surveysStream = StreamProvider.autoDispose<List<Survey>>((ref) =>
     ref.watch(homeViewModelProvider.notifier)._surveysStream.stream);
 
+final focusedItemIndexStream = StreamProvider.autoDispose<int>((ref) =>
+    ref.watch(homeViewModelProvider.notifier)._focusedItemIndexStream.stream);
+
 class HomeViewModel extends StateNotifier<HomeState> {
   final StreamController<String> _profileImageUrlStream = StreamController();
   final StreamController<List<Survey>> _surveysStream = StreamController();
+  final StreamController<int> _focusedItemIndexStream = StreamController();
 
   final GetProfileUseCase _getProfileUseCase;
   final GetSurveysUseCase _getSurveysUseCase;
@@ -43,8 +47,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
       pageSize: 5,
     ));
     if (result is Success<SurveysResponse>) {
-      // TODO: - Stream the survey list instead
-      _surveysStream.add(result.value.data.map((e) => e.title).toList());
+      _surveysStream.add(result.value.data.map((e) => e.toSurvey()).toList());
     } else {
       _handleError(result as Failed);
     }
@@ -52,5 +55,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   void _handleError(Failed failure) {
     state = HomeState.error(failure.errorMessage);
+  }
+
+  void changeFocusedItem({required int index}) {
+    _focusedItemIndexStream.add(index);
   }
 }

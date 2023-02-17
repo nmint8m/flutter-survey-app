@@ -31,11 +31,21 @@ class HomeViewState extends ConsumerState<HomeView> {
   final _surveyItemController = PageController();
   final _surveyIndex = ValueNotifier<int>(0);
 
-  // TODO: - Network image
-  Image get _backgroundImage => Image(
-        image: Assets.images.nimbleBackground.image().image,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
+  Widget get _background => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Consumer(builder: (_, ref, __) {
+          final index = ref.watch(focusedItemIndexStream).value ?? 0;
+          final surveyList = ref.watch(surveysStream).value ?? [];
+          return surveyList.isEmpty
+              ? Image(image: Assets.images.nimbleBackground.image().image)
+              : FadeInImage.assetNetwork(
+                  placeholder: Assets.images.nimbleBackground.path,
+                  image: surveyList[index].coverImageUrl,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                );
+        }),
       );
 
   Widget get _homeHeader => Consumer(
@@ -46,7 +56,7 @@ class HomeViewState extends ConsumerState<HomeView> {
       );
 
   Widget get _surveySection => Consumer(builder: (_, ref, __) {
-        final surveyList = ref.watch(surveyListStream).value ?? [];
+        final surveyList = ref.watch(surveysStream).value ?? [];
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,14 +122,12 @@ class HomeViewState extends ConsumerState<HomeView> {
     _setupStateListener();
     return WillPopScope(
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: _backgroundImage.image,
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: _body,
+        body: Stack(
+          children: [
+            _background,
+            Container(color: Colors.black38),
+            _body,
+          ],
         ),
         floatingActionButton: takeSurveyButton,
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -139,6 +147,11 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
         orElse: () {},
       );
+    });
+    _surveyIndex.addListener(() {
+      ref
+          .read(homeViewModelProvider.notifier)
+          .changeFocusedItem(index: _surveyIndex.value);
     });
   }
 
