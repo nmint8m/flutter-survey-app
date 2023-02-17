@@ -36,7 +36,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         height: MediaQuery.of(context).size.height,
         child: Consumer(builder: (_, ref, __) {
           final index = ref.watch(focusedItemIndexStream).value ?? 0;
-          final surveyList = ref.watch(surveyListStream).value ?? [];
+          final surveyList = ref.read(surveyListStream).value ?? [];
           return surveyList.isEmpty
               ? Image(image: Assets.images.nimbleBackground.image().image)
               : FadeInImage.assetNetwork(
