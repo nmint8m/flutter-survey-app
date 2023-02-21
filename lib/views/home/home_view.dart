@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/model/survey.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_survey_list_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
+import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
@@ -37,7 +39,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         child: Consumer(builder: (_, ref, __) {
           final index = ref.watch(focusedItemIndexStream).value ?? 0;
           final surveyList = ref.read(surveyListStream).value ?? [];
-          return surveyList.isEmpty
+          return surveyList.isEmpty || index >= surveyList.length
               ? Image(image: Assets.images.nimbleBackground.image().image)
               : FadeInImage.assetNetwork(
                   placeholder: Assets.images.nimbleBackground.path,
@@ -55,37 +57,45 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
-  Widget get _surveySection => Consumer(builder: (_, ref, __) {
-        final surveyList = ref.watch(surveyListStream).value ?? [];
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SurveyPageIndicator(
-              controller: _surveyItemController,
-              count: surveyList.length,
-            ),
-            SingleChildScrollView(
-              child: SizedBox(
-                height: 160,
-                child: SurveyList(
-                  surveyList: surveyList,
-                  itemController: _surveyItemController,
-                  onItemChange: _surveyIndex,
-                ),
-              ),
-            ),
-          ],
-        );
-      });
+  Widget _surveyList(List<Survey> surveyList) => SurveyList(
+        refreshStyle: RefreshStyle.pullDownToRefresh,
+        surveyList: surveyList,
+        itemController: _surveyItemController,
+        onItemChange: _surveyIndex,
+        onRefresh: () => _fetchSurveyList(isRefresh: true),
+        onLoadMore: () => _fetchSurveyList(isRefresh: false),
+      );
 
-  Widget get _mainBody => Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+  Widget _pageIndicatorSection(int length) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _homeHeader,
-          _surveySection,
+          const Spacer(),
+          SurveyPageIndicator(
+            controller: _surveyItemController,
+            count: length,
+          ),
+          const SizedBox(height: 160),
         ],
+      );
+
+  Widget get _mainBody => Consumer(
+        builder: (_, ref, __) {
+          final surveyList = ref.watch(surveyListStream).value ?? [];
+          final index = ref.read(focusedItemIndexStream).value ?? 0;
+          if (_surveyItemController.positions.isNotEmpty) {
+            Future.delayed(
+              Durations.fiftyMillisecond,
+              () => _surveyItemController.jumpToPage(index),
+            );
+          }
+          return Stack(
+            children: [
+              _homeHeader,
+              _pageIndicatorSection(surveyList.length),
+              _surveyList(surveyList),
+            ],
+          );
+        },
       );
 
   Widget get takeSurveyButton => FloatingActionButton(
@@ -108,7 +118,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   void initState() {
     super.initState();
     _fetchProfile();
-    _fetchSurvey();
+    _fetchSurveyList(isRefresh: false);
   }
 
   @override
@@ -159,11 +169,15 @@ class HomeViewState extends ConsumerState<HomeView> {
     ref.read(homeViewModelProvider.notifier).fetchProfile();
   }
 
-  void _fetchSurvey() {
-    ref.read(homeViewModelProvider.notifier).fetchSurveyList();
+  Future<void> _fetchSurveyList({required bool isRefresh}) async {
+    ref
+        .read(homeViewModelProvider.notifier)
+        .fetchSurveyList(isRefresh: isRefresh);
   }
 
   void _takeSurvey() {
     // TODO: - Take survey
+    // ignore: avoid_print
+    print(_surveyIndex.value);
   }
 }

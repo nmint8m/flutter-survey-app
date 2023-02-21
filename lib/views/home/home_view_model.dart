@@ -23,6 +23,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final StreamController<String> _profileImageUrlStream = StreamController();
   final StreamController<List<Survey>> _surveyListStream = StreamController();
   final StreamController<int> _focusedItemIndexStream = StreamController();
+  List<Survey> _surveyList = [];
+  int _focusedItemIndex = 0;
+  int _page = 1;
+  bool _isEnded = false;
 
   final GetProfileUseCase _getProfileUseCase;
   final GetSurveyListUseCase _getSurveyListUseCase;
@@ -41,15 +45,43 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
   }
 
-  Future<void> fetchSurveyList() async {
+  Future<void> fetchSurveyList({bool isRefresh = false}) async {
+    if (isRefresh) {
+      _page = 1;
+      _isEnded = false;
+    }
+    if (_isEnded) {
+      return;
+    }
     final result = await _getSurveyListUseCase.call(SurveyListParams(
-      pageNumber: 1,
+      pageNumber: _page,
       pageSize: 5,
     ));
     if (result is Success<SurveysResponse>) {
-      _surveyListStream.add(result.value.data.map((e) => e.toSurvey()).toList());
+      _page++;
+      _isEnded = _page > result.value.meta.pages;
+      final newSurveyList = result.value.data.map((e) => e.toSurvey()).toList();
+      _handleSuccess(
+        newSurveyList: newSurveyList,
+        isRefresh: isRefresh,
+      );
     } else {
       _handleError(result as Failed);
+    }
+  }
+
+  void _handleSuccess({
+    required List<Survey> newSurveyList,
+    required bool isRefresh,
+  }) {
+    if (isRefresh) {
+      _focusedItemIndexStream.add(0);
+      _surveyList = newSurveyList;
+      _surveyListStream.add(_surveyList);
+    } else {
+      _focusedItemIndexStream.add(_focusedItemIndex);
+      _surveyList.addAll(newSurveyList);
+      _surveyListStream.add(_surveyList);
     }
   }
 
@@ -58,6 +90,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   void changeFocusedItem({required int index}) {
+    _focusedItemIndex = index;
     _focusedItemIndexStream.add(index);
   }
 }

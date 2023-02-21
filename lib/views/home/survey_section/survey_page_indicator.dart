@@ -18,7 +18,7 @@ class SurveyPageIndicator extends StatelessWidget {
       child: SmoothPageIndicator(
         controller: controller,
         count: count,
-        effect: const ColorTransitionEffect(
+        effect: const ScrollingDotsEffect(
           dotWidth: 8,
           dotHeight: 8,
           radius: 8,

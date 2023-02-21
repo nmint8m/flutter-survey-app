@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 
@@ -35,7 +34,6 @@ class HomeHeader extends StatelessWidget {
         onTap: () {
           // TODO: - Show the side bar to log out
           // cannot pop as root is Home screen
-          context.pop();
         },
         child: Container(
           width: 50,
@@ -50,7 +48,8 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      height: 120,
       padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
