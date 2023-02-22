@@ -17,7 +17,7 @@ abstract class ApiService {
   Future<MeResponse> getMyProfile();
 
   @GET('/api/v1/surveys?page[number]={pageNumber}&page[size]={pageSize}')
-  Future<SurveyListResponse> surveyList(
+  Future<SurveyListResponse> getSurveyList(
     @Path('pageNumber') int pageNumber,
     @Path('pageSize') int pageSize,
   );

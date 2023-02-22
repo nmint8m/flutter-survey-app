@@ -4,7 +4,7 @@ import 'package:kayla_flutter_ic/model/profile.dart';
 import 'package:kayla_flutter_ic/model/survey.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/survey_list_params.dart';
-import 'package:kayla_flutter_ic/usecases/survey/survey_list_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_survey_list_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view.dart';
@@ -19,16 +19,16 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final StreamController<String> _profileImageUrlStream = StreamController();
   final StreamController<List<String>> _surveyListStream = StreamController();
 
-  final ProfileUseCase _profileUseCase;
-  final SurveyListUseCase _surveyListUseCase;
+  final GetProfileUseCase _getProfileUseCase;
+  final GetSurveyListUseCase _getSurveyListUseCase;
 
   HomeViewModel(
-    this._profileUseCase,
-    this._surveyListUseCase,
+    this._getProfileUseCase,
+    this._getSurveyListUseCase,
   ) : super(const HomeState.init());
 
   Future<void> fetchProfile() async {
-    final result = await _profileUseCase.call();
+    final result = await _getProfileUseCase.call();
     if (result is Success<Profile>) {
       _profileImageUrlStream.add(result.value.avatarUrl);
     } else {
@@ -37,9 +37,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   Future<void> fetchSurveyList() async {
-    final result = await _surveyListUseCase.call(SurveyListParams(
+    final result = await _getSurveyListUseCase.call(SurveyListParams(
       pageNumber: 1,
-      pageSize: 10,
+      pageSize: 5,
     ));
     if (result is Success<List<Survey>>) {
       // TODO: - Stream the survey list instead

@@ -6,17 +6,17 @@ import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/survey_list_params.dart';
 
 @Injectable()
-class SurveyListUseCase extends UseCase<List<Survey>, SurveyListParams> {
+class GetSurveyListUseCase extends UseCase<List<Survey>, SurveyListParams> {
   final SurveyRepository _repository;
 
-  const SurveyListUseCase(
+  const GetSurveyListUseCase(
     this._repository,
   );
 
   @override
   Future<Result<List<Survey>>> call(SurveyListParams params) async {
     try {
-      final result = await _repository.surveyList(
+      final result = await _repository.getSurveyList(
         params.pageNumber,
         params.pageSize,
       );

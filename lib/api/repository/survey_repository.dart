@@ -4,7 +4,7 @@ import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
 import 'package:kayla_flutter_ic/model/survey.dart';
 
 abstract class SurveyRepository {
-  Future<List<Survey>> surveyList(
+  Future<List<Survey>> getSurveyList(
     int pageNumber,
     int pageSize,
   );
@@ -17,12 +17,12 @@ class SurveyRepositoryImpl extends SurveyRepository {
   SurveyRepositoryImpl(this._apiService);
 
   @override
-  Future<List<Survey>> surveyList(
+  Future<List<Survey>> getSurveyList(
     int pageNumber,
     int pageSize,
   ) async {
     try {
-      final result = await _apiService.surveyList(
+      final result = await _apiService.getSurveyList(
         pageNumber,
         pageSize,
       );

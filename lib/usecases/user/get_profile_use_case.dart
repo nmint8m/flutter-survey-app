@@ -5,10 +5,10 @@ import 'package:kayla_flutter_ic/model/profile.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 
 @Injectable()
-class ProfileUseCase extends NoParamsUseCase<Profile> {
+class GetProfileUseCase extends NoParamsUseCase<Profile> {
   final UserRepository _repository;
 
-  const ProfileUseCase(
+  const GetProfileUseCase(
     this._repository,
   );
 

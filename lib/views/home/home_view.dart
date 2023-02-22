@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
-import 'package:kayla_flutter_ic/usecases/survey/survey_list_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_survey_list_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
@@ -13,8 +13,8 @@ import 'package:kayla_flutter_ic/views/home/skeleton_loading/home_skeleton_loadi
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (_) => HomeViewModel(
-    getIt.get<ProfileUseCase>(),
-    getIt.get<SurveyListUseCase>(),
+    getIt.get<GetProfileUseCase>(),
+    getIt.get<GetSurveyListUseCase>(),
   ),
 );
 
