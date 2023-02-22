@@ -13,5 +13,5 @@ abstract class ApiService {
   Future<List<UserResponse>> getUsers();
 
   @GET('/api/v1/me')
-  Future<MeResponse> getMe();
+  Future<MeResponse> getMyProfile();
 }

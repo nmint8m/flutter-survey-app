@@ -15,7 +15,7 @@ class ProfileUseCase extends NoParamsUseCase<Profile> {
   @override
   Future<Result<Profile>> call() async {
     try {
-      final result = await _repository.getMe();
+      final result = await _repository.getMyProfile();
       return Success(Profile(
         id: result.id,
         email: result.email,
