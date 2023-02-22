@@ -24,31 +24,24 @@ class TextPlaceholder extends StatelessWidget {
   }
 
   Widget _buildLines() {
-    List<Widget> widgets = [];
+    List<Widget> widgets = [
+      Container(
+        width: width,
+        height: 12.0,
+        color: Colors.white,
+      )
+    ];
     switch (type) {
       case TextPlaceholderType.oneLine:
-        widgets = [
-          Container(
-            width: width,
-            height: 12.0,
-            color: Colors.white,
-          )
-        ];
-        break;
       case TextPlaceholderType.twoLines:
-        widgets = [
-          Container(
-            width: width,
-            height: 12.0,
-            color: Colors.white,
-          ),
+        widgets.addAll([
           const SizedBox(height: 8.0),
           Container(
             width: width * 0.6,
             height: 12.0,
             color: Colors.white,
           ),
-        ];
+        ]);
         break;
     }
     return Column(

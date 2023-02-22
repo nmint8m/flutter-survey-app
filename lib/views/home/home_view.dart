@@ -39,8 +39,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   Widget get _body => Consumer(
         builder: (_, ref, __) {
           final surveyList = ref.watch(surveyListStream).value ?? [];
-          final profileUrl = ref.watch(profileImageUrlStream).value ?? '';
-          return surveyList.isNotEmpty && profileUrl.isNotEmpty
+          return surveyList.isNotEmpty
               ? SafeArea(child: _homeHeader)
               : const SafeArea(child: HomeSkeletonLoading());
         },
