@@ -6,10 +6,10 @@ import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/survey_list_params.dart';
 
 @Injectable()
-class GetSurveyListUseCase extends UseCase<SurveysResponse, SurveyListParams> {
+class SurveyListUseCase extends UseCase<SurveysResponse, SurveyListParams> {
   final SurveyRepository _repository;
 
-  const GetSurveyListUseCase(
+  const SurveyListUseCase(
     this._repository,
   );
 

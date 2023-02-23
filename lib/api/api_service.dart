@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:kayla_flutter_ic/api/response/me_response.dart';
-import 'package:kayla_flutter_ic/api/response/survey_list_response.dart';
+import 'package:kayla_flutter_ic/api/response/surveys_response.dart';
 import 'package:kayla_flutter_ic/model/response/user_response.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -17,7 +17,7 @@ abstract class ApiService {
   Future<MeResponse> getMyProfile();
 
   @GET('/api/v1/surveys?page[number]={pageNumber}&page[size]={pageSize}')
-  Future<SurveyListResponse> getSurveyList(
+  Future<SurveysResponse> getSurveys(
     @Path('pageNumber') int pageNumber,
     @Path('pageSize') int pageSize,
   );

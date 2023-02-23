@@ -1,10 +1,10 @@
 import 'package:injectable/injectable.dart';
 import 'package:kayla_flutter_ic/api/api_service.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
-import 'package:kayla_flutter_ic/model/survey.dart';
+import 'package:kayla_flutter_ic/api/response/surveys_response.dart';
 
 abstract class SurveyRepository {
-  Future<List<Survey>> getSurveyList(
+  Future<SurveysResponse> getSurveys(
     int pageNumber,
     int pageSize,
   );
@@ -17,17 +17,16 @@ class SurveyRepositoryImpl extends SurveyRepository {
   SurveyRepositoryImpl(this._apiService);
 
   @override
-  Future<List<Survey>> getSurveyList(
+  Future<SurveysResponse> getSurveys(
     int pageNumber,
     int pageSize,
   ) async {
     try {
-      final result = await _apiService.getSurveyList(
+      final result = await _apiService.getSurveys(
         pageNumber,
         pageSize,
       );
-      final surveys = result.data.map((e) => e.toSurvey()).toList();
-      return surveys;
+      return result;
     } catch (exception) {
       throw NetworkExceptions.fromDioException(exception);
     }
