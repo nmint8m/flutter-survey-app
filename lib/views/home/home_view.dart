@@ -61,13 +61,16 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
-  Widget _surveyList(List<Survey> surveys) => SurveyList(
-        refreshStyle: RefreshStyle.pullDownToRefresh,
-        surveys: surveys,
-        itemController: _surveyItemController,
-        onItemChange: _surveyIndex,
-        onRefresh: () => _fetchSurveys(isRefresh: true),
-        onLoadMore: () => _fetchSurveys(isRefresh: false),
+  Widget _surveyList(List<Survey> surveys) => Container(
+        margin: const EdgeInsets.only(top: 120),
+        child: SurveyList(
+          refreshStyle: RefreshStyle.pullDownToRefresh,
+          surveys: surveys,
+          itemController: _surveyItemController,
+          onItemChange: _surveyIndex,
+          onRefresh: () => _fetchSurveys(isRefresh: true),
+          onLoadMore: () => _fetchSurveys(isRefresh: false),
+        ),
       );
 
   Widget _pageIndicatorSection(int length) => Column(
@@ -177,6 +180,10 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _takeSurvey() {
-    context.push(RoutePath.surveyDetail.path);
+    Map<String, String> params = <String, String>{};
+    params[RoutePath.surveyDetail.pathParam] = _surveyIndex.value.toString();
+    final location =
+        context.namedLocation(RoutePath.surveyDetail.name, params: params);
+    context.push(location);
   }
 }
