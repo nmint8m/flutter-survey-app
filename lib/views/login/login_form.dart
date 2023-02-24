@@ -51,7 +51,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         ),
       ),
       onPressed: () {
-        context.push(RoutePath.forgetPassword.screen);
+        context.push(RoutePath.forgetPassword.path);
       },
     );
   }

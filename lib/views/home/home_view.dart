@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/model/survey.dart';
+import 'package:kayla_flutter_ic/usecases/oath/logout_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_surveys_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
@@ -17,8 +20,9 @@ import 'package:kayla_flutter_ic/views/home/survey_section/survey_page_indicator
 final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (_) => HomeViewModel(
-    getIt.get<GetProfileUseCase>(),
-    getIt.get<GetSurveysUseCase>(),
+    logoutUseCase: getIt.get<LogoutUseCase>(),
+    getProfileUseCase: getIt.get<GetProfileUseCase>(),
+    getSurveysUseCase: getIt.get<GetSurveysUseCase>(),
   ),
 );
 
@@ -100,7 +104,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
-  Widget get takeSurveyButton => FloatingActionButton(
+  Widget get _takeSurveyButton => FloatingActionButton(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         child: const Icon(Icons.navigate_next),
@@ -132,19 +136,16 @@ class HomeViewState extends ConsumerState<HomeView> {
   @override
   Widget build(BuildContext context) {
     _setupStateListener();
-    return WillPopScope(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            _background,
-            Container(color: Colors.black38),
-            _body,
-          ],
-        ),
-        floatingActionButton: takeSurveyButton,
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+    return Scaffold(
+      body: Stack(
+        children: [
+          _background,
+          Container(color: Colors.black38),
+          _body,
+        ],
       ),
-      onWillPop: () async => false,
+      floatingActionButton: _takeSurveyButton,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 
@@ -176,7 +177,6 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _takeSurvey() {
-    // ignore: avoid_print
-    print(_surveyIndex.value);
+    context.push(RoutePath.surveyDetail.path);
   }
 }
