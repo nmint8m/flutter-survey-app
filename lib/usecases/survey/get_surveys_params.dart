@@ -1,8 +1,8 @@
-class SurveyListParams {
+class SurveysParams {
   final int pageNumber;
   final int pageSize;
 
-  SurveyListParams({
+  SurveysParams({
     required this.pageNumber,
     required this.pageSize,
   });

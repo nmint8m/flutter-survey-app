@@ -10,7 +10,7 @@ enum RefreshStyle {
 // ignore: must_be_immutable
 class SurveyList extends StatelessWidget {
   final RefreshStyle refreshStyle;
-  final List<Survey> surveyList;
+  final List<Survey> surveys;
   final PageController itemController;
   final ValueNotifier<int> onItemChange;
   final Future<void> Function() onRefresh;
@@ -23,7 +23,7 @@ class SurveyList extends StatelessWidget {
   SurveyList({
     super.key,
     required this.refreshStyle,
-    required this.surveyList,
+    required this.surveys,
     required this.itemController,
     required this.onItemChange,
     required this.onRefresh,
@@ -48,7 +48,7 @@ class SurveyList extends StatelessWidget {
         _refreshIndicatorKey.currentState?.show();
       }
 
-      if (itemController.offset > screenWidth * (surveyList.length - 1) + 10 &&
+      if (itemController.offset > screenWidth * (surveys.length - 1) + 10 &&
           !_isLoading) {
         _isLoading = true;
         onLoadMore();
@@ -61,8 +61,8 @@ class SurveyList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         controller: itemController,
         onPageChanged: (index) => onItemChange.value = index,
-        itemCount: surveyList.length,
-        itemBuilder: (context, index) => SurveyCell(surveyList[index]),
+        itemCount: surveys.length,
+        itemBuilder: (context, index) => SurveyCell(surveys[index]),
       ),
     );
   }
@@ -70,7 +70,7 @@ class SurveyList extends StatelessWidget {
   Widget _buildPullDownToRefreshPageView(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     itemController.addListener(() {
-      if (itemController.offset > screenWidth * (surveyList.length - 1) + 10 &&
+      if (itemController.offset > screenWidth * (surveys.length - 1) + 10 &&
           !_isLoading) {
         _isLoading = true;
         onLoadMore();
@@ -90,8 +90,8 @@ class SurveyList extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               controller: itemController,
               onPageChanged: (index) => onItemChange.value = index,
-              itemCount: surveyList.length,
-              itemBuilder: (context, index) => SurveyCell(surveyList[index]),
+              itemCount: surveys.length,
+              itemBuilder: (context, index) => SurveyCell(surveys[index]),
             ),
           ),
         ),
