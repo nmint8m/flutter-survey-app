@@ -114,13 +114,22 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Consumer(builder: (_, ref, __) {
-          // TODO: - Network image stream
-          return Image(image: Assets.images.nimbleBackground.image().image);
+          final uiModel = ref.watch(surveyDetailUiModelStream).valueOrNull;
+          final imageUrl = uiModel?.imageUrl ?? '';
+          return imageUrl.isEmpty
+              ? Image(image: Assets.images.nimbleBackground.image().image)
+              : FadeInImage.assetNetwork(
+                  placeholder: Assets.images.nimbleBackground.path,
+                  image: imageUrl,
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                );
         }),
       );
 
   Widget get _mainBody => Consumer(
         builder: (_, ref, __) {
+          final uiModel = ref.watch(surveyDetailUiModelStream).valueOrNull;
           return Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20),
@@ -129,19 +138,15 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  // TODO: - Remove hard code
-                  "Bonchon Chicken",
+                  uiModel?.title ?? '',
                   style: Theme.of(context).textTheme.displayMedium,
-                  maxLines: 2,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 Text(
-                  // TODO: - Remove hard code
-                  "Do you wanna take a bite? Mlem.",
+                  uiModel?.description ?? '',
                   style: Theme.of(context).textTheme.bodyMedium,
-                  maxLines: 2,
                 ),
                 const Spacer(),
                 Row(
@@ -164,15 +169,16 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
 
   Widget get _body => Consumer(
         builder: (_, ref, __) {
-          // TODO: - Remove hard code for loading
-          return Stack(
-            children: [
-              _mainBody,
-              const SurveyDetailSkeletonLoading(),
-            ],
-          );
+          final isFetched = ref.watch(surveyDetailStream).value != null;
+          return isFetched ? _mainBody : const SurveyDetailSkeletonLoading();
         },
       );
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchSurvey();
+  }
 
   @override
   Widget build(BuildContext context) {
