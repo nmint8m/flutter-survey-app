@@ -38,7 +38,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         height: MediaQuery.of(context).size.height,
         child: Consumer(builder: (_, ref, __) {
           final index = ref.watch(focusedItemIndexStream).value ?? 0;
-          final surveys = ref.read(surveysStream).value ?? [];
+          final surveys = ref.watch(surveysStream).value ?? [];
           return surveys.isEmpty || index >= surveys.length
               ? Image(image: Assets.images.nimbleBackground.image().image)
               : FadeInImage.assetNetwork(
@@ -81,11 +81,13 @@ class HomeViewState extends ConsumerState<HomeView> {
   Widget get _mainBody => Consumer(
         builder: (_, ref, __) {
           final surveys = ref.watch(surveysStream).value ?? [];
-          final index = ref.read(focusedItemIndexStream).value ?? 0;
           if (_surveyItemController.positions.isNotEmpty) {
             Future.delayed(
               Durations.fiftyMillisecond,
-              () => _surveyItemController.jumpToPage(index),
+              () {
+                final index = ref.read(focusedItemIndexStream).value ?? 0;
+                _surveyItemController.jumpToPage(index);
+              },
             );
           }
           return Stack(
@@ -170,9 +172,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   Future<void> _fetchSurveys({required bool isRefresh}) async {
-    ref
-        .read(homeViewModelProvider.notifier)
-        .fetchSurveys(isRefresh: isRefresh);
+    ref.read(homeViewModelProvider.notifier).fetchSurveys(isRefresh: isRefresh);
   }
 
   void _takeSurvey() {
