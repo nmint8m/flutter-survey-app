@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
-import 'package:kayla_flutter_ic/usecases/survey/get_survey_list_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_surveys_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
@@ -14,7 +14,7 @@ final homeViewModelProvider =
     StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
   (_) => HomeViewModel(
     getIt.get<GetProfileUseCase>(),
-    getIt.get<GetSurveyListUseCase>(),
+    getIt.get<GetSurveysUseCase>(),
   ),
 );
 
@@ -42,8 +42,8 @@ class HomeViewState extends ConsumerState<HomeView> {
 
   Widget get _body => Consumer(
         builder: (_, ref, __) {
-          final surveyList = ref.watch(surveyListStream).value ?? [];
-          return surveyList.isNotEmpty
+          final surveys = ref.watch(surveysStream).value ?? [];
+          return surveys.isNotEmpty
               ? SafeArea(child: _homeHeader)
               : const SafeArea(child: HomeSkeletonLoading());
         },
@@ -94,6 +94,6 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _fetchSurvey() {
-    ref.read(homeViewModelProvider.notifier).fetchSurveyList();
+    ref.read(homeViewModelProvider.notifier).fetchSurveys();
   }
 }
