@@ -70,7 +70,7 @@ class SurveyList extends StatelessWidget {
   Widget _buildPullDownToRefreshPageView(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     itemController.addListener(() {
-      if (itemController.offset > screenWidth * (surveys.length - 1) + 10 &&
+      if (itemController.offset > screenWidth * (surveys.length - 3) + 10 &&
           !_isLoading) {
         _isLoading = true;
         onLoadMore();
