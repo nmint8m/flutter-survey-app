@@ -16,7 +16,6 @@ class SurveyDetailView extends ConsumerStatefulWidget {
 
 class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
     with TickerProviderStateMixin {
-
   AppBar get _appBar => AppBarExt.appBarWithBackButton;
 
   @override
