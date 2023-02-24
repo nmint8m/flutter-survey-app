@@ -13,8 +13,8 @@ import 'package:kayla_flutter_ic/views/home/home_view.dart';
 final profileImageUrlStream = StreamProvider.autoDispose<String>((ref) =>
     ref.watch(homeViewModelProvider.notifier)._profileImageUrlStream.stream);
 
-final surveysStream = StreamProvider.autoDispose<List<Survey>>((ref) =>
-    ref.watch(homeViewModelProvider.notifier)._surveysStream.stream);
+final surveysStream = StreamProvider.autoDispose<List<Survey>>(
+    (ref) => ref.watch(homeViewModelProvider.notifier)._surveysStream.stream);
 
 final focusedItemIndexStream = StreamProvider.autoDispose<int>((ref) =>
     ref.watch(homeViewModelProvider.notifier)._focusedItemIndexStream.stream);
