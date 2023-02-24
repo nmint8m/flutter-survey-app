@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:kayla_flutter_ic/views/home/skeleton_loading/skeleton_placeholder.dart';
+import 'package:kayla_flutter_ic/views/common/skeleton_loading/skeleton_placeholder.dart';
 
 class HomeSkeletonLoading extends StatelessWidget {
   const HomeSkeletonLoading({super.key});
