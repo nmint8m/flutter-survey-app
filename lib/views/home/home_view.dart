@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/model/survey.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_surveys_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
+import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
@@ -36,12 +38,12 @@ class HomeViewState extends ConsumerState<HomeView> {
         height: MediaQuery.of(context).size.height,
         child: Consumer(builder: (_, ref, __) {
           final index = ref.watch(focusedItemIndexStream).value ?? 0;
-          final surveyList = ref.watch(surveysStream).value ?? [];
-          return surveyList.isEmpty
+          final surveys = ref.watch(surveysStream).value ?? [];
+          return surveys.isEmpty || index >= surveys.length
               ? Image(image: Assets.images.nimbleBackground.image().image)
               : FadeInImage.assetNetwork(
                   placeholder: Assets.images.nimbleBackground.path,
-                  image: surveyList[index].coverImageUrl,
+                  image: surveys[index].coverImageUrl,
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                 );
@@ -55,37 +57,47 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
-  Widget get _surveySection => Consumer(builder: (_, ref, __) {
-        final surveyList = ref.watch(surveysStream).value ?? [];
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SurveyPageIndicator(
-              controller: _surveyItemController,
-              count: surveyList.length,
-            ),
-            SingleChildScrollView(
-              child: SizedBox(
-                height: 160,
-                child: SurveyList(
-                  surveyList: surveyList,
-                  itemController: _surveyItemController,
-                  onItemChange: _surveyIndex,
-                ),
-              ),
-            ),
-          ],
-        );
-      });
+  Widget _surveyList(List<Survey> surveys) => SurveyList(
+        refreshStyle: RefreshStyle.pullDownToRefresh,
+        surveys: surveys,
+        itemController: _surveyItemController,
+        onItemChange: _surveyIndex,
+        onRefresh: () => _fetchSurveys(isRefresh: true),
+        onLoadMore: () => _fetchSurveys(isRefresh: false),
+      );
 
-  Widget get _mainBody => Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+  Widget _pageIndicatorSection(int length) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _homeHeader,
-          _surveySection,
+          const Spacer(),
+          SurveyPageIndicator(
+            controller: _surveyItemController,
+            count: length,
+          ),
+          const SizedBox(height: 160),
         ],
+      );
+
+  Widget get _mainBody => Consumer(
+        builder: (_, ref, __) {
+          final surveys = ref.watch(surveysStream).value ?? [];
+          if (_surveyItemController.positions.isNotEmpty) {
+            Future.delayed(
+              Durations.fiftyMillisecond,
+              () {
+                final index = ref.read(focusedItemIndexStream).value ?? 0;
+                _surveyItemController.jumpToPage(index);
+              },
+            );
+          }
+          return Stack(
+            children: [
+              _homeHeader,
+              _pageIndicatorSection(surveys.length),
+              _surveyList(surveys),
+            ],
+          );
+        },
       );
 
   Widget get takeSurveyButton => FloatingActionButton(
@@ -108,7 +120,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   void initState() {
     super.initState();
     _fetchProfile();
-    _fetchSurvey();
+    _fetchSurveys(isRefresh: false);
   }
 
   @override
@@ -159,11 +171,12 @@ class HomeViewState extends ConsumerState<HomeView> {
     ref.read(homeViewModelProvider.notifier).fetchProfile();
   }
 
-  void _fetchSurvey() {
-    ref.read(homeViewModelProvider.notifier).fetchSurveys();
+  Future<void> _fetchSurveys({required bool isRefresh}) async {
+    ref.read(homeViewModelProvider.notifier).fetchSurveys(isRefresh: isRefresh);
   }
 
   void _takeSurvey() {
-    // TODO: - Take survey
+    // ignore: avoid_print
+    print(_surveyIndex.value);
   }
 }

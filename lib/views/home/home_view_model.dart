@@ -23,6 +23,10 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final StreamController<String> _profileImageUrlStream = StreamController();
   final StreamController<List<Survey>> _surveysStream = StreamController();
   final StreamController<int> _focusedItemIndexStream = StreamController();
+  List<Survey> _surveys = [];
+  int _focusedItemIndex = 0;
+  int _page = 1;
+  bool _isEnded = false;
 
   final GetProfileUseCase _getProfileUseCase;
   final GetSurveysUseCase _getSurveysUseCase;
@@ -41,15 +45,43 @@ class HomeViewModel extends StateNotifier<HomeState> {
     }
   }
 
-  Future<void> fetchSurveys() async {
+  Future<void> fetchSurveys({bool isRefresh = false}) async {
+    if (isRefresh) {
+      _page = 1;
+      _isEnded = false;
+    }
+    if (_isEnded) {
+      return;
+    }
     final result = await _getSurveysUseCase.call(SurveysParams(
-      pageNumber: 1,
+      pageNumber: _page,
       pageSize: 5,
     ));
     if (result is Success<SurveysResponse>) {
-      _surveysStream.add(result.value.data.map((e) => e.toSurvey()).toList());
+      _page++;
+      _isEnded = _page > result.value.meta.pages;
+      final newSurveys = result.value.data.map((e) => e.toSurvey()).toList();
+      _handleSuccess(
+        newSurveys: newSurveys,
+        isRefresh: isRefresh,
+      );
     } else {
       _handleError(result as Failed);
+    }
+  }
+
+  void _handleSuccess({
+    required List<Survey> newSurveys,
+    required bool isRefresh,
+  }) {
+    if (isRefresh) {
+      _focusedItemIndexStream.add(0);
+      _surveys = newSurveys;
+      _surveysStream.add(_surveys);
+    } else {
+      _focusedItemIndexStream.add(_focusedItemIndex);
+      _surveys.addAll(newSurveys);
+      _surveysStream.add(_surveys);
     }
   }
 
@@ -58,6 +90,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   }
 
   void changeFocusedItem({required int index}) {
+    _focusedItemIndex = index;
     _focusedItemIndexStream.add(index);
   }
 }
