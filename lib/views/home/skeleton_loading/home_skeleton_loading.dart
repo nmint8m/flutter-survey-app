@@ -46,22 +46,25 @@ class HomeSkeletonLoading extends StatelessWidget {
         ),
       );
 
-  Widget _buildBottomSkeleton(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const TextPlaceholder(
-            type: TextPlaceholderType.oneLine,
-            width: 40,
-          ),
-          const SizedBox(height: 16.0),
-          TextPlaceholder(
-              type: TextPlaceholderType.twoLines,
-              width: MediaQuery.of(context).size.width - 150),
-          const SizedBox(height: 16.0),
-          TextPlaceholder(
-              type: TextPlaceholderType.twoLines,
-              width: MediaQuery.of(context).size.width - 40),
-        ],
+  Widget _buildBottomSkeleton(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 40),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const TextPlaceholder(
+              type: TextPlaceholderType.oneLine,
+              width: 40,
+            ),
+            const SizedBox(height: 16.0),
+            TextPlaceholder(
+                type: TextPlaceholderType.twoLines,
+                width: MediaQuery.of(context).size.width - 150),
+            const SizedBox(height: 16.0),
+            TextPlaceholder(
+                type: TextPlaceholderType.twoLines,
+                width: MediaQuery.of(context).size.width - 40),
+          ],
+        ),
       );
 }
