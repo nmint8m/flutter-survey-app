@@ -8,5 +8,8 @@ enum DisplayType {
   textarea,
   textfield,
   outro,
-  unknown,
+  dropdown,
+  slider,
+  
+  unknown;
 }
