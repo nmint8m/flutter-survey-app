@@ -182,8 +182,6 @@ class HomeViewState extends ConsumerState<HomeView> {
   void _takeSurvey() {
     Map<String, String> params = <String, String>{};
     params[RoutePath.surveyDetail.pathParam] = _surveyIndex.value.toString();
-    final location =
-        context.namedLocation(RoutePath.surveyDetail.name, params: params);
-    context.push(location);
+    context.pushNamed(RoutePath.surveyDetail.name, params: params);
   }
 }

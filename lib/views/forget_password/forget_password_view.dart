@@ -29,7 +29,7 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
     with TickerProviderStateMixin {
   AppBar get _appBar => AppBarExt.appBarWithBackButton(
         context: context,
-        onPressed: () => context.go(RoutePath.login.screen),
+        onPressed: () => context.goNamed(RoutePath.login.name),
       );
 
   Widget get _background => SizedBox(
