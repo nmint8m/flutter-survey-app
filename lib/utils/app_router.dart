@@ -27,17 +27,17 @@ class AppRouter {
                       state.params[RoutePath.surveyDetail.pathParam] ?? '',
                 ),
               ),
-              GoRoute(
-                path: RoutePath.forgetPassword.screen,
-                name: RoutePath.forgetPassword.name,
-                builder: (context, state) => const ForgetPasswordView(),
-              ),
             ],
           ),
           GoRoute(
             path: RoutePath.login.screen,
             name: RoutePath.login.name,
             builder: (context, state) => const LoginView(),
+          ),
+          GoRoute(
+            path: RoutePath.forgetPassword.screen,
+            name: RoutePath.forgetPassword.name,
+            builder: (context, state) => const ForgetPasswordView(),
           ),
         ],
         redirect: (context, state) async {

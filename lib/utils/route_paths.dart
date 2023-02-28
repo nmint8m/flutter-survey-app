@@ -11,6 +11,7 @@ enum RoutePath {
     switch (this) {
       case RoutePath.home:
       case RoutePath.login:
+      case RoutePath.forgetPassword:
         return path;
       default:
         return path.replaceRange(0, 1, '');
