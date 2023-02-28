@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/oath/forget_password_use_case.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/common/linear_gradient_blur_background/linear_gradient_blur_background.dart';
+import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/views/common/top_snack_bar/top_snack_bar.dart';
 import 'package:kayla_flutter_ic/views/forget_password/forget_password_form.dart';
@@ -24,10 +27,9 @@ class ForgetPasswordView extends ConsumerStatefulWidget {
 
 class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
     with TickerProviderStateMixin {
-  AppBar get _appBar => AppBar(
-        leading: const BackButton(),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
+  AppBar get _appBar => AppBarExt.appBarWithBackButton(
+        context: context,
+        onPressed: () => context.goNamed(RoutePath.login.name),
       );
 
   Widget get _background => SizedBox(

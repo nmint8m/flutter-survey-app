@@ -4,6 +4,7 @@ import 'package:kayla_flutter_ic/api/response/surveys_response.dart';
 import 'package:kayla_flutter_ic/model/profile.dart';
 import 'package:kayla_flutter_ic/model/survey.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/oath/logout_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_surveys_params.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_surveys_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
@@ -28,16 +29,18 @@ class HomeViewModel extends StateNotifier<HomeState> {
   int _page = 1;
   bool _isEnded = false;
 
-  final GetProfileUseCase _getProfileUseCase;
-  final GetSurveysUseCase _getSurveysUseCase;
+  final LogoutUseCase logoutUseCase;
+  final GetProfileUseCase getProfileUseCase;
+  final GetSurveysUseCase getSurveysUseCase;
 
-  HomeViewModel(
-    this._getProfileUseCase,
-    this._getSurveysUseCase,
-  ) : super(const HomeState.init());
+  HomeViewModel({
+    required this.logoutUseCase,
+    required this.getProfileUseCase,
+    required this.getSurveysUseCase,
+  }) : super(const HomeState.init());
 
   Future<void> fetchProfile() async {
-    final result = await _getProfileUseCase.call();
+    final result = await getProfileUseCase.call();
     if (result is Success<Profile>) {
       _profileImageUrlStream.add(result.value.avatarUrl);
     } else {
@@ -53,7 +56,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
     if (_isEnded) {
       return;
     }
-    final result = await _getSurveysUseCase.call(SurveysParams(
+    final result = await getSurveysUseCase.call(SurveysParams(
       pageNumber: _page,
       pageSize: 5,
     ));
@@ -92,5 +95,9 @@ class HomeViewModel extends StateNotifier<HomeState> {
   void changeFocusedItem({required int index}) {
     _focusedItemIndex = index;
     _focusedItemIndexStream.add(index);
+  }
+
+  Future<void> logOut() async {
+    await logoutUseCase.call();
   }
 }
