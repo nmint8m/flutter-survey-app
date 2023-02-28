@@ -39,7 +39,7 @@ class HomeHeader extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               ref.read(homeViewModelProvider.notifier).logOut();
-              context.go(RoutePath.login.path);
+              context.goNamed(RoutePath.login.name);
             },
             child: Container(
               width: 50,
