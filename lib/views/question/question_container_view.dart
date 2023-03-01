@@ -3,15 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_view.dart';
 
 final questionViewModelProvider = StateNotifierProvider.autoDispose<
     QuestionContainerViewModel, QuestionContainerState>(
-  (ref) {
-    return QuestionContainerViewModel();
-  },
+  (_) => QuestionContainerViewModel(),
 );
 
 class QuestionContainerView extends ConsumerStatefulWidget {
@@ -47,7 +46,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
           orElse: () => Container(),
           success: (uiModel) => QuestionView(
             uiModel: uiModel,
-            child: Container(),
+            child: const SingleChoiceView(),
             onNextQuestion: () => _nextQuestion(),
             onSubmit: () => _submit(),
           ),

@@ -47,7 +47,7 @@ class QuestionView extends StatelessWidget {
               height: 16,
             ),
             _questionTitle(context),
-            SingleChildScrollView(child: child),
+            Expanded(child: child),
           ],
         ),
       );
