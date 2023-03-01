@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
@@ -28,14 +29,17 @@ class QuestionContainerView extends ConsumerStatefulWidget {
 }
 
 class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
+  Map<String, String> arguments(BuildContext context) =>
+      ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+
   @override
   void initState() {
     super.initState();
+    _setUpData();
   }
 
   @override
   Widget build(BuildContext context) {
-    _setUpData();
     return QuestionView(
       child: Container(),
       onNextQuestion: () => _nextQuestion(),
@@ -44,47 +48,32 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _setUpData() {
-    ref.read(questionViewModelProvider.notifier).bindData(
-          surveyId: _getSurveyId(),
-          questionNumber: _getQuestionNumber(),
-        );
+    Future.delayed(Durations.fiftyMillisecond, () {
+      ref
+          .read(questionViewModelProvider.notifier)
+          .setUpData(arguments(context));
+      ref.read(questionViewModelProvider.notifier).bindData();
+    });
   }
 
   void _nextQuestion() {
-    try {
-      Map<String, String> params = <String, String>{};
-      params[RoutePath.surveyDetail.pathParam] = _getSurveyId();
-
-      final nextQuestionNumber = _getQuestionNumber() + 1;
-      Map<String, String> queryParams = <String, String>{};
-      queryParams[RoutePath.question.queryParams.first] =
-          nextQuestionNumber.toString();
-
-      final location = context.namedLocation(
-        RoutePath.question.name,
-        params: params,
-        queryParams: queryParams,
-      );
-      context.go(location);
-      // TODO: - Remmove print
-      // ignore: avoid_print
-      print('GoRouter location: $location');
-    } catch (error) {
-      // ignore: avoid_print
-      print(error);
-    }
+    context.pushNamed(
+      RoutePath.question.name,
+      params: _getPathParams(),
+      queryParams: _getNextQuestionQueryParams(),
+    );
   }
 
-  String _getSurveyId() {
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    return arguments[RoutePath.question.pathParam] ?? '';
+  Map<String, String> _getPathParams() {
+    return ref
+        .read(questionViewModelProvider.notifier)
+        .getPathParams(arguments(context));
   }
 
-  int _getQuestionNumber() {
-    final arguments =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    return int.parse(arguments[RoutePath.question.queryParams.first] ?? '0');
+  Map<String, String> _getNextQuestionQueryParams() {
+    return ref
+        .read(questionViewModelProvider.notifier)
+        .getNextQuestionQueryParams(arguments(context));
   }
 
   void _submit() {

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/question/question_container_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 
 class QuestionView extends ConsumerStatefulWidget {
@@ -21,7 +24,12 @@ class QuestionView extends ConsumerStatefulWidget {
 }
 
 class QuestionViewState extends ConsumerState<QuestionView> {
-  AppBar get _appBar => AppBarExt.appBarWithCloseButton(context: context);
+  AppBar get _appBar => AppBarExt.appBarWithCloseButton(
+        context: context,
+        onPressed: () => context.goNamed(
+          RoutePath.home.name,
+        ),
+      );
 
   Widget get _background => SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -48,28 +56,37 @@ class QuestionViewState extends ConsumerState<QuestionView> {
       );
 
   Widget get _questionNumber => Consumer(builder: (_, ref, __) {
-        final uiModel = ref.watch(questionContainerUiModelStream).value;
-        return Text(
-          // TODO: - Remove hard code
-          '${uiModel?.currentQuestionIndex ?? 1}/${uiModel?.totalQuestions ?? 1}',
-          style: Theme.of(context).textTheme.bodyMedium,
+        final state = ref.watch(questionViewModelProvider);
+        return state.maybeWhen(
+          orElse: () => const Text(''),
+          success: (uiModel) => Text(
+            '${uiModel.currentQuestionIndex}/${uiModel.totalQuestions}',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
         );
       });
 
   Widget get _questionTitle => Consumer(builder: (_, ref, __) {
-        final uiModel = ref.watch(questionContainerUiModelStream).value;
-        return Text(
-          // TODO: - Remove hard code
-          uiModel?.title ?? '',
-          style: Theme.of(context).textTheme.displayMedium,
+        final state = ref.watch(questionViewModelProvider);
+        return state.maybeWhen(
+          orElse: () => const Text(''),
+          success: (uiModel) => Text(
+            uiModel.title,
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
         );
       });
 
   Widget get _floatingActionButton => Consumer(builder: (_, ref, __) {
-        final uiModel = ref.watch(questionContainerUiModelStream).value;
-        final isLastQuestion = uiModel != null &&
-            uiModel.currentQuestionIndex == uiModel.totalQuestions;
-        return isLastQuestion ? _submitButton : _nextButton;
+        final state = ref.watch(questionViewModelProvider);
+        return state.maybeWhen(
+          orElse: () => _submitButton,
+          success: (uiModel) {
+            final isLastQuestion = uiModel.totalQuestions > 0 &&
+                uiModel.currentQuestionIndex == uiModel.totalQuestions;
+            return isLastQuestion ? _submitButton : _nextButton;
+          },
+        );
       });
 
   Widget get _nextButton => FloatingActionButton(
