@@ -10,6 +10,5 @@ enum DisplayType {
   outro,
   dropdown,
   slider,
-  
   unknown;
 }
