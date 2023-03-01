@@ -14,8 +14,7 @@ final selectedIndexStream = StreamProvider.autoDispose<int>((ref) {
 class SingleChoiceViewModel extends StateNotifier<SingleChoiceState> {
   final StreamController<int> _selectedIndexStream = StreamController();
 
-  // TODO: - Change to init state
-  SingleChoiceViewModel() : super(const SingleChoiceState.select(4));
+  SingleChoiceViewModel() : super(const SingleChoiceState.init());
 
   void selectOption({required int index}) {
     _selectedIndexStream.add(index);

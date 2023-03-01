@@ -5,6 +5,4 @@ part 'single_choice_state.freezed.dart';
 @freezed
 class SingleChoiceState with _$SingleChoiceState {
   const factory SingleChoiceState.init() = _Init;
-
-  const factory SingleChoiceState.select(int index) = _Select;
 }
