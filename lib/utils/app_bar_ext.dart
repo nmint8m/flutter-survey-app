@@ -18,4 +18,25 @@ extension AppBarExt on AppBar {
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
       );
+
+  static AppBar appBarWithCloseButton({
+    required BuildContext context,
+    void Function()? onPressed = null,
+  }) =>
+      AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          CloseButton(
+            onPressed: () {
+              if (onPressed != null) {
+                onPressed();
+              } else if (context.canPop()) {
+                context.pop();
+              }
+            },
+          )
+        ],
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+      );
 }
