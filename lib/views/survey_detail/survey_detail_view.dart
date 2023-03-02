@@ -6,6 +6,7 @@ import 'package:kayla_flutter_ic/usecases/survey/get_survey_detail_use_case.dart
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/skeleton_loading/survey_detail_skeleton_loading.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_state.dart';
+import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_ui_model.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_view_model.dart';
 
 final surveyDetailViewModelProvider =
@@ -32,23 +33,27 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
   Widget get _background => SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Consumer(builder: (_, ref, __) {
-          final uiModel = ref.watch(surveyDetailUiModelStream).valueOrNull;
-          final imageUrl = uiModel?.imageUrl ?? '';
-          return imageUrl.isEmpty
-              ? Image(image: Assets.images.nimbleBackground.image().image)
-              : FadeInImage.assetNetwork(
-                  placeholder: Assets.images.nimbleBackground.path,
-                  image: imageUrl,
-                  fit: BoxFit.cover,
-                  alignment: Alignment.center,
-                );
-        }),
+        child: Consumer(
+          builder: (_, ref, __) {
+            final state = ref.watch(surveyDetailViewModelProvider);
+            return state.maybeWhen(
+              orElse: () => _defaultBackground,
+              success: (uiModel) => FadeInImage.assetNetwork(
+                placeholder: Assets.images.nimbleBackground.path,
+                image: uiModel.imageUrl,
+                fit: BoxFit.cover,
+                alignment: Alignment.center,
+              ),
+            );
+          },
+        ),
       );
 
-  Widget get _mainBody => Consumer(
+  Widget get _defaultBackground =>
+      Image(image: Assets.images.nimbleBackground.image().image);
+
+  Widget _mainBody(SurveyDetailUiModel uiModel) => Consumer(
         builder: (_, ref, __) {
-          final uiModel = ref.watch(surveyDetailUiModelStream).valueOrNull;
           return Container(
             width: MediaQuery.of(context).size.width,
             padding: const EdgeInsets.all(20),
@@ -57,14 +62,14 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  uiModel?.title ?? '',
+                  uiModel.title,
                   style: Theme.of(context).textTheme.displayMedium,
                 ),
                 const SizedBox(
                   height: 16,
                 ),
                 Text(
-                  uiModel?.description ?? '',
+                  uiModel.description,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const Spacer(),
@@ -86,10 +91,16 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
         },
       );
 
+  Widget get _emptyBody => Container();
+
   Widget get _body => Consumer(
         builder: (_, ref, __) {
-          final isFetched = ref.watch(surveyDetailStream).value != null;
-          return isFetched ? _mainBody : const SurveyDetailSkeletonLoading();
+          final state = ref.watch(surveyDetailViewModelProvider);
+          return state.maybeWhen(
+            orElse: () => _emptyBody,
+            loading: () => const SurveyDetailSkeletonLoading(),
+            success: (uiModel) => _mainBody(uiModel),
+          );
         },
       );
 
