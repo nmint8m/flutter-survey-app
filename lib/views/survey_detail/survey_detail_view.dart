@@ -137,7 +137,7 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
     Map<String, String> params = <String, String>{};
     params[RoutePath.surveyDetail.pathParam] = widget.surveyId;
     Map<String, String> queryParams = <String, String>{};
-    queryParams[RoutePath.question.queryParams.first] = 0.toString();
+    queryParams[RoutePath.question.queryParams.first] = '0';
     context.goNamed(
       RoutePath.question.name,
       params: params,

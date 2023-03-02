@@ -57,7 +57,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _setUpData() {
-    Future.delayed(Durations.fiftyMillisecond, () {
+    Future.delayed(Durations.zeroSecond, () {
       ref
           .read(questionViewModelProvider.notifier)
           .setUpData(arguments(context));

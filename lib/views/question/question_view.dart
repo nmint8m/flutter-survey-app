@@ -56,7 +56,7 @@ class QuestionView extends StatelessWidget {
       Consumer(builder: (_, ref, __) {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
-          orElse: () => const Text(''),
+          orElse: () => const SizedBox.shrink(),
           success: (uiModel) => Text(
             '${uiModel.currentQuestionIndex}/${uiModel.totalQuestions}',
             style: Theme.of(context).textTheme.bodyMedium,
@@ -78,13 +78,13 @@ class QuestionView extends StatelessWidget {
   Widget get _nextButton => FloatingActionButton(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+        onPressed: onNextQuestion,
         child: const Icon(Icons.navigate_next),
-        onPressed: () => _nextQuestion(),
       );
 
   Widget get _submitButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
-        onPressed: () => _submit(),
+        onPressed: onSubmit,
         child: const Text('Submit'),
       );
 
@@ -103,13 +103,5 @@ class QuestionView extends StatelessWidget {
         )
       ],
     );
-  }
-
-  void _nextQuestion() {
-    onNextQuestion();
-  }
-
-  void _submit() {
-    onSubmit();
   }
 }
