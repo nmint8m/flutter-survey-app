@@ -40,10 +40,19 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
 
   @override
   Widget build(BuildContext context) {
-    return QuestionView(
-      child: Container(),
-      onNextQuestion: () => _nextQuestion(),
-      onSubmit: () => _submit(),
+    return Consumer(
+      builder: (_, ref, __) {
+        final state = ref.watch(questionViewModelProvider);
+        return state.maybeWhen(
+          orElse: () => Container(),
+          success: (uiModel) => QuestionView(
+            uiModel: uiModel,
+            child: Container(),
+            onNextQuestion: () => _nextQuestion(),
+            onSubmit: () => _submit(),
+          ),
+        );
+      },
     );
   }
 

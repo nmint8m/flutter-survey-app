@@ -4,58 +4,56 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/question/question_container_ui_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view.dart';
-import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 
-class QuestionView extends ConsumerStatefulWidget {
+class QuestionView extends StatelessWidget {
+  final QuestionContainerUiModel uiModel;
   final Widget child;
   final Function() onNextQuestion;
   final Function() onSubmit;
 
   const QuestionView({
     super.key,
+    required this.uiModel,
     required this.child,
     required this.onNextQuestion,
     required this.onSubmit,
   });
 
-  @override
-  QuestionViewState createState() => QuestionViewState();
-}
-
-class QuestionViewState extends ConsumerState<QuestionView> {
-  AppBar get _appBar => AppBarExt.appBarWithCloseButton(
+  AppBar _appBar(BuildContext context) => AppBarExt.appBarWithCloseButton(
         context: context,
         onPressed: () => context.goNamed(
           RoutePath.home.name,
         ),
       );
 
-  Widget get _background => SizedBox(
+  Widget _background(BuildContext context) => SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         // TODO: - Bind question's photo
         child: Image(image: Assets.images.nimbleBackground.image().image),
       );
 
-  Widget get _mainBody => Container(
+  Widget _mainBody(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _questionNumber,
+            _questionNumber(context),
             const SizedBox(
               height: 16,
             ),
-            _questionTitle,
-            SingleChildScrollView(child: widget.child),
+            _questionTitle(context),
+            SingleChildScrollView(child: child),
           ],
         ),
       );
 
-  Widget get _questionNumber => Consumer(builder: (_, ref, __) {
+  Widget _questionNumber(BuildContext context) =>
+      Consumer(builder: (_, ref, __) {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
           orElse: () => const Text(''),
@@ -66,28 +64,16 @@ class QuestionViewState extends ConsumerState<QuestionView> {
         );
       });
 
-  Widget get _questionTitle => Consumer(builder: (_, ref, __) {
-        final state = ref.watch(questionViewModelProvider);
-        return state.maybeWhen(
-          orElse: () => const Text(''),
-          success: (uiModel) => Text(
-            uiModel.title,
-            style: Theme.of(context).textTheme.displayMedium,
-          ),
-        );
-      });
+  Widget _questionTitle(BuildContext context) => Text(
+        uiModel.title,
+        style: Theme.of(context).textTheme.displayMedium,
+      );
 
-  Widget get _floatingActionButton => Consumer(builder: (_, ref, __) {
-        final state = ref.watch(questionViewModelProvider);
-        return state.maybeWhen(
-          orElse: () => _submitButton,
-          success: (uiModel) {
-            final isLastQuestion = uiModel.totalQuestions > 0 &&
-                uiModel.currentQuestionIndex == uiModel.totalQuestions;
-            return isLastQuestion ? _submitButton : _nextButton;
-          },
-        );
-      });
+  Widget get _floatingActionButton {
+    final isLastQuestion = uiModel.totalQuestions > 0 &&
+        uiModel.currentQuestionIndex == uiModel.totalQuestions;
+    return isLastQuestion ? _submitButton : _nextButton;
+  }
 
   Widget get _nextButton => FloatingActionButton(
         foregroundColor: Colors.black,
@@ -106,12 +92,12 @@ class QuestionViewState extends ConsumerState<QuestionView> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        _background,
+        _background(context),
         Container(color: Colors.black38),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: _appBar,
-          body: SafeArea(child: _mainBody),
+          appBar: _appBar(context),
+          body: SafeArea(child: _mainBody(context)),
           floatingActionButton: _floatingActionButton,
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         )
@@ -120,10 +106,10 @@ class QuestionViewState extends ConsumerState<QuestionView> {
   }
 
   void _nextQuestion() {
-    widget.onNextQuestion();
+    onNextQuestion();
   }
 
   void _submit() {
-    widget.onSubmit();
+    onSubmit();
   }
 }
