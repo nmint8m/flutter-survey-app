@@ -1,4 +1,4 @@
-import 'package:kayla_flutter_ic/api/response/display_type.dart';
+import 'package:kayla_flutter_ic/model/enum/display_type.dart';
 import 'package:kayla_flutter_ic/model/question.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_ui_model.dart';
 

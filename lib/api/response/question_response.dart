@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:kayla_flutter_ic/api/response/answer_response.dart';
 import 'package:kayla_flutter_ic/api/response/base_response_converter.dart';
-import 'package:kayla_flutter_ic/api/response/display_type.dart';
+import 'package:kayla_flutter_ic/model/enum/display_type.dart';
 import 'package:kayla_flutter_ic/model/question.dart';
 
 part 'question_response.g.dart';

@@ -1,4 +1,4 @@
-import 'package:kayla_flutter_ic/api/response/display_type.dart';
+import 'package:kayla_flutter_ic/model/enum/display_type.dart';
 import 'package:kayla_flutter_ic/model/answer.dart';
 
 class Question {
