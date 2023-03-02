@@ -7,5 +7,6 @@ part 'question_container_state.freezed.dart';
 class QuestionContainerState with _$QuestionContainerState {
   const factory QuestionContainerState.init() = _Init;
 
-  const factory QuestionContainerState.success(QuestionContainerUiModel uiModel) = _Success;
+  const factory QuestionContainerState.success(
+      QuestionContainerUiModel uiModel) = _Success;
 }
