@@ -3,6 +3,8 @@ import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_ui_model.dart';
 
+final _answers = <String, String>{};
+
 class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   String get surveyId => _surveyId ?? '';
   int get questionNumber => _questionNumber ?? 0;
@@ -25,6 +27,12 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
       title: surveyId,
     );
     state = QuestionContainerState.success(uiModel);
+  }
+
+  void submitCurrentAnswer(String answer) {
+    // TODO: - Integrate task
+    _answers['$questionNumber'] = answer;
+    print(_answers);
   }
 
   String _setUpSurveyId(Map<String, String> arguments) {

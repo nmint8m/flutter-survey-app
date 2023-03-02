@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_option_ui_model.dart';
+import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_state.dart';
 import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
@@ -76,6 +77,19 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _nextQuestion() {
+    // TODO: - Get current answer
+    final choiceState = ref.read(singleChoiceViewModelProvider);
+    choiceState.maybeWhen(
+      orElse: () {},
+      select: (uiModels, selectedIndex) {
+        if (selectedIndex != null) {
+          ref
+              .read(questionViewModelProvider.notifier)
+              .submitCurrentAnswer(uiModels[selectedIndex].title);
+        }
+      },
+    );
+
     context.pushNamed(
       RoutePath.question.name,
       params: _getPathParams(),
