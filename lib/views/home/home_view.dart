@@ -180,8 +180,13 @@ class HomeViewState extends ConsumerState<HomeView> {
   }
 
   void _takeSurvey() {
+    final index = _surveyIndex.value;
+    final surveys = ref.read(surveysStream).value ?? [];
+    if (index >= surveys.length) {
+      return;
+    }
     Map<String, String> params = <String, String>{};
-    params[RoutePath.surveyDetail.pathParam] = _surveyIndex.value.toString();
+    params[RoutePath.surveyDetail.pathParam] = surveys[index].id;
     context.pushNamed(RoutePath.surveyDetail.name, params: params);
   }
 }
