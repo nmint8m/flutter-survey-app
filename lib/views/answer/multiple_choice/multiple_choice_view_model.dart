@@ -1,20 +1,21 @@
-import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_option_ui_model.dart';
 import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_state.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view.dart';
-
-final selectedIndexesStream = StreamProvider.autoDispose<List<int>>((ref) {
-  return ref
-      .watch(multipleChoiceViewModelProvider.notifier)
-      ._selectedIndexesStream
-      .stream;
-});
 
 class MultipleChoiceViewModel extends StateNotifier<MultipleChoiceState> {
-  final StreamController<List<int>> _selectedIndexesStream = StreamController();
-  final List<int> _selectedIndexes = [];
+  List<MultipleChoiceOptionUIModel> _uiModels = [];
+  List<int> _selectedIndexes = [];
 
   MultipleChoiceViewModel() : super(const MultipleChoiceState.init());
+
+  void setUpData(List<MultipleChoiceOptionUIModel> uiModels) {
+    _uiModels = uiModels;
+    _selectedIndexes = [];
+    state = MultipleChoiceState.select(
+      uiModels: _uiModels,
+      selectedIndexes: _selectedIndexes,
+    );
+  }
 
   void selectOption({required int index}) {
     if (_selectedIndexes.contains(index)) {
@@ -22,6 +23,9 @@ class MultipleChoiceViewModel extends StateNotifier<MultipleChoiceState> {
     } else {
       _selectedIndexes.add(index);
     }
-    _selectedIndexesStream.add(_selectedIndexes);
+    state = MultipleChoiceState.select(
+      uiModels: _uiModels,
+      selectedIndexes: _selectedIndexes,
+    );
   }
 }
