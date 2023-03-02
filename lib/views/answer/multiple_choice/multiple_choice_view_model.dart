@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_state.dart';
 import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view.dart';
@@ -13,9 +12,8 @@ final selectedIndexesStream = StreamProvider.autoDispose<List<int>>((ref) {
 
 class MultipleChoiceViewModel extends StateNotifier<MultipleChoiceState> {
   final StreamController<List<int>> _selectedIndexesStream = StreamController();
-  List<int> _selectedIndexes = [];
+  final List<int> _selectedIndexes = [];
 
-  // TODO: - Change to init state
   MultipleChoiceViewModel() : super(const MultipleChoiceState.init());
 
   void selectOption({required int index}) {
