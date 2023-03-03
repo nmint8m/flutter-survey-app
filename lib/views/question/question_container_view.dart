@@ -66,7 +66,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _nextQuestion() {
-    context.pushNamed(
+    context.pushReplacementNamed(
       RoutePath.question.name,
       params: _getPathParams(),
       queryParams: _getNextQuestionQueryParams(),

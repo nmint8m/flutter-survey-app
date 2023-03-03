@@ -23,7 +23,7 @@ class QuestionView extends StatelessWidget {
 
   AppBar _appBar(BuildContext context) => AppBarExt.appBarWithCloseButton(
         context: context,
-        onPressed: () => context.goNamed(
+        onPressed: () => context.pushReplacementNamed(
           RoutePath.home.name,
         ),
       );
