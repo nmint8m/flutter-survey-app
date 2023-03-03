@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_state.dart';
 import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';

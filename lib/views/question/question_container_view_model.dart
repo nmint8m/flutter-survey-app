@@ -32,6 +32,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   void submitCurrentAnswer(String answer) {
     // TODO: - Integrate task
     _answers['$questionNumber'] = answer;
+    // ignore: avoid_print
     print(_answers);
   }
 
