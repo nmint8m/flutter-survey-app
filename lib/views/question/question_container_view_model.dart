@@ -38,7 +38,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   }
 
   Map<String, String> getPathParams(Map<String, String> arguments) {
-    Map<String, String> params = <String, String>{};
+    var params = <String, String>{};
     params[RoutePath.surveyDetail.pathParam] = surveyId;
     return params;
   }
@@ -46,7 +46,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   Map<String, String> getNextQuestionQueryParams(
       Map<String, String> arguments) {
     final nextQuestionNumber = questionNumber + 1;
-    Map<String, String> params = <String, String>{};
+    var params = <String, String>{};
     params[RoutePath.question.queryParams.first] =
         nextQuestionNumber.toString();
     return params;
