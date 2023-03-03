@@ -185,7 +185,7 @@ class HomeViewState extends ConsumerState<HomeView> {
     if (index >= surveys.length) {
       return;
     }
-    Map<String, String> params = <String, String>{};
+    var params = <String, String>{};
     params[RoutePath.surveyDetail.pathParam] = surveys[index].id;
     context.pushNamed(RoutePath.surveyDetail.name, params: params);
   }

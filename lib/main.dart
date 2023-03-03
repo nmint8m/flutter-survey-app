@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kayla_flutter_ic/api/storage/secure_storage.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/app_router.dart';
@@ -28,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    _router = AppRouter(getIt.get<SecureStorage>()).router;
+    _router = getIt.get<AppRouter>().router;
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,

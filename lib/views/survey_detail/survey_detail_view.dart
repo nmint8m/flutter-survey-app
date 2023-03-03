@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/skeleton_loading/survey_detail_skeleton_loading.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_state.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_ui_model.dart';
@@ -80,7 +82,7 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(140, 56)),
-                      onPressed: () {},
+                      onPressed: () => _startSurvey(),
                       child: const Text('Start survey'),
                     ),
                   ],
@@ -129,5 +131,17 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
     ref
         .read(surveyDetailViewModelProvider.notifier)
         .fetchSurvey(widget.surveyId);
+  }
+
+  void _startSurvey() {
+    var params = <String, String>{};
+    params[RoutePath.surveyDetail.pathParam] = widget.surveyId;
+    Map<String, String> queryParams = <String, String>{};
+    queryParams[RoutePath.question.queryParams.first] = '0';
+    context.goNamed(
+      RoutePath.question.name,
+      params: params,
+      queryParams: queryParams,
+    );
   }
 }
