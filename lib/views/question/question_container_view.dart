@@ -102,7 +102,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
     print('Submit survey!');
   }
 
-  void _storeAnswer(int index) {
+  void _storeAnswer(List<int> index) {
     // ignore: avoid_print
     print(index);
   }

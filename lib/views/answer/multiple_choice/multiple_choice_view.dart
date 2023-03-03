@@ -1,47 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_state.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view_model.dart';
 
-final multipleChoiceViewModelProvider = StateNotifierProvider.autoDispose<
-    MultipleChoiceViewModel, MultipleChoiceState>(
-  (_) => MultipleChoiceViewModel(),
-);
-
-class MultipleChoiceView extends ConsumerStatefulWidget {
+class MultipleChoiceView extends StatefulWidget {
   final List<MultipleChoiceOptionUIModel> uiModels;
+  final Function(List<int>) onSelect;
 
   const MultipleChoiceView({
     super.key,
     required this.uiModels,
+    required this.onSelect,
   });
 
   @override
-  MultipleChoiceViewState createState() => MultipleChoiceViewState();
+  State<MultipleChoiceView> createState() => _MultipleChoiceViewState();
 }
 
-class MultipleChoiceViewState extends ConsumerState<MultipleChoiceView> {
-  Widget get _listView => Consumer(
-        builder: (_, ref, __) {
-          final state = ref.watch(multipleChoiceViewModelProvider);
-          return state.maybeWhen(
-            orElse: () => Container(),
-            select: (uiModels, selectedIndexes) => ListView.separated(
-              itemCount: uiModels.length,
-              itemBuilder: (_, index) => _itemBuilder(
-                uiModels: uiModels,
-                index: index,
-                selectedIndexes: selectedIndexes,
-              ),
-              separatorBuilder: (_, index) => _separatorBuilder(
-                count: uiModels.length,
-                index: index,
-              ),
-            ),
-          );
-        },
+class _MultipleChoiceViewState extends State<MultipleChoiceView> {
+  List<int> selectedIndexes = [];
+
+  Widget get _listView => ListView.separated(
+        itemCount: widget.uiModels.length,
+        itemBuilder: (_, index) => _itemBuilder(
+          uiModels: widget.uiModels,
+          index: index,
+          selectedIndexes: selectedIndexes,
+        ),
+        separatorBuilder: (_, index) => _separatorBuilder(
+          count: widget.uiModels.length,
+          index: index,
+        ),
       );
 
   Widget _itemBuilder({
@@ -128,12 +115,6 @@ class MultipleChoiceViewState extends ConsumerState<MultipleChoiceView> {
       );
 
   @override
-  void initState() {
-    super.initState();
-    _setUpData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
@@ -143,17 +124,15 @@ class MultipleChoiceViewState extends ConsumerState<MultipleChoiceView> {
     );
   }
 
-  void _setUpData() {
-    Future.delayed(Durations.fiftyMillisecond, () {
-      ref
-          .read(multipleChoiceViewModelProvider.notifier)
-          .setUpData(widget.uiModels);
-    });
-  }
-
   void _onTap(int index) {
-    ref
-        .read(multipleChoiceViewModelProvider.notifier)
-        .selectOption(index: index);
+    setState(() {
+      if (selectedIndexes.contains(index)) {
+        selectedIndexes.removeWhere(((element) => element == index));
+      } else {
+        selectedIndexes.add(index);
+        selectedIndexes.sort();
+      }
+    });
+    widget.onSelect(selectedIndexes);
   }
 }
