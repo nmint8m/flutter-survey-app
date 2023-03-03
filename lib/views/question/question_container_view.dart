@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
-import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_view.dart';
+import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_option_ui_model.dart';
+import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_view.dart';
@@ -48,10 +48,10 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
           success: (uiModel) => QuestionView(
             uiModel: uiModel,
             // TODO: - Remove hard code
-            child: SingleChoiceView(
+            child: MultipleChoiceView(
               uiModels: List.generate(
                 10,
-                (index) => SingleChoiceOptionUIModel(
+                (index) => MultipleChoiceOptionUIModel(
                   id: index.toString(),
                   title: 'Somewhat fulfilled $index',
                   isSelected: false,
@@ -102,7 +102,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
     print('Submit survey!');
   }
 
-  void _storeAnswer(int index) {
+  void _storeAnswer(List<int> index) {
     // ignore: avoid_print
     print(index);
   }
