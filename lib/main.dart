@@ -4,12 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/utils/app_router.dart';
 import 'package:kayla_flutter_ic/utils/themes.dart';
-import 'package:kayla_flutter_ic/views/forget_password/forget_password_view.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
-import 'package:kayla_flutter_ic/views/home/home_view.dart';
-import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,42 +15,23 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  GoRouter get _router => GoRouter(
-        routes: <GoRoute>[
-          _loginGoRoute,
-          _homeGoRoute,
-        ],
-      );
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-  GoRoute get _loginGoRoute => GoRoute(
-        path: RoutePath.login.path,
-        builder: (BuildContext context, GoRouterState state) =>
-            const LoginView(),
-        routes: [
-          GoRoute(
-            path: RoutePath.forgetPassword.path,
-            builder: (BuildContext context, GoRouterState state) =>
-                const ForgetPasswordView(),
-          ),
-        ],
-      );
-
-  GoRoute get _homeGoRoute => GoRoute(
-        path: RoutePath.home.path,
-        builder: (BuildContext context, GoRouterState state) =>
-            const HomeView(),
-        routes: const [],
-      );
+class _MyAppState extends State<MyApp> {
+  late GoRouter _router;
 
   @override
   Widget build(BuildContext context) {
+    _router = getIt.get<AppRouter>().router;
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
         fontFamily: Assets.fonts.neuzeit,
         appBarTheme: Themes.appBarTheme,
         textTheme: Themes.textTheme,

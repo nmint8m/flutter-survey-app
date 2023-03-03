@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
+import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/home/home_view.dart';
 
 class HomeHeader extends StatelessWidget {
   final String profileImageUrl;
@@ -30,20 +34,24 @@ class HomeHeader extends StatelessWidget {
         image: profileImageUrl,
       );
 
-  Widget _profilePictureWidget(BuildContext context) => GestureDetector(
-        onTap: () {
-          // TODO: - Show the side bar to log out
-          // cannot pop as root is Home screen
+  Widget _profilePictureWidget(BuildContext context) => Consumer(
+        builder: (_, ref, __) {
+          return GestureDetector(
+            onTap: () {
+              ref.read(homeViewModelProvider.notifier).logOut();
+              context.goNamed(RoutePath.login.name);
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                backgroundImage: _profileImage.image,
+              ),
+            ),
+          );
         },
-        child: Container(
-          width: 50,
-          height: 50,
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            backgroundImage: _profileImage.image,
-          ),
-        ),
       );
 
   @override

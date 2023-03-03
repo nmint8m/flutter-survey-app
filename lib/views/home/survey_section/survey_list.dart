@@ -79,13 +79,12 @@ class SurveyList extends StatelessWidget {
     return SafeArea(
       child: RefreshIndicator(
         key: _refreshIndicatorKey,
-        edgeOffset: 100,
         onRefresh: onRefresh,
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: SizedBox(
             width: screenWidth,
-            height: MediaQuery.of(context).size.height - 100,
+            height: MediaQuery.of(context).size.height - 220,
             child: PageView.builder(
               scrollDirection: Axis.horizontal,
               controller: itemController,
