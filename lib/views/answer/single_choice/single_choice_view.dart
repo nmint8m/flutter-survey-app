@@ -1,47 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_state.dart';
-import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_view_model.dart';
 
-final singleChoiceViewModelProvider =
-    StateNotifierProvider.autoDispose<SingleChoiceViewModel, SingleChoiceState>(
-  (_) => SingleChoiceViewModel(),
-);
-
-class SingleChoiceView extends ConsumerStatefulWidget {
+class SingleChoiceView extends StatefulWidget {
   final List<SingleChoiceOptionUIModel> uiModels;
+  final Function(int) onSelect;
 
   const SingleChoiceView({
     super.key,
     required this.uiModels,
+    required this.onSelect,
   });
 
   @override
-  SingleChoiceViewState createState() => SingleChoiceViewState();
+  State<SingleChoiceView> createState() => _SingleChoiceViewState();
 }
 
-class SingleChoiceViewState extends ConsumerState<SingleChoiceView> {
-  Widget get _listView => Consumer(builder: (context, ref, child) {
-        final state = ref.watch(singleChoiceViewModelProvider);
-        return state.maybeWhen(
-          orElse: () => Container(),
-          select: (uiModels, selectedIndex) => ListView.separated(
-            itemCount: uiModels.length,
-            itemBuilder: (_, index) => _itemBuilder(
-              uiModels: uiModels,
-              index: index,
-              selectedIndex: selectedIndex,
-            ),
-            separatorBuilder: (_, index) => _separatorBuilder(
-              count: uiModels.length,
-              index: index,
-              selectedIndex: selectedIndex,
-            ),
-          ),
-        );
-      });
+class _SingleChoiceViewState extends State<SingleChoiceView> {
+  int? selectedIndex;
+
+  Widget get _listView => ListView.separated(
+        itemCount: widget.uiModels.length,
+        itemBuilder: (_, index) => _itemBuilder(
+          uiModels: widget.uiModels,
+          index: index,
+          selectedIndex: selectedIndex,
+        ),
+        separatorBuilder: (_, index) => _separatorBuilder(
+          count: widget.uiModels.length,
+          index: index,
+          selectedIndex: selectedIndex,
+        ),
+      );
 
   Widget _itemBuilder({
     required List<SingleChoiceOptionUIModel> uiModels,
@@ -111,12 +100,6 @@ class SingleChoiceViewState extends ConsumerState<SingleChoiceView> {
       );
 
   @override
-  void initState() {
-    super.initState();
-    _setUpData();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
@@ -126,18 +109,10 @@ class SingleChoiceViewState extends ConsumerState<SingleChoiceView> {
     );
   }
 
-  void _setUpData() {
-    Future.delayed(
-      Durations.fiftyMillisecond,
-      () {
-        ref
-            .read(singleChoiceViewModelProvider.notifier)
-            .setUpData(widget.uiModels);
-      },
-    );
-  }
-
   void _onTap(int index) {
-    ref.read(singleChoiceViewModelProvider.notifier).selectOption(index: index);
+    setState(() {
+      selectedIndex = index;
+    });
+    widget.onSelect(index);
   }
 }

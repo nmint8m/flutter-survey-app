@@ -57,6 +57,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
                   isSelected: false,
                 ),
               ),
+              onSelect: _storeAnswer,
             ),
             onNextQuestion: () => _nextQuestion(),
             onSubmit: () => _submit(),
@@ -99,5 +100,10 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
     // TODO: - Integration task
     // ignore: avoid_print
     print('Submit survey!');
+  }
+
+  void _storeAnswer(int index) {
+    // ignore: avoid_print
+    print(index);
   }
 }
