@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_survey_detail_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/skeleton_loading/survey_detail_skeleton_loading.dart';
@@ -13,7 +14,10 @@ import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_view_model.da
 
 final surveyDetailViewModelProvider =
     StateNotifierProvider.autoDispose<SurveyDetailViewModel, SurveyDetailState>(
-  (_) => SurveyDetailViewModel(getIt.get<GetSurveyDetailUseCase>()),
+  (_) => SurveyDetailViewModel(
+    getIt.get<GetSurveyDetailUseCase>(),
+    getIt.get<StoreCurrentSurveyDetailUseCase>(),
+  ),
 );
 
 class SurveyDetailView extends ConsumerStatefulWidget {

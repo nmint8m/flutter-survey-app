@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_view.dart';
+import 'package:kayla_flutter_ic/views/question/question_container_view_builder.dart';
 
 final questionViewModelProvider = StateNotifierProvider.autoDispose<
     QuestionContainerViewModel, QuestionContainerState>(
-  (_) => QuestionContainerViewModel(),
+  (_) => QuestionContainerViewModel(
+    getIt.get<GetCurrentSurveyDetailUseCase>(),
+  ),
 );
 
 class QuestionContainerView extends ConsumerStatefulWidget {
@@ -45,20 +48,10 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
           orElse: () => Container(),
-          success: (uiModel) => QuestionView(
-            uiModel: uiModel,
+          success: (questionUiModel, answerUiModel) => QuestionView(
+            uiModel: questionUiModel,
             // TODO: - Remove hard code
-            child: MultipleChoiceView(
-              uiModels: List.generate(
-                10,
-                (index) => MultipleChoiceOptionUIModel(
-                  id: index.toString(),
-                  title: 'Somewhat fulfilled $index',
-                  isSelected: false,
-                ),
-              ),
-              onSelect: _storeAnswer,
-            ),
+            child: buildAnswer(answerUiModel),
             onNextQuestion: () => _nextQuestion(),
             onSubmit: () => _submit(),
           ),
@@ -68,11 +61,10 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _setUpData() {
-    Future.delayed(Durations.zeroSecond, () {
+    Future.delayed(Durations.zeroSecond, () async {
       ref
           .read(questionViewModelProvider.notifier)
-          .setUpData(arguments(context));
-      ref.read(questionViewModelProvider.notifier).bindData();
+          .setUpData(arguments: arguments(context));
     });
   }
 
@@ -100,10 +92,5 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
     // TODO: - Integration task
     // ignore: avoid_print
     print('Submit survey!');
-  }
-
-  void _storeAnswer(List<int> index) {
-    // ignore: avoid_print
-    print(index);
   }
 }

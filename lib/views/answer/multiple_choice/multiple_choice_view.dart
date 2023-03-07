@@ -3,7 +3,7 @@ import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_op
 
 class MultipleChoiceView extends StatefulWidget {
   final List<MultipleChoiceOptionUIModel> uiModels;
-  final Function(List<int>) onSelect;
+  final Function(List<String>) onSelect;
 
   const MultipleChoiceView({
     super.key,
@@ -133,6 +133,8 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
         selectedIndexes.sort();
       }
     });
-    widget.onSelect(selectedIndexes);
+    var selectedIds =
+        selectedIndexes.map((e) => widget.uiModels[e].id).toList();
+    widget.onSelect(selectedIds);
   }
 }
