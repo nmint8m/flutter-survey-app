@@ -17,6 +17,48 @@ class SurveyDetail {
     required this.questions,
   });
 
+  SurveyDetail.empty()
+      : this(
+          id: '',
+          title: '',
+          description: '',
+          coverImageUrl: '',
+          questions: [],
+        );
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'id': id,
+      'title': title,
+      'description': description,
+      'coverImageUrl': coverImageUrl,
+      'questions': questions.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  factory SurveyDetail.fromJson(Map<String, dynamic> json) {
+    String id = json['id'];
+    String title = json['title'];
+    String description = json['description'];
+    String coverImageUrl = json['coverImageUrl'];
+    dynamic maybeQuestions = json['questions'];
+    List<Question> questions = [];
+    if (maybeQuestions is List) {
+      for (dynamic maybeQuestion in maybeQuestions) {
+        if (maybeQuestion is Map<String, dynamic>) {
+          questions.add(Question.fromJson(maybeQuestion));
+        }
+      }
+    }
+    return SurveyDetail(
+      id: id,
+      title: title,
+      description: description,
+      coverImageUrl: coverImageUrl,
+      questions: questions,
+    );
+  }
+
   SurveyDetailUiModel toSurveyDetailUiModel() {
     final introSection =
         questions.firstWhere((e) => e.displayType == DisplayType.intro);
