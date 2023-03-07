@@ -61,7 +61,7 @@ class SurveyDetail {
 
   SurveyDetailUiModel toSurveyDetailUiModel() {
     final introSection =
-        questions.firstWhere((e) => e.displayType == DisplayType.intro);
+        questions.firstWhere((question) => question.displayType == DisplayType.intro);
     final description =
         introSection.text.isEmpty ? this.description : introSection.text;
     String imageUrl = introSection.imageUrl.isEmpty

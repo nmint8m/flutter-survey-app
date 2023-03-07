@@ -28,7 +28,7 @@ class Question {
       'imageUrl': imageUrl,
       'coverImageUrl': coverImageUrl,
       'displayType': displayType.name,
-      'answers': answers.map((e) => e.toJson()).toList(),
+      'answers': answers.map((answer) => answer.toJson()).toList(),
     };
   }
 

@@ -134,7 +134,7 @@ class _MultipleChoiceViewState extends State<MultipleChoiceView> {
       }
     });
     var selectedIds =
-        selectedIndexes.map((e) => widget.uiModels[e].id).toList();
+        selectedIndexes.map((index) => widget.uiModels[index].id).toList();
     widget.onSelect(selectedIds);
   }
 }

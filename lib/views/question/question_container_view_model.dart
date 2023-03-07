@@ -69,10 +69,10 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
     final displayType = survey.questions[questionIndex].displayType;
     final options = survey.questions[questionIndex].answers
         .map(
-          (e) => OptionUiModel(
-            index: e.displayOrder,
-            id: e.id,
-            title: e.text,
+          (answer) => OptionUiModel(
+            index: answer.displayOrder,
+            id: answer.id,
+            title: answer.text,
           ),
         )
         .toList();
