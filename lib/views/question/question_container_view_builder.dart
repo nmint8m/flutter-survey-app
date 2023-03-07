@@ -119,11 +119,14 @@ extension QuestionContainerViewStateExt on QuestionContainerViewState {
   }
 
   void _storeOptionAnswers(List<String> indexes) {
+    // TODO: - Submit answer
     // ignore: avoid_print
     print(indexes);
   }
 
+  // ignore: unused_element
   void _storeInputAnswers(Map<int, String> answer) {
+    // TODO: - Submit answer
     // ignore: avoid_print
     print(answer);
   }
