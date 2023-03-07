@@ -37,9 +37,9 @@ extension QuestionContainerViewStateExt on QuestionContainerViewState {
       case DisplayType.nps:
         return _buildRatingScale(uiModel.options);
       case DisplayType.textfield:
-        return _buildFormWithTextField();
+        return _buildFormWithTextField(uiModel.options);
       case DisplayType.textarea:
-        return _buildFormWithTextArea();
+        return _buildFormWithTextArea(uiModel.options.first);
       case DisplayType.outro:
         return _buildOutro();
       case DisplayType.slider:
@@ -101,12 +101,18 @@ extension QuestionContainerViewStateExt on QuestionContainerViewState {
     );
   }
 
-  Widget _buildFormWithTextField() {
-    return const FormWithTextFieldView();
+  Widget _buildFormWithTextField(List<OptionUiModel> options) {
+    return FormWithTextFieldView(
+      uiModels: options,
+      onChange: _storeInputAnswers,
+    );
   }
 
-  Widget _buildFormWithTextArea() {
-    return const FormWithTextAreaView();
+  Widget _buildFormWithTextArea(OptionUiModel uiModel) {
+    return FormWithTextAreaView(
+      uiModel: uiModel,
+      onChange: _storeInputAnswers,
+    );
   }
 
   Widget _buildOutro() {
@@ -124,8 +130,7 @@ extension QuestionContainerViewStateExt on QuestionContainerViewState {
     print(indexes);
   }
 
-  // ignore: unused_element
-  void _storeInputAnswers(Map<int, String> answer) {
+  void _storeInputAnswers(Map<String, String> answer) {
     // TODO: - Submit answer
     // ignore: avoid_print
     print(answer);
