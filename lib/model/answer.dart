@@ -1,3 +1,8 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'answer.g.dart';
+
+@JsonSerializable()
 class Answer {
   final String id;
   final String text;
@@ -9,22 +14,7 @@ class Answer {
     required this.displayOrder,
   });
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'text': text,
-      'displayOrder': displayOrder,
-    };
-  }
+  Map<String, dynamic> toJson() => _$AnswerToJson(this);
 
-  factory Answer.fromJson(Map<String, dynamic> json) {
-    String id = json['id'];
-    String text = json['text'];
-    int displayOrder = json['displayOrder'];
-    return Answer(
-      id: id,
-      text: text,
-      displayOrder: displayOrder,
-    );
-  }
+  factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
 }

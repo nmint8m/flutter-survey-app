@@ -1,6 +1,10 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kayla_flutter_ic/model/enum/display_type.dart';
 import 'package:kayla_flutter_ic/model/answer.dart';
 
+part 'question.g.dart';
+
+@JsonSerializable()
 class Question {
   final String id;
   final String text;
@@ -20,42 +24,8 @@ class Question {
     required this.answers,
   });
 
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      'text': text,
-      'displayOrder': displayOrder,
-      'imageUrl': imageUrl,
-      'coverImageUrl': coverImageUrl,
-      'displayType': displayType.name,
-      'answers': answers.map((answer) => answer.toJson()).toList(),
-    };
-  }
+  Map<String, dynamic> toJson() => _$QuestionToJson(this);
 
-  factory Question.fromJson(Map<String, dynamic> json) {
-    String id = json['id'];
-    String text = json['text'];
-    int displayOrder = json['displayOrder'];
-    String imageUrl = json['imageUrl'];
-    String coverImageUrl = json['coverImageUrl'];
-    DisplayType displayType = DisplayType.fromString(json['displayType']);
-    dynamic maybeAnswers = json['answers'];
-    List<Answer> answers = [];
-    if (maybeAnswers is List) {
-      for (dynamic maybeAnswer in maybeAnswers) {
-        if (maybeAnswer is Map<String, dynamic>) {
-          answers.add(Answer.fromJson(maybeAnswer));
-        }
-      }
-    }
-    return Question(
-      id: id,
-      text: text,
-      displayOrder: displayOrder,
-      imageUrl: imageUrl,
-      coverImageUrl: coverImageUrl,
-      displayType: displayType,
-      answers: answers,
-    );
-  }
+  factory Question.fromJson(Map<String, dynamic> json) =>
+      _$QuestionFromJson(json);
 }
