@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/model/enum/likert_type.dart';
 
 class LikertScaleView extends StatefulWidget {
-  final LikertType uiModel;
+  final LikertType type;
   final Function(int) onSelect;
 
   const LikertScaleView({
     super.key,
-    required this.uiModel,
+    required this.type,
     required this.onSelect,
   });
 
@@ -20,7 +20,7 @@ class _LikertScaleViewState extends State<LikertScaleView> {
 
   List<Widget> get _likertButtons {
     List<Widget> widgets = [];
-    widget.uiModel.icons.asMap().forEach((index, icon) {
+    widget.type.icons.asMap().forEach((index, icon) {
       widgets.add(
         GestureDetector(
           child: Container(
@@ -55,7 +55,7 @@ class _LikertScaleViewState extends State<LikertScaleView> {
   }) {
     if (selectedIndex == null) {
       return Colors.white30;
-    } else if (widget.uiModel.isSinglyHighlight) {
+    } else if (widget.type.isSinglyHighlight) {
       return selectedIndex == index ? Colors.white : Colors.white30;
     } else {
       return selectedIndex >= index ? Colors.white : Colors.white30;
@@ -64,13 +64,10 @@ class _LikertScaleViewState extends State<LikertScaleView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: _likertButtons,
-        ),
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: _likertButtons,
       ),
     );
   }
