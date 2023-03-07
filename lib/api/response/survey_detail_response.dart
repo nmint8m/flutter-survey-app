@@ -30,6 +30,7 @@ class SurveyDetailResponse {
         title: title ?? '',
         description: description ?? '',
         coverImageUrl: coverImageUrl ?? '',
-        questions: (questions ?? []).map((question) => question.toQuestion()).toList(),
+        questions:
+            (questions ?? []).map((question) => question.toQuestion()).toList(),
       );
 }
