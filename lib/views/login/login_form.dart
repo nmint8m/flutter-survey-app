@@ -111,6 +111,8 @@ class LoginFormState extends ConsumerState<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    _emailController.text = 'kayla@nimblehq.co';
+    _passwordController.text = '12345678';
     return Form(
       key: _loginFormKey,
       autovalidateMode: _isStartedValidation
