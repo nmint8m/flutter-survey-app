@@ -32,7 +32,10 @@ class QuestionView extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         // TODO: - Bind question's photo
-        child: Image(image: Assets.images.nimbleBackground.image().image),
+        child: Image(
+          image: Assets.images.nimbleBackground.image().image,
+          fit: BoxFit.cover,
+        ),
       );
 
   Widget _mainBody(BuildContext context) => Container(

@@ -9,13 +9,15 @@ import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_ui_model.dart';
 
 class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
-  String get surveyId => _surveyId ?? '';
-  int get questionNumber => _questionNumber ?? 0;
-  SurveyDetail get survey => _survey ?? SurveyDetail.empty();
-
   final GetCurrentSurveyDetailUseCase _getCurrentSurveyDetailUseCase;
+
+  String get _surveyIdValue => _surveyId ?? '';
   String? _surveyId;
+  
+  int get _questionNumberValue => _questionNumber ?? 0;
   int? _questionNumber;
+
+  SurveyDetail get _surveyValue => _survey ?? SurveyDetail.empty();
   SurveyDetail? _survey;
 
   QuestionContainerViewModel(
@@ -38,10 +40,10 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   }
 
   void _bindData() {
-    final totalQuestions = survey.questions.length;
+    final totalQuestions = _surveyValue.questions.length;
     if (totalQuestions == 0 ||
         (totalQuestions == 1 &&
-            survey.questions.first.displayType == DisplayType.intro)) {
+            _surveyValue.questions.first.displayType == DisplayType.intro)) {
       _bindEmptyData();
     } else {
       _bindDataWithoutIntro();
@@ -56,18 +58,18 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   }
 
   void _bindDataWithoutIntro() {
-    int totalQuestions = survey.questions.length;
-    final questionIndex = questionNumber + 1;
-    if (survey.questions.first.displayType == DisplayType.intro) {
+    int totalQuestions = _surveyValue.questions.length;
+    final questionIndex = _questionNumberValue + 1;
+    if (_surveyValue.questions.first.displayType == DisplayType.intro) {
       totalQuestions--;
     }
     final questionsUiModel = QuestionContainerUiModel(
       questionIndex: questionIndex,
       totalQuestions: totalQuestions,
-      title: survey.questions[questionIndex].text,
+      title: _surveyValue.questions[questionIndex].text,
     );
-    final displayType = survey.questions[questionIndex].displayType;
-    final options = survey.questions[questionIndex].answers
+    final displayType = _surveyValue.questions[questionIndex].displayType;
+    final options = _surveyValue.questions[questionIndex].answers
         .map(
           (answer) => OptionUiModel(
             index: answer.displayOrder,
@@ -98,13 +100,13 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   Map<String, String> getPathParams(Map<String, String> arguments) {
     var params = <String, String>{};
-    params[RoutePath.surveyDetail.pathParam] = surveyId;
+    params[RoutePath.surveyDetail.pathParam] = _surveyIdValue;
     return params;
   }
 
   Map<String, String> getNextQuestionQueryParams(
       Map<String, String> arguments) {
-    final nextQuestionNumber = questionNumber + 1;
+    final nextQuestionNumber = _questionNumberValue + 1;
     var params = <String, String>{};
     params[RoutePath.question.queryParams.first] =
         nextQuestionNumber.toString();

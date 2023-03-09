@@ -55,8 +55,10 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
         ),
       );
 
-  Widget get _defaultBackground =>
-      Image(image: Assets.images.nimbleBackground.image().image);
+  Widget get _defaultBackground => Image(
+        image: Assets.images.nimbleBackground.image().image,
+        fit: BoxFit.cover,
+      );
 
   Widget _mainBody(SurveyDetailUiModel uiModel) => Consumer(
         builder: (_, ref, __) {
