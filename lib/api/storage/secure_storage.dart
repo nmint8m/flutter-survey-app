@@ -7,6 +7,7 @@ const _keyAccessToken = 'KEY_ACCESS_TOKEN';
 const _keyExpiresIn = 'KEY_EXPIRES_IN';
 const _keyRefreshToken = 'KEY_REFRESH_TOKEN';
 const _keySurveyDetail = 'KEY_SURVEY_DETAIL';
+const _keySurveySubmission = 'KEY_SURVEY_SUBMISSION';
 
 abstract class SecureStorage {
   Future<String?> get id;
@@ -21,6 +22,8 @@ abstract class SecureStorage {
 
   Future<String?> get surveyDetailJson;
 
+  Future<String?> get surveySubmissionJson;
+
   Future<void> storeId(String id);
 
   Future<void> storeTokenType(String tokenType);
@@ -32,6 +35,10 @@ abstract class SecureStorage {
   Future<void> storeRefreshToken(String refreshToken);
 
   Future<void> storeSurveyDetailJson(String json);
+
+  Future<void> storeSurveySubmissionJson(String json);
+
+  Future<void> clearSurveySubmissionJson();
 
   Future<void> clearAllStorage();
 }
@@ -61,6 +68,10 @@ class SecureStorageImpl extends SecureStorage {
   Future<String?> get surveyDetailJson => _storage.read(key: _keySurveyDetail);
 
   @override
+  Future<String?> get surveySubmissionJson =>
+      _storage.read(key: _keySurveySubmission);
+
+  @override
   Future<void> storeId(String id) {
     return _storage.write(key: _keyId, value: id);
   }
@@ -88,6 +99,16 @@ class SecureStorageImpl extends SecureStorage {
   @override
   Future<void> storeSurveyDetailJson(String json) {
     return _storage.write(key: _keySurveyDetail, value: json);
+  }
+
+  @override
+  Future<void> storeSurveySubmissionJson(String json) {
+    return _storage.write(key: _keySurveySubmission, value: json);
+  }
+
+  @override
+  Future<void> clearSurveySubmissionJson() {
+    return _storage.delete(key: _keySurveySubmission);
   }
 
   @override

@@ -13,4 +13,15 @@ class SurveySubmissionAnswer {
   });
 
   Map<String, dynamic> toJson() => _$SurveySubmissionAnswerToJson(this);
+
+  Map<String, dynamic> toObmitNullFieldsJson() {
+    Map<String, dynamic> json = {'id': id};
+    if (answer != null) {
+      json['answer'] = answer;
+    }
+    return json;
+  }
+
+  factory SurveySubmissionAnswer.fromJson(Map<String, dynamic> json) =>
+      _$SurveySubmissionAnswerFromJson(json);
 }

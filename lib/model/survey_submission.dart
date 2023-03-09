@@ -6,7 +6,7 @@ part 'survey_submission.g.dart';
 @JsonSerializable()
 class SurveySubmission {
   final String surveyId;
-  final List<SurveySubmissionQuestion> questions;
+  List<SurveySubmissionQuestion> questions;
 
   SurveySubmission({
     required this.surveyId,
@@ -14,4 +14,16 @@ class SurveySubmission {
   });
 
   Map<String, dynamic> toJson() => _$SurveySubmissionToJson(this);
+
+  Map<String, dynamic> toObmitNullFieldsJson() {
+    return {
+      'survey_id': surveyId,
+      'questions': questions
+          .map((question) => question.toObmitNullFieldsJson())
+          .toList(),
+    };
+  }
+
+  factory SurveySubmission.fromJson(Map<String, dynamic> json) =>
+      _$SurveySubmissionFromJson(json);
 }
