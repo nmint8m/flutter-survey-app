@@ -5,6 +5,7 @@ import 'package:kayla_flutter_ic/di/di.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_submission_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_submission_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/submit_survey_answer_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
@@ -20,6 +21,7 @@ final questionViewModelProvider = StateNotifierProvider.autoDispose<
     getIt.get<GetCurrentSurveyDetailUseCase>(),
     getIt.get<GetCurrentSurveySubmissionUseCase>(),
     getIt.get<StoreCurrentSurveySubmissionUseCase>(),
+    getIt.get<SubmitSurveyAnswerUseCase>(),
   ),
 );
 
@@ -95,6 +97,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
           );
         },
         error: (_, error) {
+          context.showOrHideLoadingIndicator(shouldShow: false);
           context.showSnackBar(message: 'Please try again. $error.');
         },
       );

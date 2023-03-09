@@ -10,6 +10,7 @@ enum DisplayType {
   outro,
   dropdown,
   slider,
+  money,
   unknown;
 
   bool get isNeededInput {
@@ -46,6 +47,8 @@ enum DisplayType {
         return DisplayType.dropdown;
       case 'slider':
         return DisplayType.slider;
+      case 'money':
+        return DisplayType.money;
       default:
         return DisplayType.unknown;
     }
