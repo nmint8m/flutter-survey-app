@@ -60,8 +60,8 @@ class QuestionView extends StatelessWidget {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
           orElse: () => const SizedBox.shrink(),
-          success: (uiModel, _) => Text(
-            '${uiModel.questionIndex}/${uiModel.totalQuestions}',
+          success: (uiModel) => Text(
+            '${uiModel.question.questionIndex}/${uiModel.question.totalQuestions}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         );

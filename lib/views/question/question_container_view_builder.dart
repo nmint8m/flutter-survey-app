@@ -124,16 +124,12 @@ extension QuestionContainerViewStateExt on QuestionContainerViewState {
     return const SizedBox.shrink();
   }
 
-  void _storeOptionAnswers(List<String> indexes) {
-    // TODO: - Submit answer
-    // ignore: avoid_print
-    print(indexes);
+  void _storeOptionAnswers(List<String> ids) {
+    ref.read(questionViewModelProvider.notifier).storeAnswerList(ids);
   }
 
-  void _storeInputAnswers(Map<String, String> answer) {
-    // TODO: - Submit answer
-    // ignore: avoid_print
-    print(answer);
+  void _storeInputAnswers(Map<String, String> answers) {
+    ref.read(questionViewModelProvider.notifier).storeAnswerMap(answers);
   }
 
   List<OptionUiModel> _sortByIndex(List<OptionUiModel> options) {
