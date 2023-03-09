@@ -17,7 +17,7 @@ class FormWithTextFieldView extends StatefulWidget {
 }
 
 class _FormWithTextFieldViewState extends State<FormWithTextFieldView> {
-  final List<TextEditingController> _controllers = [];
+  List<TextEditingController> _controllers = [];
   final Map<String, String> answers = <String, String>{};
 
   @override
@@ -30,23 +30,37 @@ class _FormWithTextFieldViewState extends State<FormWithTextFieldView> {
 
   @override
   Widget build(BuildContext context) {
+    _buildControllers();
     return _buildForm();
   }
 
+  void _buildControllers() {
+    _controllers = List<TextEditingController>.generate(
+      widget.uiModels.length,
+      (index) => TextEditingController(),
+    );
+
+    int index = 0;
+    for (final uiModel in widget.uiModels) {
+      final controller = _controllers[index];
+      index++;
+      controller.addListener(
+        () {
+          answers[uiModel.id] = controller.text;
+          widget.onChange(answers);
+        },
+      );
+    }
+  }
+
   Widget _buildForm() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    int index = 0;
+    return ListView(
       children: widget.uiModels.map(
         (uiModel) {
-          final controller = TextEditingController();
+          final controller = _controllers[index];
+          index++;
           answers[uiModel.id] = '';
-          controller.addListener(
-            () {
-              answers[uiModel.id] = controller.text;
-              widget.onChange(answers);
-            },
-          );
-          _controllers.add(controller);
           return Container(
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: TextFormField(
