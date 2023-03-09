@@ -180,7 +180,8 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
       var submission = result.value;
       if (submission == null) {
         submission = _newSurveySubmission(answers);
-      } else if (submission.surveyId != _surveyIdValue || _questionNumberValue == 0) {
+      } else if (submission.surveyId != _surveyIdValue ||
+          _questionNumberValue == 0) {
         _clearStoredCurrentSurveySubmission();
         submission = _newSurveySubmission(answers);
       } else {
