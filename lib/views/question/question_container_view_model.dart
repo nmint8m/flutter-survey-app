@@ -13,7 +13,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   String get _surveyIdValue => _surveyId ?? '';
   String? _surveyId;
-  
+
   int get _questionNumberValue => _questionNumber ?? 0;
   int? _questionNumber;
 
