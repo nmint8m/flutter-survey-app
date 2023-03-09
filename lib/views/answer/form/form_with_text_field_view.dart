@@ -21,6 +21,12 @@ class _FormWithTextFieldViewState extends State<FormWithTextFieldView> {
   final Map<String, String> answers = <String, String>{};
 
   @override
+  void initState() {
+    super.initState();
+    _buildControllers();
+  }
+
+  @override
   void dispose() {
     for (var controller in _controllers) {
       controller.dispose();
@@ -30,7 +36,6 @@ class _FormWithTextFieldViewState extends State<FormWithTextFieldView> {
 
   @override
   Widget build(BuildContext context) {
-    _buildControllers();
     return _buildForm();
   }
 
