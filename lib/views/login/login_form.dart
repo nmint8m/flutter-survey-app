@@ -23,7 +23,8 @@ class LoginFormState extends ConsumerState<LoginForm> {
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(
-            labelText: AppLocalizations.of(context).loginEmail),
+          labelText: AppLocalizations.of(context).loginEmail!,
+        ),
         controller: _emailController,
         validator: _validateEmailMessage,
       );
@@ -31,7 +32,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   TextFormField get _passwordTextField => TextFormField(
         keyboardType: TextInputType.text,
         decoration: _inputDecoration(
-          labelText: AppLocalizations.of(context).loginPassword,
+          labelText: AppLocalizations.of(context).loginPassword!,
           rightPadding: 77,
         ),
         controller: _passwordController,
@@ -47,7 +48,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            AppLocalizations.of(context).loginForgotPassword,
+            AppLocalizations.of(context).loginForgotPassword!,
             style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
@@ -60,7 +61,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
 
   ElevatedButton get _loginButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
-        child: Text(AppLocalizations.of(context).loginLogin),
+        child: Text(AppLocalizations.of(context).loginLogin!),
         onPressed: () => _login(),
       );
 

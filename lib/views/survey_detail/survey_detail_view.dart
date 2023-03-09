@@ -91,7 +91,7 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
                           minimumSize: const Size(140, 56)),
                       onPressed: () => _startSurvey(),
                       child: Text(
-                          AppLocalizations.of(context).surveyDetailStartSurvey),
+                          AppLocalizations.of(context).surveyDetailStartSurvey!),
                     ),
                   ],
                 ),

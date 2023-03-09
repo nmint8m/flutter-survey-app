@@ -21,14 +21,14 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(
-            labelText: AppLocalizations.of(context).resetPasswordEmail),
+            labelText: AppLocalizations.of(context).resetPasswordEmail!),
         controller: _emailController,
         validator: _validateEmailMessage,
       );
 
   ElevatedButton get _resetButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
-        child: Text(AppLocalizations.of(context).resetPasswordReset),
+        child: Text(AppLocalizations.of(context).resetPasswordReset!),
         onPressed: () => _forgetPassword(),
       );
 

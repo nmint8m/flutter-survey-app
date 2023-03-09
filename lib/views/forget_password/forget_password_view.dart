@@ -72,7 +72,7 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
       );
 
   Widget _instruction(BuildContext context) => Text(
-        AppLocalizations.of(context).resetPasswordInstruction,
+        AppLocalizations.of(context).resetPasswordInstruction!,
         style: Theme.of(context)
             .textTheme
             .bodyMedium
@@ -125,11 +125,11 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
         error: (error) {
           context.showSnackBar(
               message:
-                  AppLocalizations.of(context).resetPasswordError(error ?? ''));
+                  AppLocalizations.of(context).resetPasswordError(error ?? '')!);
         },
         success: (message) async {
           context.showTopSnackBar(TopSnackBar(
-            title: AppLocalizations.of(context).resetPasswordCheckEmail,
+            title: AppLocalizations.of(context).resetPasswordCheckEmail!,
             message: message,
           ));
         },

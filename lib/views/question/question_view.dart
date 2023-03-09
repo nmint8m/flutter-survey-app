@@ -94,7 +94,7 @@ class QuestionView extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
           onPressed: onSubmit,
-          child: const Text('Submit'),
+          child: Text(AppLocalizations.of(context).surveyDetailSubmit!),
         ),
       );
 
