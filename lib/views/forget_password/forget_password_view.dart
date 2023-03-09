@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
@@ -71,7 +72,7 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
       );
 
   Widget _instruction(BuildContext context) => Text(
-        'Enter your email to receive instructions for resetting your password.',
+        AppLocalizations.of(context).resetPasswordInstruction,
         style: Theme.of(context)
             .textTheme
             .bodyMedium
@@ -122,11 +123,13 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
       );
       state.maybeWhen(
         error: (error) {
-          context.showSnackBar(message: 'Please try again. $error.');
+          context.showSnackBar(
+              message:
+                  AppLocalizations.of(context).resetPasswordError(error ?? ''));
         },
         success: (message) async {
           context.showTopSnackBar(TopSnackBar(
-            title: 'Check your email.',
+            title: AppLocalizations.of(context).resetPasswordCheckEmail,
             message: message,
           ));
         },

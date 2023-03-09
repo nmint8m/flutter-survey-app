@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -25,7 +26,7 @@ class HomeHeader extends StatelessWidget {
       );
 
   Widget _todayWidget(BuildContext context) => Text(
-        'Today'.toUpperCase(),
+        AppLocalizations.of(context).homeToday.toUpperCase(),
         style: Theme.of(context).textTheme.displayLarge,
       );
 

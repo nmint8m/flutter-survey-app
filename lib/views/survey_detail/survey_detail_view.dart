@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/di/di.dart';
@@ -89,7 +90,8 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(140, 56)),
                       onPressed: () => _startSurvey(),
-                      child: const Text('Start survey'),
+                      child: Text(
+                          AppLocalizations.of(context).surveyDetailStartSurvey),
                     ),
                   ],
                 ),
