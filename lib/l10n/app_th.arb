@@ -1,3 +1,26 @@
 {
-  "hello": "สวัสดี"
+    "loginEmail": "อีเมลล์",
+    "loginPassword": "รหัสผ่าน",
+    "loginForgotPassword": "ลืมรหัสผ่าน?",
+    "loginLogin": "เข้าสู่ระบบ",
+    "resetPasswordEmail": "อีเมลล์",
+    "resetPasswordReset": "รีเซ็ต",
+    "resetPasswordInstruction": "ป้อนอีเมลเพื่อรับคำแนะนำในการรีเซ็ตรหัสผ่าน",
+    "resetPasswordCheckEmail": "ตรวจสอบอีเมลของคุณ.",
+    "resetPasswordError": "กรุณาลองอีกครั้ง. {error}",
+    "@resetPasswordError": {
+        "description": "",
+        "placeholders": {
+            "error": {
+                "type": "String",
+                "example": "ข้อผิดพลาดที่ไม่คาดคิด"
+            }
+        }
+    },
+    "homeToday": "วันนี้",
+    "surveyDetailStartSurvey": "เริ่มทำแบบสอบถาม",
+    "surveyDetailSubmit": "ส่งแบบสอบถาม",
+    "surveyDetailLikely": "เป็นไปได้มาก",
+    "surveyDetailUnlikey": "ไม่น่าจะเป็นไปได้",
+    "surveyDetailThanks": "ขอบคุณที่สละเวลาตอบแบบสอบถาม"
 }

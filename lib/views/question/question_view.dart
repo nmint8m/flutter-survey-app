@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
@@ -72,10 +73,10 @@ class QuestionView extends StatelessWidget {
         style: Theme.of(context).textTheme.displayMedium,
       );
 
-  Widget get _floatingActionButton {
+  Widget _floatingActionButton(BuildContext context) {
     final isLastQuestion = uiModel.totalQuestions > 0 &&
         uiModel.questionIndex == uiModel.totalQuestions;
-    return isLastQuestion ? _submitButton : _nextButton;
+    return isLastQuestion ? _submitButton(context) : _nextButton;
   }
 
   Widget get _nextButton => Padding(
@@ -88,12 +89,12 @@ class QuestionView extends StatelessWidget {
         ),
       );
 
-  Widget get _submitButton => Padding(
+  Widget _submitButton(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
           onPressed: onSubmit,
-          child: const Text('Submit'),
+          child: Text(AppLocalizations.of(context)?.surveyDetailSubmit ?? ''),
         ),
       );
 
@@ -107,7 +108,7 @@ class QuestionView extends StatelessWidget {
           backgroundColor: Colors.transparent,
           appBar: _appBar(context),
           body: SafeArea(child: _mainBody(context)),
-          floatingActionButton: _floatingActionButton,
+          floatingActionButton: _floatingActionButton(context),
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         )
       ],
