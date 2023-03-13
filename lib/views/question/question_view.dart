@@ -76,7 +76,7 @@ class QuestionView extends StatelessWidget {
   Widget _floatingActionButton(BuildContext context) {
     final isLastQuestion = uiModel.totalQuestions > 0 &&
         uiModel.questionIndex == uiModel.totalQuestions;
-    return isLastQuestion ? _submitButton : _nextButton;
+    return isLastQuestion ? _submitButton(context) : _nextButton;
   }
 
   Widget get _nextButton => Padding(
@@ -89,12 +89,12 @@ class QuestionView extends StatelessWidget {
         ),
       );
 
-  Widget get _submitButton => Padding(
+  Widget _submitButton(BuildContext context) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
           onPressed: onSubmit,
-          child: Text(AppLocalizations.of(context).surveyDetailSubmit!),
+          child: Text(AppLocalizations.of(context)?.surveyDetailSubmit ?? ''),
         ),
       );
 

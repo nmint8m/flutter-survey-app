@@ -26,7 +26,7 @@ class HomeHeader extends StatelessWidget {
       );
 
   Widget _todayWidget(BuildContext context) => Text(
-        AppLocalizations.of(context).homeToday!.toUpperCase(),
+        (AppLocalizations.of(context)?.homeToday ?? '').toUpperCase(),
         style: Theme.of(context).textTheme.displayLarge,
       );
 
