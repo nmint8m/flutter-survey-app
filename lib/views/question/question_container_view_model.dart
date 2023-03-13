@@ -9,7 +9,7 @@ import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_submission_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_submission_use_case.dart';
-import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/usecases/survey/submit_survey_answer_use_case.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/question/answers_container_ui_model.dart';
 import 'package:kayla_flutter_ic/views/question/container_ui_model.dart';
@@ -21,6 +21,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   final GetCurrentSurveySubmissionUseCase _getCurrentSurveySubmissionUseCase;
   final StoreCurrentSurveySubmissionUseCase
       _storeCurrentSurveySubmissionUseCase;
+  final SubmitSurveyAnswerUseCase _submitSurveyAnswerUseCase;
 
   String get _surveyIdValue => _surveyId ?? '';
   String? _surveyId;
@@ -41,10 +42,11 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   Map<String, String> _currentAnswerMap = <String, String>{};
 
   QuestionContainerViewModel(
-      this._getCurrentSurveyDetailUseCase,
-      this._getCurrentSurveySubmissionUseCase,
-      this._storeCurrentSurveySubmissionUseCase)
-      : super(const QuestionContainerState.init());
+    this._getCurrentSurveyDetailUseCase,
+    this._getCurrentSurveySubmissionUseCase,
+    this._storeCurrentSurveySubmissionUseCase,
+    this._submitSurveyAnswerUseCase,
+  ) : super(const QuestionContainerState.init());
 
   void setUpData({
     required Map<String, String> arguments,
@@ -253,19 +255,28 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
   void submitAnswers() async {
     final result = await _getCurrentSurveySubmissionUseCase.call();
     if (result is Success<SurveySubmission?>) {
-      // TODO: Backend
       state = QuestionContainerState.submitting(uiModel: _uiModel);
-      // ignore: avoid_print
-      print(result.value?.toObmitNullFieldsJson());
-      _clearStoredCurrentSurveySubmission();
-      Future.delayed(
-        Durations.threeSecond,
-        () => state = QuestionContainerState.submitted(uiModel: _uiModel),
-      );
+      final submission = result.value;
+      if (submission != null) {
+        final result = await _submitSurveyAnswerUseCase.call(submission);
+        if (result is Success<void>) {
+          state = QuestionContainerState.submitted(uiModel: _uiModel);
+          _clearStoredCurrentSurveySubmission();
+        } else {
+          _handleError(result as Failed);
+        }
+      }
     }
   }
 
   void _clearStoredCurrentSurveySubmission() {
     _storeCurrentSurveySubmissionUseCase.call(null);
+  }
+
+  void _handleError(Failed failure) {
+    state = QuestionContainerState.error(
+      uiModel: _uiModel,
+      error: failure.errorMessage,
+    );
   }
 }
