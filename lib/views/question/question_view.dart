@@ -32,7 +32,10 @@ class QuestionView extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         // TODO: - Bind question's photo
-        child: Image(image: Assets.images.nimbleBackground.image().image),
+        child: Image(
+          image: Assets.images.nimbleBackground.image().image,
+          fit: BoxFit.cover,
+        ),
       );
 
   Widget _mainBody(BuildContext context) => Container(
@@ -57,8 +60,8 @@ class QuestionView extends StatelessWidget {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
           orElse: () => const SizedBox.shrink(),
-          success: (uiModel) => Text(
-            '${uiModel.currentQuestionIndex}/${uiModel.totalQuestions}',
+          success: (uiModel, _) => Text(
+            '${uiModel.questionIndex}/${uiModel.totalQuestions}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         );
@@ -71,7 +74,7 @@ class QuestionView extends StatelessWidget {
 
   Widget get _floatingActionButton {
     final isLastQuestion = uiModel.totalQuestions > 0 &&
-        uiModel.currentQuestionIndex == uiModel.totalQuestions;
+        uiModel.questionIndex == uiModel.totalQuestions;
     return isLastQuestion ? _submitButton : _nextButton;
   }
 

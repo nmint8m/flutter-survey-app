@@ -24,7 +24,7 @@ class _RatingScaleViewState extends State<RatingScaleView> {
           child: Row(
             children: [
               SizedBox(
-                width: 34,
+                width: (MediaQuery.of(context).size.width - 51) / 10,
                 child: Center(
                   child: Text(
                     '$index',
@@ -41,7 +41,6 @@ class _RatingScaleViewState extends State<RatingScaleView> {
                   ? const VerticalDivider(
                       color: Colors.white,
                       width: 1,
-                      thickness: 1,
                     )
                   : const SizedBox.shrink()
             ],
@@ -67,18 +66,52 @@ class _RatingScaleViewState extends State<RatingScaleView> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        width: 351,
-        height: 57,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: _ratingButtons,
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 57,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: _ratingButtons,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Not at all Likely',
+                style: (selectedIndex != null && selectedIndex! <= 5)
+                    ? Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Colors.white)
+                    : Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: Colors.white70),
+              ),
+              Text(
+                'Extremely Likely',
+                style: (selectedIndex != null && selectedIndex! > 5)
+                    ? Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(color: Colors.white)
+                    : Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: Colors.white70),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

@@ -36,6 +36,6 @@ class QuestionResponse {
         imageUrl: imageUrl ?? '',
         coverImageUrl: coverImageUrl ?? '',
         displayType: displayType ?? DisplayType.unknown,
-        answers: (answers ?? []).map((e) => e.toAnswer()).toList(),
+        answers: (answers ?? []).map((answer) => answer.toAnswer()).toList(),
       );
 }

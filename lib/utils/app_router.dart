@@ -63,5 +63,9 @@ class AppRouter {
           }
           return null;
         },
+        errorBuilder: (context, state) {
+          _secureStorage.clearAllStorage();
+          return const LoginView();
+        },
       );
 }

@@ -44,7 +44,10 @@ class HomeViewState extends ConsumerState<HomeView> {
           final index = ref.watch(focusedItemIndexStream).value ?? 0;
           final surveys = ref.watch(surveysStream).value ?? [];
           return surveys.isEmpty || index >= surveys.length
-              ? Image(image: Assets.images.nimbleBackground.image().image)
+              ? Image(
+                  image: Assets.images.nimbleBackground.image().image,
+                  fit: BoxFit.cover,
+                )
               : FadeInImage.assetNetwork(
                   placeholder: Assets.images.nimbleBackground.path,
                   image: surveys[index].coverImageUrl,

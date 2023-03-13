@@ -1,11 +1,18 @@
 class QuestionContainerUiModel {
-  int currentQuestionIndex;
+  int questionIndex;
   int totalQuestions;
   String title;
 
   QuestionContainerUiModel({
-    required this.currentQuestionIndex,
+    required this.questionIndex,
     required this.totalQuestions,
     required this.title,
   });
+
+  QuestionContainerUiModel.empty()
+      : this(
+          questionIndex: 0,
+          totalQuestions: 0,
+          title: '',
+        );
 }
