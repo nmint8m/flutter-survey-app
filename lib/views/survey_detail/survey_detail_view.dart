@@ -90,8 +90,8 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(140, 56)),
                       onPressed: () => _startSurvey(),
-                      child: Text(
-                          AppLocalizations.of(context).surveyDetailStartSurvey!),
+                      child: Text(AppLocalizations.of(context)
+                          .surveyDetailStartSurvey!),
                     ),
                   ],
                 ),

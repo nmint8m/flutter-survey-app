@@ -124,8 +124,8 @@ class ForgetPasswordViewState extends ConsumerState<ForgetPasswordView>
       state.maybeWhen(
         error: (error) {
           context.showSnackBar(
-              message:
-                  AppLocalizations.of(context).resetPasswordError(error ?? '')!);
+              message: AppLocalizations.of(context)
+                  .resetPasswordError(error ?? '')!);
         },
         success: (message) async {
           context.showTopSnackBar(TopSnackBar(
