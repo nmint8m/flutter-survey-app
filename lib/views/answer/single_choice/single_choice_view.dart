@@ -3,7 +3,7 @@ import 'package:kayla_flutter_ic/views/answer/single_choice/single_choice_option
 
 class SingleChoiceView extends StatefulWidget {
   final List<SingleChoiceOptionUIModel> uiModels;
-  final Function(int) onSelect;
+  final Function(String) onSelect;
 
   const SingleChoiceView({
     super.key,
@@ -113,6 +113,6 @@ class _SingleChoiceViewState extends State<SingleChoiceView> {
     setState(() {
       selectedIndex = index;
     });
-    widget.onSelect(index);
+    widget.onSelect(widget.uiModels[index].id);
   }
 }

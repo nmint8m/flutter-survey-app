@@ -7,19 +7,16 @@ class LoadingIndicatorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.all(20),
-      child: SizedBox(
+      backgroundColor: Colors.transparent,
+      child: Container(
+        color: Colors.transparent,
+        alignment: FractionalOffset.center,
         height: 120,
-        child: Column(
-          children: const [
-            SizedBox(height: 20),
-            SizedBox(
-              width: 80,
-              height: 80,
-              child: LoadingIndicator(),
-            ),
-            SizedBox(height: 20),
-          ],
+        padding: const EdgeInsets.all(20),
+        child: const SizedBox(
+          width: 80,
+          height: 80,
+          child: LoadingIndicator(),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/views/common/loading_indicator/loading_indicator_dialog.dart';
+import 'package:kayla_flutter_ic/views/common/lottie_indicator/lottie_dialog.dart';
 import 'package:kayla_flutter_ic/views/common/top_snack_bar/animated_top_snack_bar.dart';
 
 OverlayEntry? _previousEntry;
@@ -21,6 +22,22 @@ extension BuildContextExtension on BuildContext {
     } else {
       Navigator.of(this, rootNavigator: true).pop();
     }
+  }
+
+  void showLottie({
+    required Function() onAnimated,
+  }) {
+    showDialog(
+      context: this,
+      barrierColor: Colors.black.withOpacity(0.2),
+      barrierDismissible: false,
+      builder: (_) => LottieDialog(
+        onAnimated: () {
+          Navigator.of(this, rootNavigator: true).pop();
+          onAnimated();
+        },
+      ),
+    );
   }
 
   void showTopSnackBar(Widget child) {

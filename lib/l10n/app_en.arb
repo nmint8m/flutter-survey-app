@@ -1,3 +1,26 @@
 {
-  "hello": "Hello!"
+    "loginEmail": "Email",
+    "loginPassword": "Password",
+    "loginForgotPassword": "Forgot?",
+    "loginLogin": "Log In",
+    "resetPasswordEmail": "Email",
+    "resetPasswordReset": "Reset",
+    "resetPasswordInstruction": "Enter your email to receive instructions for resetting your password.",
+    "resetPasswordCheckEmail": "Check your email.",
+    "resetPasswordError": "Please try again. {error}",
+    "@resetPasswordError": {
+        "description": "",
+        "placeholders": {
+            "error": {
+                "type": "String",
+                "example": "Unexpected error"
+            }
+        }
+    },
+    "homeToday": "Today",
+    "surveyDetailStartSurvey": "Start Survey",
+    "surveyDetailSubmit": "Submit",
+    "surveyDetailLikely": "Extremely Likely",
+    "surveyDetailUnlikey": "Not at all Likely",
+    "surveyDetailThanks": "Thanks for taking the survey."
 }

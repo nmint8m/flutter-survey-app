@@ -1,17 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kayla_flutter_ic/di/di.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_detail_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_submission_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_submission_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/submit_survey_answer_use_case.dart';
+import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_option_ui_model.dart';
-import 'package:kayla_flutter_ic/views/answer/multiple_choice/multiple_choice_view.dart';
+import 'package:kayla_flutter_ic/views/question/container_ui_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_state.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_view.dart';
+import 'package:kayla_flutter_ic/views/question/question_container_view_builder.dart';
 
 final questionViewModelProvider = StateNotifierProvider.autoDispose<
     QuestionContainerViewModel, QuestionContainerState>(
-  (_) => QuestionContainerViewModel(),
+  (_) => QuestionContainerViewModel(
+    getIt.get<GetCurrentSurveyDetailUseCase>(),
+    getIt.get<GetCurrentSurveySubmissionUseCase>(),
+    getIt.get<StoreCurrentSurveySubmissionUseCase>(),
+    getIt.get<SubmitSurveyAnswerUseCase>(),
+  ),
 );
 
 class QuestionContainerView extends ConsumerStatefulWidget {
@@ -40,43 +51,61 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
 
   @override
   Widget build(BuildContext context) {
+    _setupStateListener();
     return Consumer(
       builder: (_, ref, __) {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
-          orElse: () => Container(),
-          success: (uiModel) => QuestionView(
-            uiModel: uiModel,
-            // TODO: - Remove hard code
-            child: MultipleChoiceView(
-              uiModels: List.generate(
-                10,
-                (index) => MultipleChoiceOptionUIModel(
-                  id: index.toString(),
-                  title: 'Somewhat fulfilled $index',
-                  isSelected: false,
-                ),
-              ),
-              onSelect: _storeAnswer,
-            ),
-            onNextQuestion: () => _nextQuestion(),
-            onSubmit: () => _submit(),
-          ),
+          orElse: () {
+            return Container();
+          },
+          submitting: _buildQuestionView,
+          submitted: _buildQuestionView,
+          success: _buildQuestionView,
+          error: (uiModel, _) => _buildQuestionView(uiModel),
         );
       },
     );
   }
 
+  Widget _buildQuestionView(ContainerUIModel uiModel) => QuestionView(
+        uiModel: uiModel.question,
+        child: buildAnswer(uiModel.answer),
+        onNextQuestion: () => _nextQuestion(),
+        onSubmit: () => _submit(),
+      );
+
   void _setUpData() {
     Future.delayed(Durations.zeroSecond, () {
       ref
           .read(questionViewModelProvider.notifier)
-          .setUpData(arguments(context));
-      ref.read(questionViewModelProvider.notifier).bindData();
+          .setUpData(arguments: arguments(context));
+    });
+  }
+
+  void _setupStateListener() {
+    ref.listen<QuestionContainerState>(questionViewModelProvider, (_, state) {
+      state.maybeWhen(
+        orElse: () {},
+        submitting: (_) {
+          context.showOrHideLoadingIndicator(shouldShow: true);
+        },
+        submitted: (_) {
+          context.showOrHideLoadingIndicator(shouldShow: false);
+          context.showLottie(
+            onAnimated: () => context.pushReplacementNamed(RoutePath.home.name),
+          );
+        },
+        error: (_, error) {
+          context.showOrHideLoadingIndicator(shouldShow: false);
+          context.showSnackBar(message: 'Please try again. $error.');
+        },
+      );
     });
   }
 
   void _nextQuestion() {
+    ref.read(questionViewModelProvider.notifier).saveAnswer();
     context.pushReplacementNamed(
       RoutePath.question.name,
       params: _getPathParams(),
@@ -97,13 +126,7 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   void _submit() {
-    // TODO: - Integration task
-    // ignore: avoid_print
-    print('Submit survey!');
-  }
-
-  void _storeAnswer(List<int> index) {
-    // ignore: avoid_print
-    print(index);
+    ref.read(questionViewModelProvider.notifier).saveAnswer();
+    ref.read(questionViewModelProvider.notifier).submitAnswers();
   }
 }

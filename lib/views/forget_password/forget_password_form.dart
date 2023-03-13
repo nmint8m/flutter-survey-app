@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
@@ -19,14 +20,15 @@ class ForgetPasswordFormState extends ConsumerState<ForgetPasswordForm> {
 
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
-        decoration: _inputDecoration(labelText: 'Email'),
+        decoration: _inputDecoration(
+            labelText: AppLocalizations.of(context)?.resetPasswordEmail ?? ''),
         controller: _emailController,
         validator: _validateEmailMessage,
       );
 
   ElevatedButton get _resetButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
-        child: const Text('Reset'),
+        child: Text(AppLocalizations.of(context)?.resetPasswordReset ?? ''),
         onPressed: () => _forgetPassword(),
       );
 

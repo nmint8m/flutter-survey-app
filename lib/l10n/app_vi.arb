@@ -1,3 +1,26 @@
 {
-  "hello": "Xin chào!"
+    "loginEmail": "Email",
+    "loginPassword": "Mật khẩu",
+    "loginForgotPassword": "Quên?",
+    "loginLogin": "Đăng nhập",
+    "resetPasswordEmail": "Email",
+    "resetPasswordReset": "Đặt lại",
+    "resetPasswordInstruction": "Nhập email để nhận hướng dẫn đặt lại mật khẩu.",
+    "resetPasswordCheckEmail": "Kiểm tra email của bạn.",
+    "resetPasswordError": "Hãy thử lại. {error}",
+    "@resetPasswordError": {
+        "description": "",
+        "placeholders": {
+            "error": {
+                "type": "String",
+                "example": "Lỗi"
+            }
+        }
+    },
+    "homeToday": "Hôm nay",
+    "surveyDetailStartSurvey": "Bắt đầu",
+    "surveyDetailSubmit": "Gửi",
+    "surveyDetailLikely": "Rất thích",
+    "surveyDetailUnlikey": "Không thích",
+    "surveyDetailThanks": "Cảm ơn vì đã gửi khảo sát."
 }

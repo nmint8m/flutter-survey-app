@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
@@ -21,7 +22,9 @@ class LoginFormState extends ConsumerState<LoginForm> {
 
   TextFormField get _emailTextField => TextFormField(
         keyboardType: TextInputType.emailAddress,
-        decoration: _inputDecoration(labelText: 'Email'),
+        decoration: _inputDecoration(
+          labelText: AppLocalizations.of(context)?.loginEmail ?? '',
+        ),
         controller: _emailController,
         validator: _validateEmailMessage,
       );
@@ -29,7 +32,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   TextFormField get _passwordTextField => TextFormField(
         keyboardType: TextInputType.text,
         decoration: _inputDecoration(
-          labelText: 'Password',
+          labelText: AppLocalizations.of(context)?.loginPassword ?? '',
           rightPadding: 77,
         ),
         controller: _passwordController,
@@ -45,7 +48,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            'Forgot?',
+            AppLocalizations.of(context)?.loginForgotPassword ?? '',
             style: Theme.of(context).textTheme.labelLarge,
           ),
         ),
@@ -58,7 +61,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
 
   ElevatedButton get _loginButton => ElevatedButton(
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
-        child: const Text('Log in'),
+        child: Text(AppLocalizations.of(context)?.loginLogin ?? ''),
         onPressed: () => _login(),
       );
 
