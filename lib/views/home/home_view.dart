@@ -110,11 +110,14 @@ class HomeViewState extends ConsumerState<HomeView> {
         },
       );
 
-  Widget get _takeSurveyButton => FloatingActionButton(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        child: const Icon(Icons.navigate_next),
-        onPressed: () => _takeSurvey(),
+  Widget get _takeSurveyButton => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          child: const Icon(Icons.navigate_next),
+          onPressed: () => _takeSurvey(),
+        ),
       );
 
   Widget get _body => Consumer(

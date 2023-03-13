@@ -60,8 +60,8 @@ class QuestionView extends StatelessWidget {
         final state = ref.watch(questionViewModelProvider);
         return state.maybeWhen(
           orElse: () => const SizedBox.shrink(),
-          success: (uiModel, _) => Text(
-            '${uiModel.questionIndex}/${uiModel.totalQuestions}',
+          success: (uiModel) => Text(
+            '${uiModel.question.questionIndex}/${uiModel.question.totalQuestions}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         );
@@ -78,17 +78,23 @@ class QuestionView extends StatelessWidget {
     return isLastQuestion ? _submitButton : _nextButton;
   }
 
-  Widget get _nextButton => FloatingActionButton(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white,
-        onPressed: onNextQuestion,
-        child: const Icon(Icons.navigate_next),
+  Widget get _nextButton => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          onPressed: onNextQuestion,
+          child: const Icon(Icons.navigate_next),
+        ),
       );
 
-  Widget get _submitButton => ElevatedButton(
-        style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
-        onPressed: onSubmit,
-        child: const Text('Submit'),
+  Widget get _submitButton => Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),
+          onPressed: onSubmit,
+          child: const Text('Submit'),
+        ),
       );
 
   @override
