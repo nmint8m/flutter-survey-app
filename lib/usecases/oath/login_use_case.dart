@@ -24,21 +24,20 @@ class LoginUseCase extends UseCase<OAuthLogin, LoginParams> {
         email: params.email,
         password: params.password,
       );
-      _storeTokens(result);
-      return Success(result);
+      return await _storeTokens(result);
     } catch (exception) {
       return Failed(UseCaseException(exception));
     }
   }
 
-  Future<Result<void>> _storeTokens(OAuthLogin oauthLogin) async {
+  Future<Result<OAuthLogin>> _storeTokens(OAuthLogin oauthLogin) async {
     try {
       await _secureStorage.storeId(oauthLogin.id);
       await _secureStorage.storeTokenType(oauthLogin.tokenType);
       await _secureStorage.storeAccessToken(oauthLogin.accessToken);
       await _secureStorage.storeExpiresIn('${oauthLogin.expiresIn}');
       await _secureStorage.storeRefreshToken(oauthLogin.refreshToken);
-      return Success(null);
+      return Success(oauthLogin);
     } catch (exception) {
       return Failed(UseCaseException(exception));
     }
