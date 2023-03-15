@@ -1,4 +1,3 @@
-import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
 import 'package:kayla_flutter_ic/api/repository/oauth_repository.dart';
@@ -10,12 +9,11 @@ import 'package:kayla_flutter_ic/model/oauth_login.dart';
 import 'package:kayla_flutter_ic/model/oauth_refresh_token.dart';
 import 'package:mockito/mockito.dart';
 import '../../mocks/generate_mocks.mocks.dart';
+import '../../utils/test_util.dart';
 
 void main() {
-  FlutterConfig.loadValueForTesting({
-    'CLIENT_ID': 'CLIENT_ID',
-    'CLIENT_SECRET': 'CLIENT_SECRET',
-  });
+  TestUtil.initDependencies();
+
   group("Oauth repository", () {
     late MockOAuthService mockOauthService;
     late OAuthRepository oauthRepository;
