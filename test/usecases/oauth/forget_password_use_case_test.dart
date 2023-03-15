@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
-import 'package:kayla_flutter_ic/model/oauth_refresh_token.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/oath/forget_password_use_case.dart';
 import 'package:mockito/mockito.dart';
