@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kayla_flutter_ic/api/exception/network_exceptions.dart';
+import 'package:kayla_flutter_ic/api/response/surveys_response.dart';
 import 'package:kayla_flutter_ic/model/profile.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
@@ -104,6 +105,73 @@ void main() {
         ),
       );
       container.read(homeViewModelProvider.notifier).fetchProfile();
+    });
+
+    test(
+        'When calling get surveys with positive result, it returns states accordingly',
+        () {
+      when(getSurveysUseCase.call(any))
+          .thenAnswer((_) async => Success(SurveysResponse.empty()));
+      final trackedFocusedItemIndexStream =
+          container.read(focusedItemIndexStream.stream);
+      expect(
+        trackedFocusedItemIndexStream,
+        emitsInOrder([0]),
+      );
+      final trackedSurveysStream = container.read(surveysStream.stream);
+      expect(
+        trackedSurveysStream,
+        emitsInOrder([[]]),
+      );
+      container.read(homeViewModelProvider.notifier).fetchSurveys();
+    });
+
+    test(
+        'When calling get surveys with negative result and API returns unauthorizedRequest error, it returns states accordingly',
+        () {
+      final mockException = MockUseCaseException();
+      when(mockException.actualException)
+          .thenReturn(const NetworkExceptions.unauthorisedRequest());
+      when(getSurveysUseCase.call(any))
+          .thenAnswer((_) async => Failed(mockException));
+      final stateStream = container.read(homeViewModelProvider.notifier).stream;
+      expect(
+        stateStream,
+        emitsInOrder(
+          [
+            HomeState.error(
+              NetworkExceptions.getErrorMessage(
+                const NetworkExceptions.unauthorisedRequest(),
+              ),
+            ),
+          ],
+        ),
+      );
+      container.read(homeViewModelProvider.notifier).fetchSurveys();
+    });
+
+    test(
+        'When calling get surveys with negative result and API returns other error, it returns states accordingly',
+        () {
+      final mockException = MockUseCaseException();
+      when(mockException.actualException)
+          .thenReturn(const NetworkExceptions.internalServerError());
+      when(getSurveysUseCase.call(any))
+          .thenAnswer((_) async => Failed(mockException));
+      final stateStream = container.read(homeViewModelProvider.notifier).stream;
+      expect(
+        stateStream,
+        emitsInOrder(
+          [
+            HomeState.error(
+              NetworkExceptions.getErrorMessage(
+                const NetworkExceptions.internalServerError(),
+              ),
+            )
+          ],
+        ),
+      );
+      container.read(homeViewModelProvider.notifier).fetchSurveys();
     });
   });
 }
