@@ -27,22 +27,8 @@ void main() {
 
     test('When calling login successfully, it returns corresponding response',
         () async {
-      final oauthLoginResponse = OAuthLoginResponse(
-        id: '',
-        type: '',
-        accessToken: '',
-        tokenType: '',
-        expiresIn: -1,
-        refreshToken: '',
-        createdAt: -2,
-      );
-      const oauthLogin = OAuthLogin(
-        id: '',
-        accessToken: '',
-        tokenType: '',
-        expiresIn: -1,
-        refreshToken: '',
-      );
+      final oauthLoginResponse = OAuthLoginResponse.empty();
+      const oauthLogin = OAuthLogin.empty();
       when(mockOauthService.login(any))
           .thenAnswer((_) async => oauthLoginResponse);
       final result = await oauthRepository.login(
@@ -68,22 +54,8 @@ void main() {
     test(
         'When calling refresh token successfully, it returns corresponding response',
         () async {
-      final oauthRefreshTokenResponse = OAuthRefreshTokenResponse(
-        id: '',
-        type: '',
-        accessToken: '',
-        tokenType: '',
-        expiresIn: -1,
-        refreshToken: '',
-        createdAt: -2,
-      );
-      const oauthRefreshToken = OAuthRefreshToken(
-        id: '',
-        accessToken: '',
-        tokenType: '',
-        expiresIn: -1,
-        refreshToken: '',
-      );
+      final oauthRefreshTokenResponse = OAuthRefreshTokenResponse.empty();
+      const oauthRefreshToken = OAuthRefreshToken.empty();
       when(mockOauthService.refreshToken(any))
           .thenAnswer((_) async => oauthRefreshTokenResponse);
       final result = await oauthRepository.refreshToken(refreshToken: '');
