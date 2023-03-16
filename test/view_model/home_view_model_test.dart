@@ -173,5 +173,26 @@ void main() {
       );
       container.read(homeViewModelProvider.notifier).fetchSurveys();
     });
+
+    test('When calling change focused index, it streams index accordingly', () {
+      final trackedFocusedItemIndexStream =
+          container.read(focusedItemIndexStream.stream);
+      expect(
+        trackedFocusedItemIndexStream,
+        emitsInOrder([1, 2]),
+      );
+      container
+          .read(homeViewModelProvider.notifier)
+          .changeFocusedItem(index: 1);
+      container
+          .read(homeViewModelProvider.notifier)
+          .changeFocusedItem(index: 2);
+    });
+
+    test('When calling log out, it calls log out usecase', () {
+      when(logoutUseCase.call()).thenAnswer((_) async => Success('Log out!'));
+      container.read(homeViewModelProvider.notifier).logOut();
+      verify(logoutUseCase.call()).called(1);
+    });
   });
 }
