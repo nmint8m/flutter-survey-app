@@ -7,10 +7,13 @@ import '../../mocks/generate_mocks.mocks.dart';
 import '../../utils/test_util.dart';
 
 void main() {
-  TestUtil.loadValueForTesting();
   group("User repository", () {
     late MockApiService service;
     late UserRepository repository;
+
+    setUpAll(() async {
+      TestUtil.loadValueForTesting();
+    });
 
     setUp(() async {
       service = MockApiService();
