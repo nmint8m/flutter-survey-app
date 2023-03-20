@@ -12,11 +12,13 @@ import '../../mocks/generate_mocks.mocks.dart';
 import '../../utils/test_util.dart';
 
 void main() {
-  TestUtil.initDependencies();
-
   group("Oauth repository", () {
     late MockOAuthService mockOauthService;
     late OAuthRepository oauthRepository;
+
+    setUpAll(() async {
+      TestUtil.initDependencies();
+    });
 
     setUp(() async {
       mockOauthService = MockOAuthService();
