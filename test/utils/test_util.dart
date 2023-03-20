@@ -1,7 +1,7 @@
 import 'package:flutter_config/flutter_config.dart';
 
 class TestUtil {
-  static void initDependencies() {
+  static void loadValueForTesting() {
     FlutterConfig.loadValueForTesting({
       'REST_API_ENDPOINT': 'REST_API_ENDPOINT',
       'CLIENT_ID': 'CLIENT_ID',

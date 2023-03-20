@@ -17,7 +17,7 @@ void main() {
     late OAuthRepository oauthRepository;
 
     setUpAll(() async {
-      TestUtil.initDependencies();
+      TestUtil.loadValueForTesting();
     });
 
     setUp(() async {

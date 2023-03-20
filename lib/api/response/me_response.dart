@@ -17,6 +17,14 @@ class MeResponse {
     required this.avatarUrl,
   });
 
+  MeResponse.empty()
+      : this(
+          id: '',
+          type: '',
+          email: '',
+          avatarUrl: '',
+        );
+
   factory MeResponse.fromJson(Map<String, dynamic> json) =>
       _$MeResponseFromJson(fromJsonApi(json));
 }
