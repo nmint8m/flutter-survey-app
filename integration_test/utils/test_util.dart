@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:kayla_flutter_ic/api/api_service.dart';
 import 'package:kayla_flutter_ic/api/repository/credential_repository.dart';
 import 'package:kayla_flutter_ic/api/repository/oauth_repository.dart';
 import 'package:kayla_flutter_ic/api/repository/survey_repository.dart';
