@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    _router = getIt.get<AppRouter>().router;
+    _router = getIt.get<AppRouter>().router(null);
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,
