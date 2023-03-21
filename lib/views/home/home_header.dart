@@ -30,6 +30,8 @@ class HomeHeader extends StatelessWidget {
         style: Theme.of(context).textTheme.displayLarge,
       );
 
+  Image get _defaultProfileImage => Assets.images.nimbleLogo.image();
+
   FadeInImage get _profileImage => FadeInImage.assetNetwork(
         placeholder: Assets.images.nimbleLogo.path,
         image: profileImageUrl,
@@ -48,7 +50,9 @@ class HomeHeader extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
-                backgroundImage: _profileImage.image,
+                backgroundImage: profileImageUrl.isEmpty
+                    ? _defaultProfileImage.image
+                    : _profileImage.image,
               ),
             ),
           );
@@ -64,13 +68,16 @@ class HomeHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _dateWidget(context),
-              const SizedBox(height: 4),
-              _todayWidget(context),
-            ],
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _dateWidget(context),
+                const SizedBox(height: 4),
+                _todayWidget(context),
+              ],
+            ),
           ),
           _profilePictureWidget(context),
         ],

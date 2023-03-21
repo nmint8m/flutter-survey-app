@@ -10,6 +10,7 @@ import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:kayla_flutter_ic/utils/build_context_ext.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/home/home_component_id.dart';
 import 'package:kayla_flutter_ic/views/home/home_header.dart';
 import 'package:kayla_flutter_ic/views/home/home_state.dart';
 import 'package:kayla_flutter_ic/views/home/home_view_model.dart';
@@ -113,6 +114,7 @@ class HomeViewState extends ConsumerState<HomeView> {
   Widget get _takeSurveyButton => Padding(
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
+          key: HomeComponentId.takeSurveyButton,
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           child: const Icon(Icons.navigate_next),
