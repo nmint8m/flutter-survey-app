@@ -45,6 +45,7 @@ class FakeApiService extends Fake implements BaseApiService {
   Future<SurveyDetailResponse> getSurveyDetail(
     String id,
   ) async {
+    await Future.delayed(Durations.fiftyMillisecond);
     final response = FakeData.apiAndResponse[keySurveyDetail]!;
     if (response.statusCode != 200) {
       throw generateDioError(response.statusCode);
@@ -56,6 +57,7 @@ class FakeApiService extends Fake implements BaseApiService {
   Future<void> submitSurveyAnswer(
     Map<String, dynamic> body,
   ) async {
+    await Future.delayed(Durations.fiftyMillisecond);
     final response = FakeData.apiAndResponse[keySubmitSurvey]!;
     if (response.statusCode != 200) {
       throw generateDioError(response.statusCode);
