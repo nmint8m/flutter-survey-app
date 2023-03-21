@@ -1,6 +1,6 @@
 {
     "data": {
-        "id": 10,
+        "id": "10",
         "type": "token",
         "attributes": {
             "access_token": "access_token",

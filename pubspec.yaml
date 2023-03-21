@@ -74,6 +74,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/fonts/
+    - integration_test_fake_data/
 
   fonts:
     - family: neuzeit
