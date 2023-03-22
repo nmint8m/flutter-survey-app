@@ -21,6 +21,15 @@ class SurveyDetailResponse {
     required this.questions,
   });
 
+  SurveyDetailResponse.empty()
+      : this(
+          id: '',
+          title: '',
+          description: '',
+          coverImageUrl: '',
+          questions: [],
+        );
+
   factory SurveyDetailResponse.fromJson(Map<String, dynamic> json) {
     return _$SurveyDetailResponseFromJson(fromJsonApi(json));
   }

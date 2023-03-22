@@ -34,7 +34,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   ContainerUIModel get uiModel => _uiModel;
   ContainerUIModel _uiModel = ContainerUIModel(
-    question: QuestionContainerUiModel.empty(),
+    question: const QuestionContainerUiModel.empty(),
     answer: AnswerContainerUIModel.empty(),
   );
 
@@ -76,7 +76,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   void _bindEmptyData() {
     _bindUIModelData(
-      questionUiModel: QuestionContainerUiModel.empty(),
+      questionUiModel: const QuestionContainerUiModel.empty(),
       answerUiModel: AnswerContainerUIModel.empty(),
     );
   }
