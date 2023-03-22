@@ -114,15 +114,13 @@ class QuestionContainerViewState extends ConsumerState<QuestionContainerView> {
   }
 
   Map<String, String> _getPathParams() {
-    return ref
-        .read(questionViewModelProvider.notifier)
-        .getPathParams(arguments(context));
+    return ref.read(questionViewModelProvider.notifier).getPathParams();
   }
 
   Map<String, String> _getNextQuestionQueryParams() {
     return ref
         .read(questionViewModelProvider.notifier)
-        .getNextQuestionQueryParams(arguments(context));
+        .getNextQuestionQueryParams();
   }
 
   void _submit() {
