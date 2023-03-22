@@ -15,7 +15,7 @@ void main() {
 }
 
 void test() {
-  group('Survey Detail Page', () {
+  group('Question Page', () {
     late Finder nextButton;
     late Finder submitButton;
     late Finder answerView;
@@ -24,7 +24,7 @@ void test() {
       await TestUtil.setupTestEnvironment();
     });
 
-    testWidgets("When starting, it displays the Survey screen correctly",
+    testWidgets("When starting, it displays the Question screen correctly",
         (WidgetTester tester) async {
       await tester.pumpWidget(TestUtil.pumpWidgetWithShellAppGoRouter(
         location: '/surveys/111',

@@ -100,7 +100,7 @@ void loginTest() {
     });
 
     testWidgets(
-        "When login with valid email or password, but the API returns successfully",
+        "When login with valid email or password, and the API returns successfully",
         (WidgetTester tester) async {
       await tester.pumpWidget(TestUtil.pumpWidgetWithShellAppGoRouter(
         location: '/login',
