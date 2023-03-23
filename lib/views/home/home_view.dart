@@ -77,7 +77,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         ),
       );
 
-  Widget _pageIndicatorSection(int length) => Column(
+  Widget _pageIndicatorSection(BuildContext context, int length) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Spacer(),
@@ -85,11 +85,11 @@ class HomeViewState extends ConsumerState<HomeView> {
             controller: _surveyItemController,
             count: length,
           ),
-          const SizedBox(height: 160),
+          SizedBox(height: 230.0 - MediaQuery.of(context).padding.bottom),
         ],
       );
 
-  Widget get _mainBody => Consumer(
+  Widget _mainBody(BuildContext context) => Consumer(
         builder: (_, ref, __) {
           final surveys = ref.watch(surveysStream).value ?? [];
           if (_surveyItemController.positions.isNotEmpty) {
@@ -104,7 +104,7 @@ class HomeViewState extends ConsumerState<HomeView> {
           return Stack(
             children: [
               _homeHeader,
-              _pageIndicatorSection(surveys.length),
+              _pageIndicatorSection(context, surveys.length),
               _surveyList(surveys),
             ],
           );
@@ -122,11 +122,11 @@ class HomeViewState extends ConsumerState<HomeView> {
         ),
       );
 
-  Widget get _body => Consumer(
+  Widget _body(BuildContext context) => Consumer(
         builder: (_, ref, __) {
           final surveys = ref.watch(surveysStream).value ?? [];
           return surveys.isNotEmpty
-              ? SafeArea(child: _mainBody)
+              ? SafeArea(child: _mainBody(context))
               : const SafeArea(child: HomeSkeletonLoading());
         },
       );
@@ -152,7 +152,7 @@ class HomeViewState extends ConsumerState<HomeView> {
         children: [
           _background,
           Container(color: Colors.black38),
-          _body,
+          _body(context),
         ],
       ),
       floatingActionButton: _takeSurveyButton,
