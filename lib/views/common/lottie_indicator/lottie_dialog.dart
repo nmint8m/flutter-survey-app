@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
 import 'package:lottie/lottie.dart';
 
@@ -47,8 +48,8 @@ class _LottieDialogState extends State<LottieDialog>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Lottie.network(
-              'https://assets2.lottiefiles.com/packages/lf20_pmYw5P.json',
+            Lottie.asset(
+              'assets/json/lottie.json',
               controller: _controller,
               onLoaded: (composition) {
                 _controller.duration = composition.duration;
@@ -59,7 +60,7 @@ class _LottieDialogState extends State<LottieDialog>
             ),
             const SizedBox(height: 20),
             Text(
-              'Thanks for taking  the survey.',
+              AppLocalizations.of(context)?.surveyDetailThanks ?? '',
               style: Theme.of(context).textTheme.displayMedium,
             ),
           ],
