@@ -108,8 +108,11 @@ void loginTest() {
       ));
       FakeData.initDefault();
       await tester.pumpAndSettle();
+      await tester.pump(Durations.oneSecond);
       await tester.enterText(emailTextField, 'test@email.com');
+      await tester.pump(Durations.oneSecond);
       await tester.enterText(passwordTextField, '12345678');
+      await tester.pump(Durations.oneSecond);
       await tester.tap(loginButton);
       await tester.pump(Durations.halfSecond);
       await tester.pumpAndSettle();
