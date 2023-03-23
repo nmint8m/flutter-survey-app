@@ -6,7 +6,7 @@ import 'package:kayla_flutter_ic/env.dart';
 
 @module
 abstract class NetworkModule {
-  @singleton
+  @Singleton(as: BaseOAuthService)
   OAuthService provideOAuthService(DioProvider dioProvider) {
     return OAuthService(
       dioProvider.getNonAuthenticatedDio(),
@@ -14,7 +14,7 @@ abstract class NetworkModule {
     );
   }
 
-  @singleton
+  @Singleton(as: BaseApiService)
   ApiService provideApiService(DioProvider dioProvider) {
     return ApiService(
       dioProvider.getAuthenticatedDio(),

@@ -18,7 +18,7 @@ abstract class SurveyRepository {
 
 @Singleton(as: SurveyRepository)
 class SurveyRepositoryImpl extends SurveyRepository {
-  final ApiService _apiService;
+  final BaseApiService _apiService;
 
   SurveyRepositoryImpl(this._apiService);
 

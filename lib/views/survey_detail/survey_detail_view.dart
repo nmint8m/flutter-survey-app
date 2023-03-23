@@ -9,6 +9,7 @@ import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_detail_use
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/skeleton_loading/survey_detail_skeleton_loading.dart';
+import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_component_id.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_state.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_ui_model.dart';
 import 'package:kayla_flutter_ic/views/survey_detail/survey_detail_view_model.dart';
@@ -87,6 +88,7 @@ class SurveyDetailViewState extends ConsumerState<SurveyDetailView>
                   children: [
                     const Spacer(),
                     ElevatedButton(
+                      key: SurveyDetailComponentId.startSurveyButton,
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(140, 56)),
                       onPressed: () => _startSurvey(),

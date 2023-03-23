@@ -7,7 +7,7 @@ abstract class CredentialRepository {
 }
 
 class CredentialRepositoryImpl extends CredentialRepository {
-  final ApiService _apiService;
+  final BaseApiService _apiService;
 
   CredentialRepositoryImpl(this._apiService);
 

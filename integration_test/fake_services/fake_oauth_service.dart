@@ -7,13 +7,12 @@ import 'package:kayla_flutter_ic/api/response/forget_password_response.dart';
 import 'package:kayla_flutter_ic/api/response/oauth_login_response.dart';
 import 'package:kayla_flutter_ic/api/response/oauth_refresh_token_response.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
-import 'package:retrofit/retrofit.dart';
-import '../fake_data/fake_data.dart';
+import '../utils/fake_data.dart';
 
-class FakeOAuthService extends Fake implements OAuthService {
+class FakeOAuthService extends Fake implements BaseOAuthService {
   @override
   Future<OAuthLoginResponse> login(
-    @Body() OAuthLoginRequest body,
+    OAuthLoginRequest body,
   ) async {
     await Future.delayed(Durations.fiftyMillisecond);
     final response = FakeData.apiAndResponse[keyLogin]!;
@@ -25,7 +24,7 @@ class FakeOAuthService extends Fake implements OAuthService {
 
   @override
   Future<OAuthRefreshTokenResponse> refreshToken(
-    @Body() OAuthRefreshTokenRequest body,
+    OAuthRefreshTokenRequest body,
   ) async {
     await Future.delayed(Durations.fiftyMillisecond);
     final response = FakeData.apiAndResponse[keyLogin]!;
@@ -37,7 +36,7 @@ class FakeOAuthService extends Fake implements OAuthService {
 
   @override
   Future<ForgetPasswordResponse> forgetPassword(
-    @Body() ForgetPasswordRequest body,
+    ForgetPasswordRequest body,
   ) async {
     await Future.delayed(Durations.fiftyMillisecond);
     final response = FakeData.apiAndResponse[keyLogin]!;

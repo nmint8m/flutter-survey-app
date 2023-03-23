@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:kayla_flutter_ic/utils/durations.dart';
+import 'package:kayla_flutter_ic/views/home/home_view.dart';
 import 'package:kayla_flutter_ic/views/login/login_component_id.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
-import 'fake_data/fake_data.dart';
+import 'utils/fake_data.dart';
 import 'utils/test_util.dart';
 
 void main() {
@@ -96,6 +97,27 @@ void loginTest() {
 
       expect(find.text('Please enter your email!'), findsOneWidget);
       expect(find.text('Please enter your password!'), findsOneWidget);
+    });
+
+    testWidgets(
+        "When login with valid email or password, and the API returns successfully",
+        (WidgetTester tester) async {
+      await tester.pumpWidget(TestUtil.pumpWidgetWithShellAppGoRouter(
+        location: '/login',
+        isLogin: false,
+      ));
+      FakeData.initDefault();
+      await tester.pumpAndSettle();
+      await tester.pump(Durations.oneSecond);
+      await tester.enterText(emailTextField, 'test@email.com');
+      await tester.pump(Durations.oneSecond);
+      await tester.enterText(passwordTextField, '12345678');
+      await tester.pump(Durations.oneSecond);
+      await tester.tap(loginButton);
+      await tester.pump(Durations.halfSecond);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeView), findsOneWidget);
     });
   });
 }

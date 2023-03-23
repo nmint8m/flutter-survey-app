@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kayla_flutter_ic/model/enum/likert_type.dart';
+import 'package:kayla_flutter_ic/views/answer/answer_component_id.dart';
 
 class LikertScaleView extends StatefulWidget {
   final LikertType type;
@@ -23,6 +24,7 @@ class _LikertScaleViewState extends State<LikertScaleView> {
     widget.type.icons.asMap().forEach((index, icon) {
       widgets.add(
         GestureDetector(
+          key: AnswerComponentId.answer('$index'),
           child: Container(
             margin: const EdgeInsets.all(8),
             child: SizedBox(

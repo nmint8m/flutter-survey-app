@@ -1,0 +1,137 @@
+{
+    "data": {
+        "id": "111",
+        "type": "survey",
+        "attributes": {
+            "title": "Survey title 1",
+            "description": "Survey description 1!",
+            "cover_image_url": "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+        },
+        "relationships": {
+            "questions": {
+                "data": [
+                    {
+                        "id": "d3afbcf2b1d60af845dc",
+                        "type": "question"
+                    },
+                    {
+                        "id": "940d229e4cd87cd1e202",
+                        "type": "question"
+                    },
+                    {
+                        "id": "4372463ce56db58c0983",
+                        "type": "question"
+                    }
+                ]
+            }
+        }
+    },
+    "included": [
+        {
+            "id": "d3afbcf2b1d60af845dc",
+            "type": "question",
+            "attributes": {
+                "text": "\nThank you for visiting Scarlett!\n Please take a moment to share your feedback.",
+                "display_order": 0,
+                "display_type": "intro",
+                "cover_image_url": "https://dhdbhh0jsld0o.cloudfront.net/m/1ea51560991bcb7d00d0_"
+            },
+            "relationships": {
+                "answers": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "id": "940d229e4cd87cd1e202",
+            "type": "question",
+            "attributes": {
+                "text": "Food â€“ Variety, Taste and Presentation",
+                "display_order": 1,
+                "display_type": "star",
+                "cover_image_url": "https://dhdbhh0jsld0o.cloudfront.net/m/b41c84934fa8e4c34269_"
+            },
+            "relationships": {
+                "answers": {
+                    "data": [
+                        {
+                            "id": "4cbc3e5a1c87d99bc7ee",
+                            "type": "answer"
+                        },
+                        {
+                            "id": "6e6221ce7e0d1068874d",
+                            "type": "answer"
+                        },
+                        {
+                            "id": "037574cb93d16800eecd",
+                            "type": "answer"
+                        },
+                        {
+                            "id": "f09f1a680789b636459b",
+                            "type": "answer"
+                        },
+                        {
+                            "id": "bafadb5f1d8defa4778a",
+                            "type": "answer"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "id": "4372463ce56db58c0983",
+            "type": "question",
+            "attributes": {
+                "text": "Thank you for taking the time to share your feedback!",
+                "display_order": 3,
+                "display_type": "outro",
+                "cover_image_url": "https://dhdbhh0jsld0o.cloudfront.net/m/cf6002aa29fb33d9d21b_"
+            },
+            "relationships": {
+                "answers": {
+                    "data": []
+                }
+            }
+        },
+        {
+            "id": "4cbc3e5a1c87d99bc7ee",
+            "type": "answer",
+            "attributes": {
+                "text": "1",
+                "display_order": 0
+            }
+        },
+        {
+            "id": "6e6221ce7e0d1068874d",
+            "type": "answer",
+            "attributes": {
+                "text": "2",
+                "display_order": 1
+            }
+        },
+        {
+            "id": "037574cb93d16800eecd",
+            "type": "answer",
+            "attributes": {
+                "text": "3",
+                "display_order": 2
+            }
+        },
+        {
+            "id": "f09f1a680789b636459b",
+            "type": "answer",
+            "attributes": {
+                "text": "4",
+                "display_order": 3
+            }
+        },
+        {
+            "id": "bafadb5f1d8defa4778a",
+            "type": "answer",
+            "attributes": {
+                "text": "5",
+                "display_order": 4
+            }
+        }
+    ]
+}
