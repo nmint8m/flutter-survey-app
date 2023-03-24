@@ -20,4 +20,4 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
         run: |
-        echo '${REST_API_ENDPOINT}'
+          echo "${REST_API_ENDPOINT}"
