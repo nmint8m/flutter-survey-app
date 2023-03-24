@@ -38,5 +38,7 @@ jobs:
       with:
         name: Android-Production-Build
         path: build/app/outputs/flutter-apk/app-production-release.apk
+      env:
+          GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
 
     # TODO: Add Firebase later

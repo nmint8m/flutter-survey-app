@@ -40,3 +40,5 @@ jobs:
     - name: Deploy production build to AppStore
       run: |
         cd ./ios && bundle exec fastlane build_and_upload_app_store_connect_app
+      env:
+          GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
