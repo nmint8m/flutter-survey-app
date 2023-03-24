@@ -8,6 +8,7 @@ jobs:
   build_and_upload_to_app_store:
     name: Build and upload iOS app to AppStore
     runs-on: macOS-12
+    environment: production
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
