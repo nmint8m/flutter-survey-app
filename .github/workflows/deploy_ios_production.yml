@@ -43,6 +43,5 @@ jobs:
         CLIENT_ID: ${{ secrets.CLIENT_ID }}
         CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
         REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
+        GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
       run: cd ./ios && bundle exec fastlane build_and_upload_app_store_connect_app
-      env:
-          GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
