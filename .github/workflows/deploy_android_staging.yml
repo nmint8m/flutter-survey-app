@@ -39,5 +39,7 @@ jobs:
       with:
         name: Android-Staging-Build
         path: build/app/outputs/flutter-apk/app-staging-debug.apk
+      env:
+          GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
     
     # TODO: Add Firebase later
