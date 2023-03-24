@@ -11,10 +11,6 @@ jobs:
     name: Build and deploy Android staging APK
     runs-on: ubuntu-latest
     environment: staging
-    env:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3.3.0
@@ -36,6 +32,10 @@ jobs:
       run: flutter packages pub run build_runner build --delete-conflicting-outputs
 
     - name: Build Android APK
+      env:
+        CLIENT_ID: ${{ secrets.CLIENT_ID }}
+        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+        REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
       run: flutter build apk --flavor staging --debug --build-number $GITHUB_RUN_NUMBER
 
     - name: Upload Android Staging to GitHub Actions
