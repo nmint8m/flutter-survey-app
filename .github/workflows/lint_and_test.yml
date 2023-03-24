@@ -9,15 +9,15 @@ jobs:
     name: Static code analyze & Unit test
     runs-on: ubuntu-latest
     environment: staging
-    env:
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
 
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3.3.0
 
       - name: Print environments
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
         run: |
         echo '${REST_API_ENDPOINT}'
