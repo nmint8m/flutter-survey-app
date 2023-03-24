@@ -15,11 +15,7 @@ class StoreCurrentSurveyDetailUseCase extends UseCase<bool, SurveyDetail> {
 
   @override
   Future<Result<bool>> call(SurveyDetail params) async {
-    try {
-      await _secureStorage.storeSurveyDetailJson(jsonEncode(params.toJson()));
-      return Success(true);
-    } catch (exception) {
-      return Failed(UseCaseException(exception));
-    }
+    await _secureStorage.storeSurveyDetailJson(jsonEncode(params.toJson()));
+    return Success(true);
   }
 }

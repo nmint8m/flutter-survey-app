@@ -8,7 +8,13 @@ import 'package:kayla_flutter_ic/api/storage/secure_storage.dart';
 import 'package:kayla_flutter_ic/usecases/base/base_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/oath/login_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/oath/logout_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_detail_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_current_survey_submission_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/get_survey_detail_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/survey/get_surveys_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_detail_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/store_current_survey_submission_use_case.dart';
+import 'package:kayla_flutter_ic/usecases/survey/submit_survey_answer_use_case.dart';
 import 'package:kayla_flutter_ic/usecases/user/get_profile_use_case.dart';
 import 'package:mockito/annotations.dart';
 
@@ -24,6 +30,12 @@ import 'package:mockito/annotations.dart';
   LogoutUseCase,
   GetProfileUseCase,
   GetSurveysUseCase,
+  GetCurrentSurveyDetailUseCase,
+  GetCurrentSurveySubmissionUseCase,
+  GetSurveyDetailUseCase,
+  StoreCurrentSurveyDetailUseCase,
+  StoreCurrentSurveySubmissionUseCase,
+  SubmitSurveyAnswerUseCase,
   DioError,
 ])
 main() {
