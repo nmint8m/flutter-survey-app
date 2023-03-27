@@ -18,18 +18,24 @@ class SurveyCell extends StatelessWidget {
           SizedBox(
             height: 120,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  _survey.title,
-                  style: Theme.of(context).textTheme.displayMedium,
-                  maxLines: 2,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    _survey.title,
+                    style: Theme.of(context).textTheme.displayMedium,
+                    maxLines: 2,
+                  ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  _survey.description,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  maxLines: 2,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    _survey.description,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),

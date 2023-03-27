@@ -34,7 +34,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   ContainerUIModel get uiModel => _uiModel;
   ContainerUIModel _uiModel = ContainerUIModel(
-    question: QuestionContainerUiModel.empty(),
+    question: const QuestionContainerUiModel.empty(),
     answer: AnswerContainerUIModel.empty(),
   );
 
@@ -76,7 +76,7 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
 
   void _bindEmptyData() {
     _bindUIModelData(
-      questionUiModel: QuestionContainerUiModel.empty(),
+      questionUiModel: const QuestionContainerUiModel.empty(),
       answerUiModel: AnswerContainerUIModel.empty(),
     );
   }
@@ -134,14 +134,13 @@ class QuestionContainerViewModel extends StateNotifier<QuestionContainerState> {
     return int.parse(questionNumber);
   }
 
-  Map<String, String> getPathParams(Map<String, String> arguments) {
+  Map<String, String> getPathParams() {
     var params = <String, String>{};
     params[RoutePath.surveyDetail.pathParam] = _surveyIdValue;
     return params;
   }
 
-  Map<String, String> getNextQuestionQueryParams(
-      Map<String, String> arguments) {
+  Map<String, String> getNextQuestionQueryParams() {
     final nextQuestionNumber = _questionNumberValue + 1;
     var params = <String, String>{};
     params[RoutePath.question.queryParams.first] =

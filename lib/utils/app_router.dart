@@ -14,8 +14,8 @@ class AppRouter {
 
   AppRouter(this._secureStorage);
 
-  GoRouter get router => GoRouter(
-        initialLocation: RoutePath.home.path,
+  GoRouter router(String? initialLocation) => GoRouter(
+        initialLocation: initialLocation ?? RoutePath.home.path,
         routes: <GoRoute>[
           GoRoute(
             path: RoutePath.home.screen,

@@ -13,6 +13,12 @@ class SurveySubmission {
     required this.questions,
   });
 
+  SurveySubmission.empty()
+      : this(
+          surveyId: '',
+          questions: [],
+        );
+
   Map<String, dynamic> toJson() => _$SurveySubmissionToJson(this);
 
   Map<String, dynamic> toObmitNullFieldsJson() {

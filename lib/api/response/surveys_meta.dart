@@ -17,6 +17,14 @@ class SurveysMeta {
     required this.records,
   });
 
+  SurveysMeta.empty()
+      : this(
+          page: 0,
+          pages: 0,
+          pageSize: 0,
+          records: 0,
+        );
+
   factory SurveysMeta.fromJson(Map<String, dynamic> json) =>
       _$SurveysMetaFromJson(fromJsonApi(json));
 }

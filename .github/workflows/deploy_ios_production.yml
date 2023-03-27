@@ -11,6 +11,10 @@ jobs:
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
+      GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3.3.0
@@ -38,5 +42,4 @@ jobs:
       run: cd ./ios && bundle exec fastlane sync_appstore_production_signing
 
     - name: Deploy production build to AppStore
-      run: |
-        cd ./ios && bundle exec fastlane build_and_upload_app_store_connect_app
+      run: cd ./ios && bundle exec fastlane build_and_upload_app_store_connect_app

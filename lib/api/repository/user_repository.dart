@@ -9,7 +9,7 @@ abstract class UserRepository {
 
 @Singleton(as: UserRepository)
 class UserRepositoryImpl extends UserRepository {
-  final ApiService _apiService;
+  final BaseApiService _apiService;
 
   UserRepositoryImpl(this._apiService);
 

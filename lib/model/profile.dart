@@ -11,6 +11,13 @@ class Profile extends Equatable {
     required this.avatarUrl,
   });
 
+  const Profile.empty()
+      : this(
+          id: '',
+          email: '',
+          avatarUrl: '',
+        );
+
   @override
   List<Object?> get props => [
         id,

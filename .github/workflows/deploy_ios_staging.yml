@@ -18,6 +18,9 @@ jobs:
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3.3.0
@@ -31,6 +34,11 @@ jobs:
       uses: subosito/flutter-action@v1
       with:
         flutter-version: '3.3.8'
+
+    - name: Setup .env.staging
+      env:
+        ENV_STAGING: ${{ secrets.ENV_STAGING }}
+      run: echo $ENV_STAGING | base64 --decode >> .env.staging
 
     - name: Get Flutter dependencies
       run: flutter pub get

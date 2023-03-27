@@ -190,8 +190,8 @@ class LoginViewState extends ConsumerState<LoginView>
         shouldShow: state == const LoginState.loading(),
       );
       state.maybeWhen(
-        error: (error) {
-          context.showSnackBar(message: 'Please try again. $error.');
+        error: (_) {
+          context.showSnackBar(message: 'Please try again.');
         },
         success: () async {
           context.pushReplacement(RoutePath.home.screen);

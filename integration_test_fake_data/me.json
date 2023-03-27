@@ -1,0 +1,10 @@
+{
+    "data": {
+        "id": "1",
+        "type": "user",
+        "attributes": {
+            "email": "nmint8m@gmail.com",
+            "avatar_url": "https://api.adorable.io/avatar/nmint8m@gmail.com"
+        }
+    }
+}

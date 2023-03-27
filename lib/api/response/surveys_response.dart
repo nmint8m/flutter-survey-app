@@ -15,6 +15,12 @@ class SurveysResponse {
     required this.meta,
   });
 
+  SurveysResponse.empty()
+      : this(
+          data: [],
+          meta: SurveysMeta.empty(),
+        );
+
   factory SurveysResponse.fromJson(Map<String, dynamic> json) {
     return _$SurveysResponseFromJson(fromRootJsonApi(json));
   }

@@ -15,6 +15,15 @@ class OAuthRefreshToken extends Equatable {
     required this.refreshToken,
   });
 
+  const OAuthRefreshToken.empty()
+      : this(
+          id: '',
+          accessToken: '',
+          tokenType: '',
+          expiresIn: -1,
+          refreshToken: '',
+        );
+
   @override
   List<Object?> get props => [
         id,

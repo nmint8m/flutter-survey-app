@@ -52,7 +52,7 @@ android {
         applicationId "com.flutteric.kayla"
         minSdkVersion 23
         targetSdkVersion 31
-        versionCode flutterVersionCode.toInteger()
+        versionCode System.env.GITHUB_RUN_NUMBER?.toInteger() ?: flutterVersionCode.toInteger()
         versionName flutterVersionName
         resValue "string", "build_config_package", "com.flutteric.kayla"
     }

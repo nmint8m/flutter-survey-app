@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/utils/border_radiuses.dart';
 import 'package:kayla_flutter_ic/utils/keyboard.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/login/login_component_id.dart';
 import 'package:kayla_flutter_ic/views/login/login_view.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
@@ -21,6 +22,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   bool _isStartedValidation = false;
 
   TextFormField get _emailTextField => TextFormField(
+        key: LoginComponentId.emailTextField,
         keyboardType: TextInputType.emailAddress,
         decoration: _inputDecoration(
           labelText: AppLocalizations.of(context)?.loginEmail ?? '',
@@ -30,6 +32,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
       );
 
   TextFormField get _passwordTextField => TextFormField(
+        key: LoginComponentId.passwordTextField,
         keyboardType: TextInputType.text,
         decoration: _inputDecoration(
           labelText: AppLocalizations.of(context)?.loginPassword ?? '',
@@ -60,6 +63,7 @@ class LoginFormState extends ConsumerState<LoginForm> {
   }
 
   ElevatedButton get _loginButton => ElevatedButton(
+        key: LoginComponentId.loginButton,
         style: ElevatedButton.styleFrom(minimumSize: const Size(0, 56)),
         child: Text(AppLocalizations.of(context)?.loginLogin ?? ''),
         onPressed: () => _login(),

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:kayla_flutter_ic/gen/assets.gen.dart';
 import 'package:kayla_flutter_ic/utils/app_bar_ext.dart';
 import 'package:kayla_flutter_ic/utils/route_paths.dart';
+import 'package:kayla_flutter_ic/views/question/question_component_id.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_ui_model.dart';
 import 'package:kayla_flutter_ic/views/question/question_container_view.dart';
 
@@ -80,6 +81,7 @@ class QuestionView extends StatelessWidget {
   }
 
   Widget get _nextButton => Padding(
+        key: QuestionComponentId.nextButton,
         padding: const EdgeInsets.all(8.0),
         child: FloatingActionButton(
           foregroundColor: Colors.black,
@@ -90,6 +92,7 @@ class QuestionView extends StatelessWidget {
       );
 
   Widget _submitButton(BuildContext context) => Padding(
+        key: QuestionComponentId.submitButton,
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(minimumSize: const Size(140, 56)),

@@ -23,6 +23,17 @@ class OAuthLoginResponse {
     required this.createdAt,
   });
 
+  OAuthLoginResponse.empty()
+      : this(
+          id: '',
+          type: '',
+          accessToken: '',
+          tokenType: '',
+          expiresIn: -1,
+          refreshToken: '',
+          createdAt: -2,
+        );
+
   factory OAuthLoginResponse.fromJson(Map<String, dynamic> json) =>
       _$OAuthLoginResponseFromJson(fromJsonApi(json));
 }
