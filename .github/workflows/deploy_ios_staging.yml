@@ -15,7 +15,6 @@ jobs:
   build_and_upload_to_testflight:
     name: Build and upload iOS app to TestFlight
     runs-on: macOS-12
-    environment: staging
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
@@ -36,6 +35,11 @@ jobs:
       with:
         flutter-version: '3.3.8'
 
+    - name: Setup .env.staging
+      env:
+        ENV_STAGING: ${{ secrets.ENV_STAGING }}
+      run: echo $ENV_STAGING | base64 --decode >> .env.staging
+
     - name: Get Flutter dependencies
       run: flutter pub get
 
@@ -49,9 +53,4 @@ jobs:
       run: cd ios && bundle exec fastlane sync_appstore_staging_signing
 
     - name: Deploy to TestFlight
-      env:
-        CLIENT_ID: ${{ secrets.CLIENT_ID }}
-        CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-        REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
-        GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
       run: cd ios && bundle exec fastlane build_and_upload_testflight_app
