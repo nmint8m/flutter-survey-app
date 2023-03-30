@@ -11,9 +11,6 @@ jobs:
     env:
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
       APPSTORE_CONNECT_API_KEY: ${{ secrets.APPSTORE_CONNECT_API_KEY }}
-      CLIENT_ID: ${{ secrets.CLIENT_ID }}
-      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-      REST_API_ENDPOINT: ${{ secrets.REST_API_ENDPOINT }}
       GITHUB_RUN_NUMBER: ${{ secrets.GITHUB_RUN_NUMBER }}
     steps:
     - name: Checkout the repository
@@ -28,6 +25,11 @@ jobs:
       uses: subosito/flutter-action@v1
       with:
         flutter-version: '3.3.8'
+
+    - name: Setup .env
+      env:
+        ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
+      run: echo $ENV_PRODUCTION | base64 --decode >> .env
 
     - name: Get Flutter dependencies
       run: flutter pub get
