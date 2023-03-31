@@ -28,8 +28,8 @@ jobs:
 
     - name: Setup .env
       env:
-        ENV_PRODUCTION: ${{ secrets.ENV_PRODUCTION }}
-      run: echo $ENV_PRODUCTION | base64 --decode >> .env
+        ENV_STAGING: ${{ secrets.ENV_STAGING }}
+      run: echo $ENV_STAGING | base64 --decode >> .env
 
     - name: Get Flutter dependencies
       run: flutter pub get
